@@ -1,0 +1,43 @@
+version: "3"
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+networks:
+  knowledge_bot_network:
+    driver: bridge
+
+services:
+  application:
+    build:
+      context: .
+      dockerfile: ./compose/local/application/Dockerfile
+    image: knowledge_bot_local_application
+    container_name: application
+    depends_on:
+      - db
+    networks:
+      - knowledge_bot_network
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env/.local/.application
+      - ./.env/.local/.postgres
+    ports:
+      - 8000:8000
+    command: /start
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/local/postgres/Dockerfile
+    image: knowledge_bot_local_postgres
+    container_name: postgres
+    networks:
+      - knowledge_bot_network
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    env_file:
+      - ./.env
