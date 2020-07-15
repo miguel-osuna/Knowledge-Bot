@@ -16,14 +16,14 @@ services:
     image: knowledge_bot_local_application
     container_name: application
     depends_on:
-      - db
+      - postgres
     networks:
       - knowledge_bot_network
     volumes:
       - .:/app
     env_file:
-      - ./.env/.local/.application
-      - ./.env/.local/.postgres
+      - ./.envs/.local/.application
+      - ./.envs/.local/.postgres
     ports:
       - 8000:8000
     command: /start
@@ -40,4 +40,4 @@ services:
       - local_postgres_data:/var/lib/postgresql/data
       - local_postgres_data_backups:/backups
     env_file:
-      - ./.env
+      - ./.envs/.local/.postgres
