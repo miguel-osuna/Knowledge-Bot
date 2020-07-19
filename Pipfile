@@ -18,7 +18,8 @@ ptvsd = "*"
 
 [packages]
 beautifulsoup4 = "*"
-discord-py = "*"
+"discord.py" = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"
