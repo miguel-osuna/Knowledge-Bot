@@ -1,6 +1,7 @@
 !.env
 .DS_Store
 .dockerignore
+**/.vscode/
 .git/
 .gitignore
 README.rst
