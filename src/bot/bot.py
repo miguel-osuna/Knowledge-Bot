@@ -2,20 +2,19 @@
 import os
 from os.path import dirname, abspath, join
 import random
+import logging
 
 # Third party imports
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-# Local application imports
-
 # Generate paths
 ENVIRONMENT = "local"
 BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
 ENV_PATH = join(BASE_PROJECT_PATH, ".envs", f".{ENVIRONMENT}", ".application")
 LOGS_PATH = join(BASE_PROJECT_PATH, "data", "output", "logs")
-COGS_PATH = join(BASE_PROJECT_PATH, "knowledge_bot", "bot", "cogs")
+COGS_PATH = join(BASE_PROJECT_PATH, "src", "bot", "cogs")
 
 # Loads environmental variables
 load_dotenv(ENV_PATH)
@@ -30,25 +29,61 @@ bot_description = """
 bot_prefix = "="
 bot = commands.Bot(command_prefix=bot_prefix, description=bot_description)
 
+# Remove default help command
+# bot.remove_command("help")
+
 """ Bot events """
 
-# When bot is ready
+
 @bot.event
 async def on_ready():
+    """Called when the bot is ready. """
 
     # Set bot activity
     activity = discord.Activity(
-        name=f"Write {bot_prefix}help for more info.",
-        type=discord.ActivityType.listening,
+        name=f"{bot_prefix}help", type=discord.ActivityType.listening,
     )
     await bot.change_presence(activity=activity)
 
     print(f"Logged in as '{bot.user.name}' (id: {bot.user.id})\n")
 
 
+@bot.event
+async def on_guild_join(guild):
+    """ Called when joining a new server. 
+    
+    Add server to the database (?)
+
+    """
+    # Find the first text channel available
+
+    # If general channels exists, create message
+    greeting_message = """
+    Hi there!, I'm Knowledge Bot, the bot that knows it all (almost). Thanks for adding me to your server.\n
+
+    To get started, use `=help` to check more information about me.\n
+
+    If you need help or find any error, join my support server at https://xyz.com
+    """
+
+    # Embed message into general channel
+    pass
+
+
+@bot.event
+async def on_guild_remove(guild):
+    """ Called when leaving or kicked from a discord server. 
+    
+    Remove server from the database (?)
+
+    """
+    pass
+
+
 """ Bot commands """
 
 
+@bot.command
 @bot.command(name="load", help="Loads a specified extension/cog")
 async def load(ctx, extension):
     bot.load_extension(f"cogs.{extension}")

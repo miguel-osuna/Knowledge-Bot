@@ -9,6 +9,7 @@ class Translate(commands.Cog):
     # Events
     @commands.Cog.listener()
     async def on_message(self, message):
+        """ Called when a message is sent """
 
         if message.author != self.bot.user:
             await message.channel.send("This is from translate")

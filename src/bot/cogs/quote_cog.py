@@ -9,6 +9,7 @@ class Quote(commands.Cog):
     # Events
     @commands.Cog.listener()
     async def on_message(self, message):
+        """ Called when a message is sent """
 
         if message.author != self.bot.user:
             await message.channel.send("This is from quote")
@@ -24,6 +25,10 @@ class Quote(commands.Cog):
         self, ctx, category=None, author=None, type="random", language="english"
     ):
         await ctx.send("You know nothing, John Snow")
+
+    @generate_quote.error
+    async def generate_quote_error(self, ctx, error):
+        await ctx.send("Please specify a category")
 
 
 def setup(bot):
