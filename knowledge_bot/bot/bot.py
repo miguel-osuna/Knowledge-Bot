@@ -1,74 +1,67 @@
 # Standard library imports
-from os import getenv
+import os
 from os.path import dirname, abspath, join
 import random
 
 # Third party imports
 import discord
-from discord.ext.commands import Bot
+from discord.ext import commands
 from dotenv import load_dotenv
 
-# Local application imports\
+# Local application imports
 
 # Generate paths
 ENVIRONMENT = "local"
 BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
 ENV_PATH = join(BASE_PROJECT_PATH, ".envs", f".{ENVIRONMENT}", ".application")
 LOGS_PATH = join(BASE_PROJECT_PATH, "data", "output", "logs")
+COGS_PATH = join(BASE_PROJECT_PATH, "knowledge_bot", "bot", "cogs")
 
 # Loads environmental variables
 load_dotenv(ENV_PATH)
-TOKEN = getenv("DISCORD_TOKEN")
+TOKEN = os.getenv("DISCORD_TOKEN")
 
-bot_description = "Looking for answers? Knowledge Bot is here to the rescue!"
-bot = Bot(command_prefix="=", description=bot_description)
+# Bot configuration
+bot_description = """
+    Looking for answers? Knowledge Bot is here to the rescue!
+    
+    Check quotes, definitions and translations with very simple commands. 
+    """
+bot_prefix = "="
+bot = commands.Bot(command_prefix=bot_prefix, description=bot_description)
 
-# Bot events
+""" Bot events """
+
+# When bot is ready
 @bot.event
 async def on_ready():
-    print("Logged in as")
-    print(bot.user.name)
-    print(bot.user.id)
-    print("----------")
+
+    # Set bot activity
+    activity = discord.Activity(
+        name=f"Write {bot_prefix}help for more info.",
+        type=discord.ActivityType.listening,
+    )
+    await bot.change_presence(activity=activity)
+
+    print(f"Logged in as '{bot.user.name}' (id: {bot.user.id})\n")
 
 
-# Quote commands
-@bot.command(name="quote", help="Generate a quote.")
-async def generate_quote(
-    ctx, category=None, author=None, type="random", language="english"
-):
-    await ctx.send("You know nothing, John Snow")
+""" Bot commands """
 
 
-# Translate commands
-channel_default_language = "english"
+@bot.command(name="load", help="Loads a specified extension/cog")
+async def load(ctx, extension):
+    bot.load_extension(f"cogs.{extension}")
 
 
-@bot.command(name="translate", help="Translate a word or phrase.")
-async def translate_text(
-    ctx, from_language=channel_default_language, to_language=None, text=None
-):
-
-    if to_language != None:
-        await ctx.send("Text translated.")
-
-    else:
-        await ctx.send("Couldn't translate language.")
+@bot.command(name="unload", help="Unloads a specified extension/cog")
+async def unload(ctx, extension):
+    bot.unload_extension(f"cogs.{extension}")
 
 
-# Definition commands
-@bot.command(name="definition", help="Looks for the definition of a word")
-async def text_definition(
-    ctx, word: str, word_language="english", definition_language="english"
-):
-    if word:
-        await ctx.send("This is your definition.")
-
-
-# Settings commands
-@bot.command(name="settings", help="Configure Knowledge Bot in your server")
-async def bot_settings(ctx, command, prefix, value):
-    await ctx.send("Your settings have changed.")
+for filename in os.listdir(COGS_PATH):
+    if filename.endswith(".py"):
+        bot.load_extension(f"cogs.{filename[:-3]}")
 
 
 if __name__ == "__main__":
