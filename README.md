@@ -7,7 +7,7 @@ Discord bot created with discord.py
 ### Features
 
 - Feature 1
-- Feature 2s
+- Feature 2
 - Feature 3
 - Feature 4
 

@@ -105,13 +105,13 @@ jobs:
       - run:
           name: Run unit tests
           command: |
-            pipenv run python manage.py test
+            pipenv run pytest tests
 
       # Step 5: Run test coverage report
       - run:
           name: Run test coverage report
           command: |
-            pipenv run coverage run -m pytest
+            pipenv run coverage report
 
       # Step 6: Store test results
       - store_test_results:
