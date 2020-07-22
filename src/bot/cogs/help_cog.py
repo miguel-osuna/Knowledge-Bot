@@ -1,5 +1,8 @@
 import discord
 from discord.ext import commands, tasks
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Help(commands.Cog):

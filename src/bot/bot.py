@@ -20,11 +20,39 @@ COGS_PATH = join(BASE_PROJECT_PATH, "src", "bot", "cogs")
 load_dotenv(ENV_PATH)
 TOKEN = os.getenv("DISCORD_TOKEN")
 
+# Logger configuration
+
+# Create custom logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# Create handlers
+file_name = join(LOGS_PATH, "discord.log")
+file_handler = logging.FileHandler(filename=file_name, encoding="utf-8", mode="a")
+console_handler = logging.StreamHandler()
+
+# Create formatter and add it to handler
+formatter = logging.Formatter(
+    "[{asctime}] [{levelname}] {name}: {message}",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    style="{",
+)
+file_handler.setFormatter(formatter)
+console_handler.setFormatter(formatter)
+
+# Add handlers to logger
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
+
+# Testing logger
+logger.warning("This is a warning")
+logger.info("This is an info")
+
 # Bot configuration
 bot_description = """
     Looking for answers? Knowledge Bot is here to the rescue!
-    
-    Check quotes, definitions and translations with very simple commands. 
+
+    Check quotes, definitions and translations with very simple commands.
     """
 bot_prefix = "="
 bot = commands.Bot(command_prefix=bot_prefix, description=bot_description)
@@ -50,8 +78,8 @@ async def on_ready():
 
 @bot.event
 async def on_guild_join(guild):
-    """ Called when joining a new server. 
-    
+    """ Called when joining a new server.
+
     Add server to the database (?)
 
     """
@@ -72,8 +100,8 @@ async def on_guild_join(guild):
 
 @bot.event
 async def on_guild_remove(guild):
-    """ Called when leaving or kicked from a discord server. 
-    
+    """ Called when leaving or kicked from a discord server.
+
     Remove server from the database (?)
 
     """

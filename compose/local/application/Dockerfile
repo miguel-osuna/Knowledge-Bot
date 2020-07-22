@@ -1,7 +1,7 @@
 # Pull base image
 FROM python:3.8
 
-# Set environment variables 
+# Set environment variables
 # Python don't write byte code won't write .pyc files
 ENV PYTHONDONTWRITEBYTECODE 1
 # Python buffered gives familiar ouptput to console
