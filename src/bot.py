@@ -2,26 +2,28 @@
 import os
 from os.path import dirname, abspath, join
 import random
-import logging
 
 # Third party imports
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+# Local applications
+from util.logger import generate_logger
+
 # Generate paths
 ENVIRONMENT = "local"
-BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
+BASE_PROJECT_PATH = dirname(dirname((abspath(__file__))))
 ENV_PATH = join(BASE_PROJECT_PATH, ".envs", f".{ENVIRONMENT}", ".application")
 LOGS_PATH = join(BASE_PROJECT_PATH, "data", "output", "logs")
-COGS_PATH = join(BASE_PROJECT_PATH, "src", "bot", "cogs")
+COGS_PATH = join(BASE_PROJECT_PATH, "src", "cogs")
 
 # Loads environmental variables
 load_dotenv(ENV_PATH)
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 # Logger configuration
-
+logger = generate_logger(__name__)
 
 # Bot configuration
 bot_description = """

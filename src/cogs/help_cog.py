@@ -1,8 +1,10 @@
-import discord
+# Third party imports
 from discord.ext import commands, tasks
-import logging
 
-logger = logging.getLogger(__name__)
+# Local applications
+from util.logger import generate_logger
+
+logger = generate_logger(__name__)
 
 
 class Help(commands.Cog):

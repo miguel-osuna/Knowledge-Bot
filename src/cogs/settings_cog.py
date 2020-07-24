@@ -1,7 +1,10 @@
+# Third party imports
 from discord.ext import commands, tasks
-import logging
 
-logger = logging.getLogger(__name__)
+# Local applications
+from util.logger import generate_logger
+
+logger = generate_logger(__name__)
 
 
 class Settings(commands.Cog):
@@ -20,7 +23,7 @@ class Settings(commands.Cog):
     # Tasks
     @tasks.loop(seconds=10.0)
     async def printer(self):
-        print("This is a looped task in settings")
+        logger.warning("This is a warning from settings_cog")
 
     # Commands
     @commands.command(name="settings", help="Configure Knowledge Bot in your server.")
