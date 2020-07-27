@@ -17,7 +17,8 @@ class Help(commands.Cog):
         """ Called when a message is sent """
 
         if message.author != self.bot.user:
-            await message.channel.send("This is from help")
+            # await message.channel.send("This is from help")
+            pass
 
     # Commands
 
