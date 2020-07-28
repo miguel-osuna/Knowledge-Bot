@@ -22,6 +22,56 @@ class Quote(commands.Cog):
             # await message.channel.send("This is from quote")
             pass
 
+    @commands.Cog.listener()
+    async def on_message_edit(self, before, after):
+        """ Called when a message is edited """
+
+        prev_message = before
+        next_message = after
+
+        if (
+            prev_message.author != self.bot.user
+            and next_message.author != self.bot.user
+        ):
+            # await next_message.channel.send("This is from quote")
+            pass
+
+    @commands.Cog.listener()
+    async def on_reaction_add(self, reaction, user):
+        """ Called when a message has a reaction added to it """
+        # await reaction.channel.send("This is from quote")
+        pass
+
+    @commands.Cog.listener()
+    async def on_private_channel_delete(self, channel):
+        """ Called whenever a private channel is deleted """
+        pass
+
+    @commands.Cog.listener()
+    async def on_private_channel_update(self, before, after):
+        """ Called whenever a private group DM is updated. e.g. changed name or topic """
+        pass
+
+    @commands.Cog.listener()
+    async def on_member_update(self, before, after):
+        """ Called when a Member updates their profile """
+        pass
+
+    @commands.Cog.listener()
+    async def on_user_update(self, before, after):
+        """ Called when a User updates their profile """
+        pass
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        """ Callend when a Guildis removed from the Client """
+        pass
+
+    @commands.Cog.listener()
+    async def on_guild_update(self, before, after):
+        """ Called when a Guild updates """
+        pass
+
     # Tasks
     @tasks.loop(seconds=10.0)
     async def printer(self):

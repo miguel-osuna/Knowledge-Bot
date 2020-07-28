@@ -44,12 +44,16 @@ bot = commands.Bot(command_prefix=bot_prefix, description=bot_description)
 async def on_ready():
     """Called when the bot is ready. """
 
-    # Set bot activity
+    # Sets bots status and activity
+    status = discord.Status.online
     activity = discord.Activity(
         name=f"{bot_prefix}help", type=discord.ActivityType.listening,
     )
-    await bot.change_presence(activity=activity)
+    await bot.change_presence(status=status, activity=activity, afk=False)
 
+    app_info = await bot.application_info()
+
+    print(app_info)
     print(f"Logged in as '{bot.user.name}' (id: {bot.user.id})\n")
 
 
