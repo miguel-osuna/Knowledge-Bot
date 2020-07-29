@@ -1,3 +1,6 @@
+# Standard library imports
+import typing
+
 # Third party imports
 import discord
 from discord.ext import commands, tasks
@@ -8,10 +11,29 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
+class Language:
+    """ Language class that represents a language used for translation """
+
+    def __init__(self, language_name: str, language_code: str, country_flag: str):
+        """ Initialization for language converter """
+        self.language_name = language_name.lower()
+        self.language_code = language_code.lower()
+        self.country_flag = country_flag.lower()
+
+    # Add class converter for discord arguments
+
+
 class Translate(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.printer.start()
+        self.default_language = Language("English", "en", "🇺🇸")
+        self.available_languages = self.load_languages()
+
+    def load_languages(self):
+        langs = []
+
+        
 
     # Events
     @commands.Cog.listener()
@@ -138,8 +160,6 @@ class Translate(commands.Cog):
         logger.warning("This is a warning from translate_cog")
 
     # Commands
-    channel_default_language = "english"
-
     @commands.group(
         name="translate", aliases=["t"], help="Commands for text translation."
     )
@@ -171,13 +191,13 @@ class Translate(commands.Cog):
     async def translate_text(
         self,
         ctx,
-        from_language=channel_default_language,
-        to_language=None,
+        from_language: typing.Optional[Language] = self.default_language,
+        to_language: Language = None,
         *,
         text=None,
     ):
         if to_language != None and text != None:
-            await ctx.send("Text translated.")
+            await ctx.send(f"This is the translation of your text: {text}")
 
         else:
             await ctx.send("Couldn't translate language.")
@@ -223,9 +243,14 @@ class Translate(commands.Cog):
         help="Enables or Disables automatic translation for specified channels. Translates the specified languages into the channel's default languages.",
     )
     async def translate_auto(
-        self, ctx, status=None, *, languages, channels=discord.TextChannel
+        self,
+        ctx,
+        status=None,
+        *,
+        arg: typing.Union[Language, discord.TextChannel] = None,
     ):
-        if status != None and languages != None and channels != None:
+        # 'arg' include languages and channels=discord.TextChannel
+        if status != None and arg != None:
             await ctx.send(
                 "[languages] auto translation [enabled/disabled] for channels #[channel] and #[channel]."
             )
@@ -274,10 +299,9 @@ class Translate(commands.Cog):
         brief="Enables or Disables translation by country flag reactions.",
         help="Enables or Disables translation by country flag reactions.",
     )
-    async def translate_reaction(
-        self, ctx, status=None, *, languages, channels=discord.TextChannel
-    ):
-        if status != None and languages != None and channels != None:
+    async def translate_reaction(self, ctx, status=None, *, arg):
+        # 'arg' include languages and channels=discord.TextChannel
+        if status != None and arg != None:
             await ctx.send(
                 "Reaction translation [enabled/disabled] for channels #[channel] and #[channel]."
             )
@@ -299,15 +323,9 @@ class Translate(commands.Cog):
         brief="Shows the status of the server, channels or users specified",
         help="Shows the status of the server, channels or users specified.",
     )
-    async def translate_status(
-        self,
-        ctx,
-        *,
-        server: discord.Guild,
-        channels: discord.TextChannel,
-        users: discord.User,
-    ):
-        if server != None and channels != None and users != None:
+    async def translate_status(self, ctx, *, arg):
+        # 'arg' can be server, channels: discord.TextChannel or users: discord.User
+        if arg != None:
             await ctx.send("Status for [server/channel/user]")
 
         else:

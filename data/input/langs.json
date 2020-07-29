@@ -1,0 +1,628 @@
+{
+  "languages": [
+    {
+      "name": "afrikaans",
+      "nativeName": "afrikaans",
+      "languageCode": "af",
+      "countryFlag": "🇿🇦"
+    },
+    {
+      "name": "albanian",
+      "nativeName": "shqip",
+      "languageCode": "sq",
+      "countryFlag": "🇦🇱, 🇽🇰, 🇲🇰, 🇲🇪"
+    },
+    {
+      "name": "Amharic",
+      "nativeName": "አማርኛ",
+      "languageCode": "am",
+      "countryFlag": "🇪🇹"
+    },
+    {
+      "name": "Arabic",
+      "nativeName": "العربية",
+      "languageCode": "ar",
+      "countryFlag": "🇧🇭, 🇪🇬, 🇯🇴, 🇰🇼, 🇱🇧, 🇱🇾, 🇲🇷, 🇴🇲, 🇶🇦, 🇸🇦, 🇸🇾, 🇹🇳, 🇦🇪, 🇾🇪"
+    },
+    {
+      "name": "Armenian",
+      "nativeName": "Հայերեն",
+      "languageCode": "hy",
+      "countryFlag": "🇦🇲"
+    },
+    {
+      "name": "Azerbaijani",
+      "nativeName": "Azərbaycan dili",
+      "languageCode": "az",
+      "countryFlag": "🇦🇿"
+    },
+    {
+      "name": "Basque",
+      "nativeName": "Euskara",
+      "languageCode": "eu",
+      "countryFlag": "🏴󠁥󠁳󠁰󠁶󠁿"
+    },
+    {
+      "name": "Belarusian",
+      "nativeName": "беларуская мова",
+      "languageCode": "be",
+      "countryFlag": "🇧🇾, 🇵🇱"
+    },
+    {
+      "name": "Bengali",
+      "nativeName": "বাংলা",
+      "languageCode": "bn",
+      "countryFlag": "🇧🇩, 🇮🇳"
+    },
+    {
+      "name": "Bosnian",
+      "nativeName": "Bosanski jezik",
+      "languageCode": "bs",
+      "countryFlag": "🇧🇦"
+    },
+    {
+      "name": "Bulgarian",
+      "nativeName": "български език",
+      "languageCode": "bg",
+      "countryFlag": "🇧🇬"
+    },
+    {
+      "name": "Catalan",
+      "nativeName": "Català",
+      "languageCode": "ca",
+      "countryFlag": "🇦🇩"
+    },
+    {
+      "name": "Cebuano",
+      "nativeName": "Sinugboanon",
+      "languageCode": "ceb",
+      "countryFlag": "🇵🇭"
+    },
+    {
+      "name": "Chichewa",
+      "nativeName": "Chicheŵa",
+      "languageCode": "ny",
+      "countryFlag": "🇲🇼, 🇿🇲"
+    },
+    {
+      "name": "Simplified Chinese",
+      "nativeName": "汉语",
+      "languageCode": "zh-cn",
+      "countryFlag": "🇨🇳, 🇹🇼 ,🇭🇰 ,🇸🇬"
+    },
+    {
+      "name": "Traditional Chinese",
+      "nativeName": "漢語",
+      "languageCode": "zh-tw",
+      "countryFlag": "🇨🇳, 🇹🇼 ,🇭🇰 ,🇸🇬"
+    },
+    {
+      "name": "Corsican",
+      "nativeName": "Corsu",
+      "languageCode": "co",
+      "countryFlag": "N/A"
+    },
+    {
+      "name": "Croatian",
+      "nativeName": "Hrvatski jezik",
+      "languageCode": "hr",
+      "countryFlag": "🇭🇷 ,🇧🇦 ,🇷🇸 ,🇦🇹"
+    },
+    {
+      "name": "Czech",
+      "nativeName": "Čeština",
+      "languageCode": "cs",
+      "countryFlag": "🇨🇿"
+    },
+    {
+      "name": "Danish",
+      "nativeName": "Dansk",
+      "languageCode": "da",
+      "countryFlag": "🇩🇰 ,🇫🇴"
+    },
+    {
+      "name": "Dutch",
+      "nativeName": "Nederlands",
+      "languageCode": "nl",
+      "countryFlag": "🇧🇪, 🇳🇱, 🇸🇷"
+    },
+    {
+      "name": "English",
+      "nativeName": "English",
+      "languageCode": "en",
+      "countryFlag": "🇦🇬, 🇧🇸, 🇧🇧, 🇧🇿, 🇨🇦, 🇨🇰, 🇩🇲 ,🇫🇯, 🇬🇭, 🇬🇩, 🇬🇾, 🇮🇪, 🇰🇪, 🇯🇲, 🇱🇷, 🇳🇬, 🇵🇬, 🇵🇭, 🇰🇳, 🇱🇨, 🇻🇨, 🇸🇱, 🇸🇬, 🇿🇦, 🇹🇹"
+    },
+    {
+      "name": "Esperanto",
+      "nativeName": "Esperanto",
+      "languageCode": "eo",
+      "countryFlag": "N/A"
+    },
+    {
+      "name": "Estonian",
+      "nativeName": "Estonian",
+      "languageCode": "et",
+      "countryFlag": "🇪🇪"
+    },
+    {
+      "name": "Tagalog",
+      "nativeName": "Wikang Tagalog",
+      "languageCode": "tl",
+      "countryFlag": "🇵🇭"
+    },
+    {
+      "name": "Finnish",
+      "nativeName": "Suomi",
+      "languageCode": "fi",
+      "countryFlag": "🇫🇮"
+    },
+    {
+      "name": "French",
+      "nativeName": "Français",
+      "languageCode": "fr",
+      "countryFlag": "🇧🇪, 🇧🇯, 🇧🇫, 🇧🇮, 🇨🇲, 🇨🇦, 🇨🇫, 🇹🇩 ,🇰🇲, 🇨🇬, 🇨🇩, 🇩🇯, 🇬🇶, 🇫🇷, 🇬🇦, 🇬🇳, 🇭🇹, 🇨🇮, 🇱🇺, 🇲🇬, 🇲🇱, 🇲🇨, 🇳🇪, 🇷🇼, 🇸🇳, 🇸🇨, 🇨🇭, 🇹🇬, 🇻🇺"
+    },
+    {
+      "name": "Frisian",
+      "nativeName": "Frysk",
+      "languageCode": "fy",
+      "countryFlag": "N/A"
+    },
+    {
+      "name": "Galician",
+      "nativeName": "Galego",
+      "languageCode": "gl",
+      "countryFlag": "🏴󠁥󠁳󠁧󠁡󠁿"
+    },
+    {
+      "name": "Georgian",
+      "nativeName": "ქართული",
+      "languageCode": "ka",
+      "countryFlag": "🇬🇪"
+    },
+    {
+      "name": "German",
+      "nativeName": "Deutsch",
+      "languageCode": "de",
+      "countryFlag": "🇦🇹, 🇧🇪, 🇩🇪, 🇱🇮, 🇱🇺, 🇨🇭"
+    },
+    {
+      "name": "Greek",
+      "nativeName": "ελληνικά",
+      "languageCode": "el",
+      "countryFlag": "🇬🇷, 🇨🇾"
+    },
+    {
+      "name": "Gujarati",
+      "nativeName": "ગુજરાતી",
+      "languageCode": "gu",
+      "countryFlag": "🇮🇳, 🏴󠁩󠁮󠁧󠁪󠁿"
+    },
+    {
+      "name": "Haitian",
+      "nativeName": "Kreyòl ayisyen",
+      "languageCode": "ht",
+      "countryFlag": "🇭🇹"
+    },
+    {
+      "name": "Hausa",
+      "nativeName": "هَوُسَ",
+      "languageCode": "ha",
+      "countryFlag": "🇳🇪, 🇳🇬, 🇬🇭"
+    },
+    {
+      "name": "Hawaiian",
+      "nativeName": "ʻŌlelo Hawaiʻi",
+      "languageCode": "haw",
+      "countryFlag": "🏴󠁵󠁳󠁨󠁩󠁿"
+    },
+    {
+      "name": "Hebrew",
+      "nativeName": "עברית",
+      "languageCode": "he",
+      "countryFlag": "🇮🇱"
+    },
+    {
+      "name": "Hindi",
+      "nativeName": "हिन्दी, हिंद",
+      "languageCode": "hi",
+      "countryFlag": "🇮🇳"
+    },
+    {
+      "name": "Mongolian",
+      "nativeName": "Tiếng H'Mông",
+      "languageCode": "hmn",
+      "countryFlag": "🇲🇳, 🇨🇳"
+    },
+    {
+      "name": "Hungarian",
+      "nativeName": "Magyar",
+      "languageCode": "hu",
+      "countryFlag": "🇭🇺, 🏴󠁲󠁳󠁶󠁯󠁿"
+    },
+    {
+      "name": "Icelandic",
+      "nativeName": "Íslenska",
+      "languageCode": "is",
+      "countryFlag": "🇮🇸"
+    },
+    {
+      "name": "Igbo",
+      "nativeName": "Asụsụ Igbo",
+      "languageCode": "ig",
+      "countryFlag": "🇳🇬, 🇬🇶"
+    },
+    {
+      "name": "Indonesian",
+      "nativeName": "Bahasa Indonesia",
+      "languageCode": "id",
+      "countryFlag": "🇮🇩"
+    },
+    {
+      "name": "Irish",
+      "nativeName": "Gaeilge",
+      "languageCode": "ga",
+      "countryFlag": "🇮🇪"
+    },
+    {
+      "name": "Italian",
+      "nativeName": "Italiano",
+      "languageCode": "it",
+      "countryFlag": "🇮🇹, 🇸🇲, 🇨🇭, 🇻🇦"
+    },
+    {
+      "name": "Japanese",
+      "nativeName": "日本語 (にほんご)",
+      "languageCode": "ja",
+      "countryFlag": "🇯🇵, 🇵🇼"
+    },
+    {
+      "name": "Javanese",
+      "nativeName": "ꦧꦱꦗꦮ",
+      "languageCode": "jw",
+      "countryFlag": "🇮🇩, 🏴󠁩󠁤󠁪󠁷󠁿"
+    },
+    {
+      "name": "Kannada",
+      "nativeName": "ಕನ್ನಡ",
+      "languageCode": "kn",
+      "countryFlag": "🇮🇳"
+    },
+    {
+      "name": "Kazakh",
+      "nativeName": "қазақ тілі",
+      "languageCode": "kk",
+      "countryFlag": "🇰🇿, 🇷🇺"
+    },
+    {
+      "name": "Khmer",
+      "nativeName": "ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ",
+      "languageCode": "km",
+      "countryFlag": "🇰🇭"
+    },
+    {
+      "name": "Korean",
+      "nativeName": "한국어",
+      "languageCode": "ko",
+      "countryFlag": "🇰🇵, 🇰🇷"
+    },
+    {
+      "name": "Kurdish",
+      "nativeName": "كوردی‎",
+      "languageCode": "ku",
+      "countryFlag": "🇮🇶, 🏴󠁩󠁲󠀱󠀶󠁿"
+    },
+    {
+      "name": "Kyrgyz",
+      "nativeName": "Кыргыз тили",
+      "languageCode": "ky",
+      "countryFlag": "🇰🇬"
+    },
+    {
+      "name": "Lao",
+      "nativeName": "ພາສາລາວ",
+      "languageCode": "lo",
+      "countryFlag": "🇱🇦"
+    },
+    {
+      "name": "Latin",
+      "nativeName": "Latine",
+      "languageCode": "la",
+      "countryFlag": "🇻🇦"
+    },
+    {
+      "name": "Latvian",
+      "nativeName": "Latviešu Valoda",
+      "languageCode": "lv",
+      "countryFlag": "🇱🇻"
+    },
+    {
+      "name": "Lithuanian",
+      "nativeName": "lietuvių kalba",
+      "languageCode": "lt",
+      "countryFlag": "🇱🇹"
+    },
+    {
+      "name": "Luxembourgish",
+      "nativeName": "Lëtzebuergesch",
+      "languageCode": "lb",
+      "countryFlag": "🇱🇺"
+    },
+    {
+      "name": "Macedonian",
+      "nativeName": "македонски јазик",
+      "languageCode": "mk",
+      "countryFlag": "🇲🇰"
+    },
+    {
+      "name": "Malagasy",
+      "nativeName": "Fiteny Malagasy",
+      "languageCode": "mg",
+      "countryFlag": "🇲🇬"
+    },
+    {
+      "name": "Malay",
+      "nativeName": "Bahasa Melayu, بهاس ملايو‎",
+      "languageCode": "ms",
+      "countryFlag": "🇧🇳, 🇮🇩, 🇲🇾, 🇸🇬"
+    },
+    {
+      "name": "Malayalam",
+      "nativeName": "മലയാളം",
+      "languageCode": "ml",
+      "countryFlag": "🇮🇳"
+    },
+    {
+      "name": "Maltese",
+      "nativeName": "Malti",
+      "languageCode": "mt",
+      "countryFlag": "🇲🇹"
+    },
+    {
+      "name": "Māori",
+      "nativeName": "te reo Māori",
+      "languageCode": "mi",
+      "countryFlag": "🇳🇿"
+    },
+    {
+      "name": "Marathi",
+      "nativeName": "मराठी",
+      "languageCode": "mr",
+      "countryFlag": "🇮🇳"
+    },
+    {
+      "name": "Mongolian",
+      "nativeName": "Монгол хэл",
+      "languageCode": "mn",
+      "countryFlag": "🇲🇳, 🇨🇳"
+    },
+    {
+      "name": "Burmese",
+      "nativeName": "ဗမာစာ",
+      "languageCode": "my",
+      "countryFlag": "🇲🇲"
+    },
+    {
+      "name": "Nepali",
+      "nativeName": "नेपाली",
+      "languageCode": "ne",
+      "countryFlag": "🇳🇵, 🇮🇳"
+    },
+    {
+      "name": "Norwegian",
+      "nativeName": "Norsk",
+      "languageCode": "no",
+      "countryFlag": "🇳🇴"
+    },
+    {
+      "name": "Pashto",
+      "nativeName": "پښتو",
+      "languageCode": "ps",
+      "countryFlag": "🇦🇫"
+    },
+    {
+      "name": "Persian",
+      "nativeName": "فارسی",
+      "languageCode": "fa",
+      "countryFlag": "🇮🇷, 🇦🇫, 🇹🇯"
+    },
+    {
+      "name": "Polish",
+      "nativeName": "Polski",
+      "languageCode": "pl",
+      "countryFlag": "🇵🇱"
+    },
+    {
+      "name": "Portuguese",
+      "nativeName": "Português",
+      "languageCode": "pt",
+      "countryFlag": "🇦🇴, 🇧🇷, 🇨🇻, 🇹🇱, 🇬🇶, 🇬🇼, 🇲🇿, 🇵🇹, 🇸🇹"
+    },
+    {
+      "name": "Punjabi",
+      "nativeName": "ਪੰਜਾਬੀ",
+      "languageCode": "pa",
+      "countryFlag": "🇮🇳"
+    },
+    {
+      "name": "Romanian",
+      "nativeName": "Română",
+      "languageCode": "ro",
+      "countryFlag": "🇷🇴, 🇲🇩, 🏴󠁲󠁳󠁶󠁯󠁿"
+    },
+    {
+      "name": "Russian",
+      "nativeName": "Русский",
+      "languageCode": "ru",
+      "countryFlag": "🇷🇺, 🇧🇾, 🇰🇿, 🇰🇬, 🇹🇯, 🇺🇿, 🇺🇦, 🇹🇲, 🇲🇩, 🏴󠁧󠁥󠁡󠁢󠁿"
+    },
+    {
+      "name": "Samoan",
+      "nativeName": "gagana fa'a Samoa",
+      "languageCode": "sm",
+      "countryFlag": "🇼🇸, 🇦🇸"
+    },
+    {
+      "name": "Gaelic Scottish",
+      "nativeName": "Gàidhlig",
+      "languageCode": "gd",
+      "countryFlag": "N/A"
+    },
+    {
+      "name": "Serbian",
+      "nativeName": "српски језик",
+      "languageCode": "sr",
+      "countryFlag": "🇷🇸, 🇧🇦, 🇽🇰"
+    },
+    {
+      "name": "Sotho Southern",
+      "nativeName": "Sesotho",
+      "languageCode": "st",
+      "countryFlag": "🇱🇸, "
+    },
+    {
+      "name": "Shona",
+      "nativeName": "chiShona",
+      "languageCode": "sn",
+      "countryFlag": "🇿🇼, 🇿🇦, 🇿🇼"
+    },
+    {
+      "name": "Sindhi",
+      "nativeName": "सिन्धी, سنڌي، سندھی‎",
+      "languageCode": "sd",
+      "countryFlag": "🇵🇰, 🇮🇳"
+    },
+    {
+      "name": "Sinhalese",
+      "nativeName": "සිංහල",
+      "languageCode": "si",
+      "countryFlag": "🇱🇰"
+    },
+    {
+      "name": "Slovak",
+      "nativeName": "Slovenčina",
+      "languageCode": "sk",
+      "countryFlag": "🇸🇰, 🏴󠁲󠁳󠁶󠁯󠁿"
+    },
+    {
+      "name": "Slovene",
+      "nativeName": "Slovenščina",
+      "languageCode": "sl",
+      "countryFlag": "🇸🇮"
+    },
+    {
+      "name": "Somali",
+      "nativeName": "Soomaaliga",
+      "languageCode": "so",
+      "countryFlag": "🇸🇴, 🇩🇯"
+    },
+    {
+      "name": "Spanish",
+      "nativeName": "Español",
+      "languageCode": "es",
+      "countryFlag": "🇦🇷, 🇧🇴, 🇨🇱, 🇨🇴, 🇨🇷, 🇨🇺, 🇩🇴, 🇪🇨, 🇸🇻, 🇬🇶, 🇬🇹, 🇭🇳, 🇲🇽, 🇳🇮, 🇵🇦, 🇵🇾, 🇵🇪, 🇪🇸, 🇺🇾, 🇻🇪"
+    },
+    {
+      "name": "Sundanese",
+      "nativeName": "Basa Sunda",
+      "languageCode": "su",
+      "countryFlag": "N/A"
+    },
+    {
+      "name": "Swahili",
+      "nativeName": "Kiswahili",
+      "languageCode": "sw",
+      "countryFlag": "🇰🇪, 🇹🇿, 🇨🇩, 🇷🇼, 🇺🇬"
+    },
+    {
+      "name": "Swedish",
+      "nativeName": "Svenska",
+      "languageCode": "sv",
+      "countryFlag": "🇸🇪, 🇫🇮, 🇦🇽"
+    },
+    {
+      "name": "Tajik",
+      "nativeName": "тоҷикӣ, toçikī, تاجیکی‎",
+      "languageCode": "tg",
+      "countryFlag": "🇹🇯"
+    },
+    {
+      "name": "Tamil",
+      "nativeName": "தமிழ்",
+      "languageCode": "ta",
+      "countryFlag": "🇱🇰, 🇸🇬, 🇮🇳"
+    },
+    {
+      "name": "Telugu",
+      "nativeName": "తెలుగు",
+      "languageCode": "te",
+      "countryFlag": "🇮🇳"
+    },
+    {
+      "name": "Thai",
+      "nativeName": "ไทย",
+      "languageCode": "th",
+      "countryFlag": "🇹🇭"
+    },
+    {
+      "name": "Turkish",
+      "nativeName": "Türkçe",
+      "languageCode": "tr",
+      "countryFlag": "🇹🇷, 🇨🇾"
+    },
+    {
+      "name": "Ukrainian",
+      "nativeName": "Українська",
+      "languageCode": "uk",
+      "countryFlag": "🇺🇦, "
+    },
+    {
+      "name": "Urdu",
+      "nativeName": "اردو",
+      "languageCode": "ur",
+      "countryFlag": "🇵🇰, 🇮🇳"
+    },
+    {
+      "name": "Uzbek",
+      "nativeName": "Oʻzbek, Ўзбек, أۇزبېك‎",
+      "languageCode": "uz",
+      "countryFlag": "🇺🇿"
+    },
+    {
+      "name": "Vietnamese",
+      "nativeName": "Tiếng Việt",
+      "languageCode": "vi",
+      "countryFlag": "🇻🇳"
+    },
+    {
+      "name": "Welsh",
+      "nativeName": "Cymraeg",
+      "languageCode": "cy",
+      "countryFlag": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+    },
+    {
+      "name": "Xhosa",
+      "nativeName": "isiXhosa",
+      "languageCode": "xh",
+      "countryFlag": "🇿🇦, 🇿🇼"
+    },
+    {
+      "name": "Yiddish",
+      "nativeName": "ייִדיש",
+      "languageCode": "yi",
+      "countryFlag": "N/A"
+    },
+    {
+      "name": "Yoruba",
+      "nativeName": "Yorùbá",
+      "languageCode": "yo",
+      "countryFlag": "🇳🇬, 🇧🇯, 🇹🇬"
+    },
+    {
+      "name": "Zulu",
+      "nativeName": "isiZulu",
+      "languageCode": "zu",
+      "countryFlag": "🇿🇦"
+    }
+  ]
+}
