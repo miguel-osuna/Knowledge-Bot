@@ -16,7 +16,10 @@ class Settings(commands.Cog):
     # Events
     @commands.Cog.listener()
     async def on_message(self, message):
-        """ Called when a message is sent """
+        """ Called when a message is sent 
+        
+        May not be needed (?)
+        """
 
         if message.author != self.bot.user:
             # await message.channel.send("This is from settings")
@@ -24,7 +27,10 @@ class Settings(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
-        """ Called when a message is edited """
+        """ Called when a message is edited 
+        
+        May not be needed (?)
+        """
 
         prev_message = before
         next_message = after
@@ -38,38 +44,80 @@ class Settings(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        """ Called when a message has a reaction added to it """
+        """ Called when a message has a reaction added to it 
+        
+        May not be needed (?)
+        """
         # await reaction.channel.send("This is from settings")
         pass
 
     @commands.Cog.listener()
     async def on_private_channel_delete(self, channel):
-        """ Called whenever a private channel is deleted """
+        """ Called whenever a private channel is deleted 
+        
+        May not be needed (?)
+        """
         pass
 
     @commands.Cog.listener()
     async def on_private_channel_update(self, before, after):
-        """ Called whenever a private group DM is updated. e.g. changed name or topic """
+        """ Called whenever a private group DM is updated. e.g. changed name or topic 
+        
+        May not be needed (?)
+        """
+        pass
+
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        """ Callend when a Member leaves a Guild 
+        
+        May not be needed (?)
+        """
         pass
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
-        """ Called when a Member updates their profile """
+        """ Called when a Member updates their profile 
+
+        This is called when one or more of the following things change:
+        - status
+        - activity
+        - nickname
+        - roles
+        
+        May not be needed (?)
+        """
         pass
 
     @commands.Cog.listener()
     async def on_user_update(self, before, after):
-        """ Called when a User updates their profile """
+        """ Called when a User updates their profile
+
+        This is called when one or more of the following things change:
+        - avatar 
+        - username
+        - discriminator
+        
+        May not be needed (?)
+        """
         pass
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-        """ Callend when a Guildis removed from the Client """
+        """ Callend when a Guild is removed from the Client 
+        
+        If the Guild that was removed from the Client had any configuration related 
+        to the settings functionality, make sure to also remove any data from the database
+        """
         pass
 
     @commands.Cog.listener()
     async def on_guild_update(self, before, after):
-        """ Called when a Guild updates """
+        """ Called when a Guild updates 
+        
+        When a Guild updates its information, also make sure this new values to update
+        the database
+        """
         pass
 
     # Tasks
@@ -78,7 +126,9 @@ class Settings(commands.Cog):
         logger.warning("This is a warning from settings_cog")
 
     # Commands
-    @commands.group(name="settings", aliases=["stgs"])
+    @commands.group(
+        name="settings", aliases=["stgs"], help="Commands for bot server settings."
+    )
     async def dictionary(self, ctx):
         """Commands for bot server settings. Use `=help settings` to view subcommands."""
         if ctx.invoked_subcommand is None:
@@ -90,7 +140,8 @@ class Settings(commands.Cog):
 
     @dictionary.command(
         name="prefix",
-        help="Sets the character for bot prefix. The default bot prefix is `=`.",
+        brief="Sets the bot prefix character",
+        help="Sets the bot prefix character. The default bot prefix is `=`.",
     )
     async def settings_prefix(self, ctx, prefix=None):
         if prefix != None:

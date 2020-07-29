@@ -24,7 +24,10 @@ class Dictionary(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
-        """ Called when a message is edited """
+        """ Called when a message is edited.
+        
+        Check if the message has a reaction object attached to it, run the equivalent command again (?)
+        """
 
         prev_message = before
         next_message = after
@@ -38,38 +41,83 @@ class Dictionary(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        """ Called when a message has a reaction added to it """
+        """ Called when a message has a reaction added to it 
+        
+        If reactions are enabled and the text message is a single word 
+        and a proper reactions is added to it, run the equivalent command
+        """
         # await reaction.channel.send("This is from dictionary")
         pass
 
     @commands.Cog.listener()
     async def on_private_channel_delete(self, channel):
-        """ Called whenever a private channel is deleted """
+        """ Called whenever a private channel is deleted.
+        
+        If a channel is deleted, check if there's any config for it related
+        to the dictionary functionality, and if so, remove any configuration.
+        """
         pass
 
     @commands.Cog.listener()
     async def on_private_channel_update(self, before, after):
-        """ Called whenever a private group DM is updated. e.g. changed name or topic """
+        """ Called whenever a private group DM is updated. e.g. changed name or topic 
+        
+        If a channel is updated and it has any configuration related to the dictionary
+        functionality, update it with the new channel values. 
+        """
+        pass
+
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        """ Callend when a Member leaves or joins a Guild 
+        
+        May not be used (?)
+        """
         pass
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
-        """ Called when a Member updates their profile """
+        """ Called when a Member updates their profile
+        
+        This is called when one or more of the following things change:
+        - status
+        - activity
+        - nickname
+        - roles
+
+        May not be used (?)
+        """
         pass
 
     @commands.Cog.listener()
     async def on_user_update(self, before, after):
-        """ Called when a User updates their profile """
+        """ Called when a User updates their profile 
+        
+        This is called when one or more of the following things change:
+        - avatar 
+        - username
+        - discriminator
+
+        May not be used (?)
+        """
         pass
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-        """ Callend when a Guildis removed from the Client """
+        """ Callend when a Guildis removed from the Client 
+        
+        If the Client is removed from a Guild, if there's any config related to the dictionary
+        functionality, also remove it. 
+        """
         pass
 
     @commands.Cog.listener()
     async def on_guild_update(self, before, after):
-        """ Called when a Guild updates """
+        """ Called when a Guild updates 
+        
+        If the Guild is updated, and it has a configuration related to the dictionary 
+        functionality, update it with the new guild values. 
+        """
         pass
 
     # Tasks
@@ -79,7 +127,12 @@ class Dictionary(commands.Cog):
         logger.warning("This is a warning from dictionary_cog")
 
     # Commands
-    @commands.group(name="dictionary", aliases=["dict"])
+    @commands.group(
+        name="dictionary",
+        aliases=["dict"],
+        brief="Commands for dictionary search.",
+        help="Commands for dictionary search.",
+    )
     async def dictionary(self, ctx):
         """Commands for dictionary search. Use `=help dictionary` to view subcommands."""
         if ctx.invoked_subcommand is None:
@@ -94,7 +147,8 @@ class Dictionary(commands.Cog):
     @dictionary.command(
         name="definition",
         aliases=["def"],
-        help="Embeds message with word definition. The word search and the definition provided is done in english by default.",
+        brief="Embeds a message with a word definition.",
+        help="Embeds a message with a word definition. The word search and the definition provided is done in english by default.",
     )
     async def dictionary_definition(
         self, ctx, word=None, word_language="english", definition_language="english"
@@ -107,7 +161,8 @@ class Dictionary(commands.Cog):
     @dictionary.command(
         name="noun",
         aliases=["n"],
-        help="Provides with a list of nouns for the adjective specified. This is done in english by default.",
+        brief="Provides a list of nouns for an adjective.",
+        help="Provides a list of nouns for an adjective. This is done in english by default.",
     )
     async def dictionary_nount(self, ctx):
         pass
@@ -115,7 +170,8 @@ class Dictionary(commands.Cog):
     @dictionary.command(
         name="adjective",
         aliases=["adj"],
-        help="Provides with a list of adjectives for noun specified. This is done in english by default.",
+        brief="Provides a list of adjectives for a noun.",
+        help="Provides a list of adjectives for a noun. This is done in english by default.",
     )
     async def dictionary_adjective(self, ctx):
         pass
@@ -123,7 +179,8 @@ class Dictionary(commands.Cog):
     @dictionary.command(
         name="similar-spelling",
         aliases=["sim-spell"],
-        help="Provides with a list of words that have a similar spelling as the word specified. This is done in english by default.",
+        brief="Provides a list of words that have a similar spelling.",
+        help="Provides a list of words that have a similar spelling as the given word. This is done in english by default.",
     )
     async def dictionary_similar_spelling(self, ctx):
         pass
@@ -131,29 +188,33 @@ class Dictionary(commands.Cog):
     @dictionary.command(
         name="similar-sound",
         aliases=["sim-sound"],
-        help="Provides with a list of words that have a similar sound as the word specified. This is done in english by default.",
+        brief="Provides a list of words that have a similar sound.",
+        help="Provides a list of words that have a similar sound as the given word. This is done in english by default.",
     )
     async def dictionary_similar_sound(self, ctx):
         pass
 
     @dictionary.command(
         name="rhyme",
-        help="Provides with a list of words that rhyme with the word specified. This is done in english by default.",
+        brief="Provides a list of words that rhyme.",
+        help="Provides a list of words that rhyme with the given word. This is done in english by default.",
     )
     async def dictionary_rhyme(self, ctx):
         pass
 
     @dictionary.command(
         name="wotd",
+        brief="Programs a quote of the day for the specified channels.",
         help="Programs a quote of the day for the specified channels. This is done in english by default.",
     )
     async def dictionary_wotd(self, ctx):
         pass
 
     @dictionary.command(
-        name="generate-word",
+        name="show-word",
         aliases=["gen-word"],
-        help="Genererates random word with its definition. This is done in english by default.",
+        brief="Shows a random word with its definition",
+        help="Shows a random word with its definition. This is done in english by default.",
     )
     async def dictionary_generate_word(self, ctx):
         pass
