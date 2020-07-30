@@ -134,7 +134,7 @@ class Dictionary(commands.Cog):
         help="Commands for dictionary search.",
     )
     async def dictionary(self, ctx):
-        """Commands for dictionary search. Use `=help dictionary` to view subcommands."""
+        """Commands for dictionary search. Use `~help dictionary` to view subcommands."""
         if ctx.invoked_subcommand is None:
             await ctx.send(
                 f"Incorrect usage. Use {ctx.prefix}help dictionary for help."

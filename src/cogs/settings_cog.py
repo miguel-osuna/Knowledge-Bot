@@ -130,7 +130,7 @@ class Settings(commands.Cog):
         name="settings", aliases=["stgs"], help="Commands for bot server settings."
     )
     async def dictionary(self, ctx):
-        """Commands for bot server settings. Use `=help settings` to view subcommands."""
+        """Commands for bot server settings. Use `~help settings` to view subcommands."""
         if ctx.invoked_subcommand is None:
             await ctx.send(f"Incorrect usage. Use {ctx.prefix}help settings for help.")
         try:

@@ -1,26 +1,14 @@
 # Standard library imports
 import os
-from os.path import dirname, abspath, join
 import random
 
 # Third party imports
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 
 # Local applications
+from config import COGS_PATH, TOKEN
 from util.logger import generate_logger
-
-# Generate paths
-ENVIRONMENT = "local"
-BASE_PROJECT_PATH = dirname(dirname((abspath(__file__))))
-ENV_PATH = join(BASE_PROJECT_PATH, ".envs", f".{ENVIRONMENT}", ".application")
-LOGS_PATH = join(BASE_PROJECT_PATH, "data", "output", "logs")
-COGS_PATH = join(BASE_PROJECT_PATH, "src", "cogs")
-
-# Loads environmental variables
-load_dotenv(ENV_PATH)
-TOKEN = os.getenv("DISCORD_TOKEN")
 
 # Logger configuration
 logger = generate_logger(__name__)
@@ -58,7 +46,7 @@ class KnowledgeBot(commands.Bot):
         greeting_message = """
         Hi there!, I'm Knowledge Bot, the bot that knows it all (almost). Thanks for adding me to your server.\n
 
-        To get started, use `=help` to check more information about me.\n
+        To get started, use `~help` to check more information about me.\n
 
         If you need help or find any error, join my support server at https://xyz.com
         """
@@ -92,13 +80,13 @@ if __name__ == "__main__":
         name="load", help="Loads a specified extension/cog", hidden=True
     )
     async def load(ctx, extension):
-        self.load_extension(f"cogs.{extension}")
+        knowledge_bot.load_extension(f"cogs.{extension}")
 
     @knowledge_bot.command(
         name="unload", help="Unloads a specified extension/cog", hidden=True
     )
     async def unload(ctx, extension):
-        KnowledgeBot.unload_extension(f"cogs.{extension}")
+        knowledge_bot.unload_extension(f"cogs.{extension}")
 
     for filename in os.listdir(COGS_PATH):
         if filename.endswith(".py"):

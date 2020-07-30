@@ -132,7 +132,7 @@ class Quote(commands.Cog):
     # Commands
     @commands.group(name="quote", aliases=["qt"], help="Commands for quote generation.")
     async def quote(self, ctx):
-        """Commands for quote generation. Use `=help quote` to view subcommands."""
+        """Commands for quote generation. Use `~help quote` to view subcommands."""
         if ctx.invoked_subcommand is None:
             await ctx.send(f"Incorrect usage. Use {ctx.prefix}help quote for help.")
         try:
