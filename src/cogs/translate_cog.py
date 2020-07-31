@@ -281,10 +281,6 @@ class Translate(commands.Cog):
         # DM all the languages supported for translation
         await ctx.send("These are all the languages supported.")
 
-    @translate_list.error
-    async def translate_list_error(self, ctx, error):
-        pass
-
     @translate.command(
         name="text",
         aliases=["txt"],
@@ -364,10 +360,6 @@ class Translate(commands.Cog):
         else:
             await ctx.send("Please provide the correct arguments.")
 
-    @translate_text.error
-    async def translate_text_error(self, ctx, error):
-        pass
-
     @translate.command(
         name="default",
         aliases=["dflt"],
@@ -403,10 +395,6 @@ class Translate(commands.Cog):
         else:
             await ctx.send(f"Couldn't configure default language for server.")
 
-    @translate_default.error
-    async def translate_default_error(self, ctx, error):
-        pass
-
     @translate.command(
         name="default-server",
         aliases=["dflt-svr"],
@@ -439,10 +427,6 @@ class Translate(commands.Cog):
 
         else:
             await ctx.send(f"Couldn't configure default language for server.")
-
-    @translate_default_server.error
-    async def translate_default_server_error(self, ctx, error):
-        pass
 
     @translate.command(
         name="auto",
@@ -711,6 +695,51 @@ class Translate(commands.Cog):
 
         else:
             await ctx.send("Couldn't get status.")
+
+    # Command Error Handling
+    @translate_list.error
+    async def translate_list_error(self, ctx, error):
+        pass
+
+    @translate_text.error
+    async def translate_text_error(self, ctx, error):
+        pass
+
+    @translate_default.error
+    async def translate_default_error(self, ctx, error):
+        pass
+
+    @translate_default_server.error
+    async def translate_default_server_error(self, ctx, error):
+        pass
+
+    @translate_auto.error
+    async def translate_auto_error(self, ctx, error):
+        pass
+
+    @translate_auto_server.error
+    async def translate_auto_server_error(self, ctx, error):
+        pass
+
+    @translate_auto_user.error
+    async def translate_auto_user_error(self, ctx, error):
+        pass
+
+    @translate_auto_role.error
+    async def translate_auto_role_error(self, ctx, error):
+        pass
+
+    @translate_reaction.error
+    async def translate_reaction_error(self, ctx, error):
+        pass
+
+    @translate_detect.error
+    async def translate_detect_error(self, ctx, error):
+        pass
+
+    @translate_status.error
+    async def translate_status_error(self, ctx, error):
+        pass
 
 
 def setup(bot):

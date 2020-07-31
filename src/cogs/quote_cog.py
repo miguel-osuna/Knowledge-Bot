@@ -244,6 +244,27 @@ class Quote(commands.Cog):
         else:
             await ctx.send("Couldn't get status for [server/channel]")
 
+    # Command Error Handling
+    @quote_list.error
+    async def quote_list_error(self, ctx, error):
+        pass
+
+    @quote_generate.error
+    async def quote_generate_error(self, ctx, error):
+        pass
+
+    @quote_qotd.error
+    async def quote_qotd_error(self, ctx, error):
+        pass
+
+    @quote_detect.error
+    async def quote_detect_error(self, ctx, error):
+        pass
+
+    @quote_status.error
+    async def quote_status_error(self, ctx, error):
+        pass
+
 
 def setup(bot):
     bot.add_cog(Quote(bot))

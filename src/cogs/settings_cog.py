@@ -157,7 +157,7 @@ class Settings(commands.Cog):
     @commands.group(
         name="settings", aliases=["stgs"], help="Commands for bot server settings."
     )
-    async def dictionary(self, ctx):
+    async def settings(self, ctx):
         """Commands for bot server settings. Use `~help settings` to view subcommands."""
         if ctx.invoked_subcommand is None:
             await ctx.send(f"Incorrect usage. Use {ctx.prefix}help settings for help.")
@@ -166,7 +166,7 @@ class Settings(commands.Cog):
         except discord.HTTPException:
             pass
 
-    @dictionary.command(
+    @settings.command(
         name="prefix",
         brief="Sets the bot prefix character",
         help="Sets the bot prefix character. The default bot prefix is `=`.",
@@ -176,6 +176,11 @@ class Settings(commands.Cog):
             await ctx.send("Prefix `[prefix]` setup for bot commands.")
         else:
             await ctx.send("Couldn't setup `[prefix]` as the bots command prefix.")
+
+    # Command Error Handling
+    @settings_prefix.error
+    async def settings_prefix_error(self, ctx, error):
+        pass
 
 
 def setup(bot):

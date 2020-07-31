@@ -192,7 +192,7 @@ class Dictionary(commands.Cog):
         brief="Provides a list of nouns for an adjective.",
         help="Provides a list of nouns for an adjective. This is done in english by default.",
     )
-    async def dictionary_nount(self, ctx):
+    async def dictionary_noun(self, ctx):
         pass
 
     @dictionary.command(
@@ -245,6 +245,39 @@ class Dictionary(commands.Cog):
         help="Shows a random word with its definition. This is done in english by default.",
     )
     async def dictionary_generate_word(self, ctx):
+        pass
+
+    # Command Error Handling
+    @dictionary_definition.error
+    async def dictionary_definition_error(self, ctx, error):
+        pass
+
+    @dictionary_noun.error
+    async def dicitonary_noun_error(self, ctx, error):
+        pass
+
+    @dictionary_adjective.error
+    async def dictionary_adjective_error(self, ctx, error):
+        pass
+
+    @dictionary_similar_spelling.error
+    async def dictionary_similar_spelling_error(self, ctx, error):
+        pass
+
+    @dictionary_similar_sound.error
+    async def dictionary_similar_sound_error(self, ctx, error):
+        pass
+
+    @dictionary_rhyme.error
+    async def dictionary_rhyme_error(self, ctx, error):
+        pass
+
+    @dictionary_wotd.error
+    async def dictionary_wotd_error(self, ctx, error):
+        pass
+
+    @dictionary_generate_word.error
+    async def dictionary_generate_word_error(self, ctx, error):
         pass
 
 
