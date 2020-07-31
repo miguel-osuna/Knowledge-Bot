@@ -8,8 +8,9 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
-class Settings(commands.Cog):
+class SettingsCog(commands.Cog):
     def __init__(self, bot):
+        """ Initialisation for SettingsCog instance. """
         self.bot = bot
         self.printer.start()
 
@@ -171,11 +172,14 @@ class Settings(commands.Cog):
         brief="Sets the bot prefix character",
         help="Sets the bot prefix character. The default bot prefix is `=`.",
     )
-    async def settings_prefix(self, ctx, prefix=None):
+    async def settings_prefix(self, ctx, prefix: str = None):
         if prefix != None:
-            await ctx.send("Prefix `[prefix]` setup for bot commands.")
+            # Get server from the database
+
+            # Set prefix for the server on the database
+            await ctx.send(f"Prefix `{prefix}` setup for bot commands.")
         else:
-            await ctx.send("Couldn't setup `[prefix]` as the bots command prefix.")
+            await ctx.send(f"Couldn't setup prefix.")
 
     # Command Error Handling
     @settings_prefix.error
@@ -184,4 +188,4 @@ class Settings(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Settings(bot))
+    bot.add_cog(SettingsCog(bot))

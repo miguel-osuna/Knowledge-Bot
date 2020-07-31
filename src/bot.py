@@ -25,14 +25,13 @@ class KnowledgeBot(commands.Bot):
         # Sets bots status and activity
         status = discord.Status.online
         activity = discord.Activity(
-            name=f"{bot_prefix}help", type=discord.ActivityType.listening,
+            name=f"{self.command_prefix}help", type=discord.ActivityType.listening,
         )
         await self.change_presence(status=status, activity=activity, afk=False)
 
-        app_info = await self.application_info()
-
-        print(app_info)
-        print(f"Logged in as '{self.user.name}' (id: {self.user.id})\n")
+        print(
+            f"\nLogged in as '{self.user.name}' - (id: {self.user.id})\nVersion: {discord.__version__}\n"
+        )
 
     async def on_guild_join(self, guild):
         """ Called when a Guild is either created by the Client or when the Client joins a guild
@@ -63,33 +62,33 @@ class KnowledgeBot(commands.Bot):
         pass
 
 
+def get_prefix(bot, message):
+    """ A callable Prefix for Knowledge Bot. """
+
+    # Check if message  doesn't come from a server
+    if not message.guild:
+        # Only allow ~ to be used in DMs
+        return "~"
+
+    # Retrieve server prefix from the database
+    server_prefix = "~"
+
+    # Allow the users to mention the bot or use the server_prefix while being on it.
+    return commands.when_mentioned_or(server_prefix)(bot, message)
+
+
 if __name__ == "__main__":
-
     # Bot configuration
-    bot_description = """
-    Looking for answers? Knowledge Bot is here to the rescue!
-
-    Check quotes, definitions and translations with very simple commands.
-    """
-    bot_prefix = "~"
-
-    knowledge_bot = KnowledgeBot(command_prefix=bot_prefix, description=bot_description)
-
-    # Bot commands
-    @knowledge_bot.command(
-        name="load", help="Loads a specified extension/cog", hidden=True
-    )
-    async def load(ctx, extension):
-        knowledge_bot.load_extension(f"cogs.{extension}")
-
-    @knowledge_bot.command(
-        name="unload", help="Unloads a specified extension/cog", hidden=True
-    )
-    async def unload(ctx, extension):
-        knowledge_bot.unload_extension(f"cogs.{extension}")
+    bot_description = "Looking for answers? Knowledge Bot is here to the rescue!\nCheck quotes, definitions and translations with very simple commands."
+    knowledge_bot = KnowledgeBot(command_prefix=get_prefix, description=bot_description)
 
     for filename in os.listdir(COGS_PATH):
-        if filename.endswith(".py"):
-            knowledge_bot.load_extension(f"cogs.{filename[:-3]}")
+        if filename.endswith("py"):
+            extension = filename[:-3]
+            try:
+                knowledge_bot.load_extension(f"cogs.{extension}")
+            except Exception as e:
+                logger.error(f"Failed to load extension {extension}")
 
-    knowledge_bot.run(TOKEN)
+    # Client event loop initialisation
+    knowledge_bot.run(TOKEN, bot=True, reconnect=True)

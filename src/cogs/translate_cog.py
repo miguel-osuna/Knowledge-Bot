@@ -23,7 +23,7 @@ class Language:
     """ Language class that represents a language used for translation. """
 
     def __init__(self, language_name, language_code, country_flag):
-        """ Initialization for Language instance. """
+        """ Initialisation for Language instance. """
         self.language_name = language_name.lower()
         self.language_code = language_code.lower()
         self.country_flags = country_flag.lower()
@@ -51,9 +51,9 @@ class Language:
     # Add class converter for discord arguments
 
 
-class Translate(commands.Cog):
+class TranslateCog(commands.Cog):
     def __init__(self, bot):
-        """ Initialization for Translate cog instance. """
+        """ Initialisation for TranslateCog instance. """
         self.bot = bot
         self.printer.start()
         self.langs_data = None
@@ -743,4 +743,4 @@ class Translate(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Translate(bot))
+    bot.add_cog(TranslateCog(bot))

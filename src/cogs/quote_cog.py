@@ -1,3 +1,6 @@
+# Standard library imports
+import typing
+
 # Third party imports
 import discord
 from discord.ext import commands, tasks
@@ -8,7 +11,7 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
-class Quote(commands.Cog):
+class QuoteCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.printer.start()
@@ -131,7 +134,110 @@ class Quote(commands.Cog):
         An error handler that is called when an error is raised inside a command
         either through user input error, check failure, or an error in your own code.
         """
-        pass
+
+        # Check if the error is any instance that inherits from commands.CommandError
+        # on_command_error just handles the errors that are related to commands.
+        if isinstance(error, commands.CommandError):
+            pass
+
+        elif isinstance(error, commands.ConversionError):
+            pass
+
+        elif isinstance(error, commands.MissingRequiredArgument):
+            pass
+
+        elif isinstance(error, commands.ArgumentParsingError):
+            pass
+
+        elif isinstance(error, commands.UnexpectedQuoteError):
+            pass
+
+        elif isinstance(error, commands.InvalidEndOfQuotedStringError):
+            pass
+
+        elif isinstance(error, commands.ExpectedClosingQuoteError):
+            pass
+
+        elif isinstance(error, commands.BadArgument):
+            pass
+
+        elif isinstance(error, commands.BadUnionArgument):
+            pass
+
+        elif isinstance(error, commands.PrivateMessageOnly):
+            pass
+
+        elif isinstance(error, commands.NoPrivateMessage):
+            pass
+
+        elif isinstance(error, commands.CheckFailure):
+            pass
+
+        elif isinstance(error, commands.CheckAnyFailure):
+            pass
+
+        elif isinstance(error, commands.CommandNotFound):
+            pass
+
+        elif isinstance(error, commands.DisabledCommand):
+            pass
+
+        elif isinstance(error, commands.CommandInvokeError):
+            pass
+
+        elif isinstance(error, commands.TooManyArguments):
+            pass
+
+        elif isinstance(error, commands.UserInputError):
+            pass
+
+        elif isinstance(error, commands.CommandOnCooldown):
+            pass
+
+        elif isinstance(error, commands.MaxConcurrencyReached):
+            pass
+
+        elif isinstance(error, commands.NotOwner):
+            pass
+
+        elif isinstance(error, commands.MissingPermissions):
+            pass
+
+        elif isinstance(error, commands.BotMissingPermissions):
+            pass
+
+        elif isinstance(error, commands.MissingRole):
+            pass
+
+        elif isinstance(error, commands.BotMissingRole):
+            pass
+
+        elif isinstance(error, commands.MissingAnyRole):
+            pass
+
+        elif isinstance(error, commands.BotMissingAnyRole):
+            pass
+
+        elif isinstance(error, commands.NSFWChannelRequired):
+            pass
+
+        elif isinstance(error, commands.ExtensionError):
+            pass
+
+        elif isinstance(error, commands.ExtensionAlreadyLoaded):
+            pass
+
+        elif isinstance(error, commands.ExtensionNotLoaded):
+            pass
+
+        elif isinstance(error, commands.NoEntryPointError):
+            pass
+
+        elif isinstance(error, commands.ExtensionFailed):
+            pass
+
+        elif isinstance(error, commands.ExtensionNotFound):
+            pass
 
     @commands.Cog.listener()
     async def on_command(self, ctx):
@@ -175,7 +281,16 @@ class Quote(commands.Cog):
         help="Sends list of all categories and authors available.",
     )
     async def quote_list(self, ctx):
-        await ctx.send("These are all the categories and authors available.")
+        # Query all the categories from the database
+        # Query all the authors from the database
+
+        categories = "`Love`, `Friendship`, `History`"
+        authors = "`Albert Einstein`, `Socrates`, `Aristotle`"
+
+        await ctx.send(
+            f"""
+            Categories: {categories}.\nAuthors: {authors}. """
+        )
 
     @quote.command(
         name="generate",
@@ -184,10 +299,14 @@ class Quote(commands.Cog):
         help="Embeds message with a quote in the text channel. If no parameter is specified, it displays a random quote.",
     )
     async def quote_generate(
-        self, ctx, category=None, author=None, type="random", language="english"
+        self, ctx, type="random", language="en", category=None, *, author=None,
     ):
-        if category != None and author != None:
-            await ctx.send("Quote generated.")
+        if category is not None and author is not None:
+            # Check if the category is in the database
+
+            # Check if the author is in the database
+
+            await ctx.send(f"Category: `{category}`\nAuthor: `{author}`")
         else:
             await ctx.send("Couldn't generate quote.")
 
@@ -200,49 +319,65 @@ class Quote(commands.Cog):
         self,
         ctx,
         status=None,
-        category=None,
-        author=None,
-        time=None,
         language="english",
+        time=None,
+        channels: commands.Greedy[discord.TextChannel] = "server",
+        category=None,
         *,
-        channels=discord.TextChannel,
+        author=None,
     ):
         if (
-            status != None
-            and category != None
-            and author != None
-            and time != None
-            and channels != None
+            status is not None
+            and time is not None
+            and category is not None
+            and author is not None
         ):
-            await ctx.send(
-                "Quote programmed daily at [time] for channels #[channel] and #[channel]"
-            )
+            await ctx.send(f"Quote programmed daily at {time} for {channels}.")
         else:
-            await ctx.send(
-                "Couldn't program daily quote for channels #[channel] and #[channel]"
-            )
+            await ctx.send("Couldn't quote of the day.")
 
     @quote.command(
         name="detect",
         brief="Displays author and category of a given quote if it finds a match.",
         help="Displays author and category of a given quote if it finds a match.",
     )
-    async def quote_detect(self, ctx, *, text=None):
-        if text != None:
-            await ctx.send("Author and category found for the quote [text].")
+    async def quote_detect(self, ctx, *, quote=None):
+        if quote is not None:
+            # Look for the quote in the database and retrieve its author and its category
+            quote_found = True
+            author = "Socrates"
+            category = "Philosophy"
+
+            if quote_found:
+                # Notify the quote has been found
+                await ctx.send(
+                    f"Quote: `{quote}`.\nAuthor: `{author}`.\nCategory: `{category}`."
+                )
+
+            else:
+                # Notify the quote hasn't been found
+                await ctx.send("Didn't find author or category of the quote.")
+
         else:
-            await ctx.send("Couldn't find author and category for the quote [text].")
+            # Notify couldn't detect the quote
+            await ctx.send("Couldn't detect the quote.")
 
     @quote.command(
         name="status",
         brief="Shows the status of the server or channels specified.",
         help="Shows the status of the server or channels specified.",
     )
-    async def quote_status(self, ctx, *, channels=discord.TextChannel):
-        if channels != None:
-            await ctx.send("Status for [server/channel]")
+    async def quote_status(
+        self, ctx, channels: commands.Greedy[discord.TextChannel] = "server"
+    ):
+        if channels != "server":
+            channel_str = ", ".join(["#" + channel.name for channel in channels])
+            # Query the channels in the database
+            await ctx.send(f"Status for {channel_str}.")
         else:
-            await ctx.send("Couldn't get status for [server/channel]")
+            # Query the server in the database
+            server = channels
+            await ctx.send(f"Status for {server}.")
 
     # Command Error Handling
     @quote_list.error
@@ -267,4 +402,4 @@ class Quote(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Quote(bot))
+    bot.add_cog(QuoteCog(bot))

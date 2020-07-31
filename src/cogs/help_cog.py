@@ -7,8 +7,9 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
-class Help(commands.Cog):
+class HelpCog(commands.Cog):
     def __init__(self, bot):
+        """ Initialisation for HelpCog instance. """
         self.bot = bot
 
     # Events
@@ -51,4 +52,4 @@ class Help(commands.Cog):
 
 def setup(bot):
     """ Sets the help cog for the bot. """
-    bot.add_cog(Help(bot))
+    bot.add_cog(HelpCog(bot))

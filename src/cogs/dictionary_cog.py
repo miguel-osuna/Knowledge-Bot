@@ -8,8 +8,9 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
-class Dictionary(commands.Cog):
+class DictionaryCog(commands.Cog):
     def __init__(self, bot):
+        """ Initialisation for DictionaryCog instance. """
         self.bot = bot
         self.printer.start()
 
@@ -283,4 +284,4 @@ class Dictionary(commands.Cog):
 
 def setup(bot):
     """ Setups up the dictionary cog for the bot. """
-    bot.add_cog(Dictionary(bot))
+    bot.add_cog(DictionaryCog(bot))
