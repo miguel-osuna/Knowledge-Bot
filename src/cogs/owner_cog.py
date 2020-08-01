@@ -7,10 +7,30 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
-class OwnerCog(commands.Cog):
+class OwnerCog(commands.Cog, name="Owner"):
     def __init__(self, bot):
         """ Initilialisation for OwnerCog instance. """
         self.bot = bot
+
+    # Class Methods
+    async def cog_command_error(self, ctx, error):
+        """ A special method that is called whenever an error is dispatched inside this cog. 
+        
+        This is similar to on_command_error() except only applying to the commands inside this cog.
+        """
+
+        ignored = (commands.CommandNotFound,)
+
+        if isinstance(error, ignored):
+            return
+
+    async def cog_before_invoke(self, ctx):
+        """ A special method that acts as a cog local pre-invoke hook. """
+        return super().cog_before_invoke(ctx)
+
+    async def cog_after_invoke(self, ctx):
+        """ A special method that acts as a cog local post-invoek hook. """
+        return super().cog_after_invoke(ctx)
 
     # Commands
     @commands.is_owner()
@@ -38,7 +58,7 @@ class OwnerCog(commands.Cog):
             await ctx.send(f"**`SUCCESS:`**")
 
     @commands.is_owner()
-    @comands.command(
+    @commands.command(
         name="reload", help="Reloads a specific extension/cog", hidden=True
     )
     async def reload_cog(self, ctx, *, cog: str):

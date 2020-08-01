@@ -8,13 +8,13 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
-class DictionaryCog(commands.Cog):
+class DictionaryCog(commands.Cog, name="Dictionary"):
     def __init__(self, bot):
         """ Initialisation for DictionaryCog instance. """
         self.bot = bot
         self.printer.start()
 
-    # Events
+    # Event Listeners
     @commands.Cog.listener()
     async def on_message(self, message):
         """ Called when a message is sent """
@@ -121,33 +121,25 @@ class DictionaryCog(commands.Cog):
         """
         pass
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        """ Called when an error is raised inside a command.
-
-        An error handler that is called when an error is raised inside a command
-        either through user input error, check failure, or an error in your own code.
-        """
-        pass
-
-    @commands.Cog.listener()
-    async def on_command(self, ctx):
-        """ Called when an command is found and is about to be invoked. 
+    # Class Methods
+    async def cog_command_error(self, ctx, error):
+        """ A special method that is called whenever an error is dispatched inside this cog. 
         
-        An event that is called when a command is found and is about to be invoked. 
-        This event is called regardless of whether the command itself succeds via error or completes. 
+        This is similar to on_command_error() except only applying to the commands inside this cog.
         """
-        pass
 
-    @commands.Cog.listener()
-    async def on_command_completion(self, ctx):
-        """ Callend when a command has comleted its invocation. 
-        
-        An event that is called when a command has completed its invocation. 
-        This event is called only if the command succeded, i.e. all checks have passed and the user input
-        it correctly. 
-        """
-        pass
+        ignored = (commands.CommandNotFound,)
+
+        if isinstance(error, ignored):
+            return
+
+    async def cog_before_invoke(self, ctx):
+        """ A special method that acts as a cog local pre-invoke hook. """
+        return super().cog_before_invoke(ctx)
+
+    async def cog_after_invoke(self, ctx):
+        """ A special method that acts as a cog local post-invoek hook. """
+        return super().cog_after_invoke(ctx)
 
     # Tasks
     @tasks.loop(seconds=10.0)

@@ -11,12 +11,12 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
-class QuoteCog(commands.Cog):
+class QuoteCog(commands.Cog, name="Quote"):
     def __init__(self, bot):
         self.bot = bot
         self.printer.start()
 
-    # Events
+    # Event Listeners
     @commands.Cog.listener()
     async def on_message(self, message):
         """ Called when a message is sent 
@@ -127,136 +127,25 @@ class QuoteCog(commands.Cog):
         """
         pass
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        """ Called when an error is raised inside a command.
-
-        An error handler that is called when an error is raised inside a command
-        either through user input error, check failure, or an error in your own code.
-        """
-
-        # Check if the error is any instance that inherits from commands.CommandError
-        # on_command_error just handles the errors that are related to commands.
-        if isinstance(error, commands.CommandError):
-            pass
-
-        elif isinstance(error, commands.ConversionError):
-            pass
-
-        elif isinstance(error, commands.MissingRequiredArgument):
-            pass
-
-        elif isinstance(error, commands.ArgumentParsingError):
-            pass
-
-        elif isinstance(error, commands.UnexpectedQuoteError):
-            pass
-
-        elif isinstance(error, commands.InvalidEndOfQuotedStringError):
-            pass
-
-        elif isinstance(error, commands.ExpectedClosingQuoteError):
-            pass
-
-        elif isinstance(error, commands.BadArgument):
-            pass
-
-        elif isinstance(error, commands.BadUnionArgument):
-            pass
-
-        elif isinstance(error, commands.PrivateMessageOnly):
-            pass
-
-        elif isinstance(error, commands.NoPrivateMessage):
-            pass
-
-        elif isinstance(error, commands.CheckFailure):
-            pass
-
-        elif isinstance(error, commands.CheckAnyFailure):
-            pass
-
-        elif isinstance(error, commands.CommandNotFound):
-            pass
-
-        elif isinstance(error, commands.DisabledCommand):
-            pass
-
-        elif isinstance(error, commands.CommandInvokeError):
-            pass
-
-        elif isinstance(error, commands.TooManyArguments):
-            pass
-
-        elif isinstance(error, commands.UserInputError):
-            pass
-
-        elif isinstance(error, commands.CommandOnCooldown):
-            pass
-
-        elif isinstance(error, commands.MaxConcurrencyReached):
-            pass
-
-        elif isinstance(error, commands.NotOwner):
-            pass
-
-        elif isinstance(error, commands.MissingPermissions):
-            pass
-
-        elif isinstance(error, commands.BotMissingPermissions):
-            pass
-
-        elif isinstance(error, commands.MissingRole):
-            pass
-
-        elif isinstance(error, commands.BotMissingRole):
-            pass
-
-        elif isinstance(error, commands.MissingAnyRole):
-            pass
-
-        elif isinstance(error, commands.BotMissingAnyRole):
-            pass
-
-        elif isinstance(error, commands.NSFWChannelRequired):
-            pass
-
-        elif isinstance(error, commands.ExtensionError):
-            pass
-
-        elif isinstance(error, commands.ExtensionAlreadyLoaded):
-            pass
-
-        elif isinstance(error, commands.ExtensionNotLoaded):
-            pass
-
-        elif isinstance(error, commands.NoEntryPointError):
-            pass
-
-        elif isinstance(error, commands.ExtensionFailed):
-            pass
-
-        elif isinstance(error, commands.ExtensionNotFound):
-            pass
-
-    @commands.Cog.listener()
-    async def on_command(self, ctx):
-        """ Called when an command is found and is about to be invoked. 
+    # Class Methods
+    async def cog_command_error(self, ctx, error):
+        """ A special method that is called whenever an error is dispatched inside this cog. 
         
-        An event that is called when a command is found and is about to be invoked. 
-        This event is called regardless of whether the command itself succeds via error or completes. 
+        This is similar to on_command_error() except only applying to the commands inside this cog.
         """
-        pass
 
-    @commands.Cog.listener()
-    async def on_command_completion(self, ctx):
-        """ Callend when a command has comleted its invocation. 
-        
-        An event that is called when a command has completed its invocation. 
-        This event is called only if the command succeded, i.e. all checks have passed and the user input
-        it correctly. 
-        """
-        pass
+        ignored = (commands.CommandNotFound,)
+
+        if isinstance(error, ignored):
+            return
+
+    async def cog_before_invoke(self, ctx):
+        """ A special method that acts as a cog local pre-invoke hook. """
+        return super().cog_before_invoke(ctx)
+
+    async def cog_after_invoke(self, ctx):
+        """ A special method that acts as a cog local post-invoek hook. """
+        return super().cog_after_invoke(ctx)
 
     # Tasks
     @tasks.loop(seconds=10.0)
