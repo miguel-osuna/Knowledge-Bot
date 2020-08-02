@@ -44,6 +44,7 @@ class StatsCog(commands.Cog, name="Stats"):
 
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
+        await ctx.trigger_typing()()
         return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
@@ -82,7 +83,7 @@ class StatsCog(commands.Cog, name="Stats"):
     )
     async def stats_global(self, ctx):
         """ Shows global command statistics from all time. """
-        pass
+        await ctx.send("These are the global stats from all time.")
 
     @commands.is_owner()
     @stats.command(
@@ -92,12 +93,7 @@ class StatsCog(commands.Cog, name="Stats"):
     )
     async def stats_today(self, ctx):
         """ Shows global command statistics for the day. """
-        pass
-
-    @stats_today.before_invoke
-    @stats_global.before_invoke
-    async def before_stats_invoke(self, ctx):
-        await ctx.trigger_typing()
+        await ctx.send("These are the stats of today.")
 
     @commands.is_owner()
     @commands.command(

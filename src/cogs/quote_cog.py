@@ -144,6 +144,7 @@ class QuoteCog(commands.Cog, name="Quote"):
 
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
+        await ctx.trigger_typing()
         return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):

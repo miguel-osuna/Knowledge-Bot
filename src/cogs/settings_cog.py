@@ -138,6 +138,7 @@ class SettingsCog(commands.Cog, name="Settings"):
 
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
+        await ctx.trigger_typing()
         return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
