@@ -128,26 +128,67 @@ class SettingsCog(commands.Cog, name="Settings"):
         This is similar to on_command_error() except only applying to the commands inside this cog.
         """
 
-        ignored = (commands.CommandNotFound,)
+        ignored = None
 
         if isinstance(error, ignored):
             return
 
+        else:
+            return
+
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
-        return super().cog_before_invoke(ctx)
+        return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
         """ A special method that acts as a cog local post-invoek hook. """
-        return super().cog_after_invoke(ctx)
+        return await super().cog_after_invoke(ctx)
 
     # Tasks
     @tasks.loop(seconds=10.0)
     async def printer(self):
-        logger.warning("This is a warning from settings_cog")
+        # logger.warning("This is a warning from settings_cog")
+        pass
 
     # Commands
-    @commands.guild_only()
+    @commands.is_owner()
+    @commands.command(name="load", help="Loads a specified extension/cog", hidden=True)
+    async def load_cog(self, ctx, *, cog: str):
+        """ Command which loads a module. """
+        try:
+            self.bot.load_extension(f"cogs.{cog}")
+        except Exception as e:
+            await ctx.send(f"**`ERROR`:** {type(e).__name__} - {e}")
+        else:
+            await ctx.send(f"**`SUCCESS`**")
+
+    @commands.is_owner()
+    @commands.command(
+        name="unload", help="Unloads a specified extension/cog", hidden=True
+    )
+    async def unload_cog(self, ctx, *, cog: str):
+        """ Command which unloads a module. """
+        try:
+            self.bot.unload_extension(f"cogs.{cog}")
+        except Exception as e:
+            await ctx.send(f"**`ERROR`:** {type(e).__name__} - {e}")
+        else:
+            await ctx.send(f"**`SUCCESS`**")
+
+    @commands.is_owner()
+    @commands.command(
+        name="reload", help="Reloads a specific extension/cog", hidden=True
+    )
+    async def reload_cog(self, ctx, *, cog: str):
+        """ Command which reloads a module. """
+        try:
+            self.bot.unload_extension(f"cogs.{cog}")
+            self.bot.load_extension(f"cogs.{cog}")
+        except Exception as e:
+            await ctx.send(f"**`ERROR`:** {type(e).__name__} - {e}")
+        else:
+            await ctx.send(f"**`SUCCESS`**")
+
     @commands.group(
         name="settings", aliases=["stgs"], help="Commands for bot server settings."
     )
@@ -181,4 +222,12 @@ class SettingsCog(commands.Cog, name="Settings"):
 
 
 def setup(bot):
+    """" Sets up the settings cog for the bot. """
+    logger.info("Loading Settings Cog")
     bot.add_cog(SettingsCog(bot))
+
+
+def teardown(bot):
+    """ Tears down the settings cog for the bot. """
+    logger.info("Unloading Settings Cog")
+    bot.remove_cog("cogs.settings_cog")

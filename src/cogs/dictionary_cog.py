@@ -128,24 +128,28 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         This is similar to on_command_error() except only applying to the commands inside this cog.
         """
 
-        ignored = (commands.CommandNotFound,)
+        ignored = None
 
         if isinstance(error, ignored):
             return
 
+        else:
+            return
+
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
-        return super().cog_before_invoke(ctx)
+        return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
         """ A special method that acts as a cog local post-invoek hook. """
-        return super().cog_after_invoke(ctx)
+        return await super().cog_after_invoke(ctx)
 
     # Tasks
     @tasks.loop(seconds=10.0)
     async def printer(self):
         """ Prints periodically a message. """
-        logger.warning("This is a warning from dictionary_cog")
+        # logger.warning("This is a warning from dictionary_cog")
+        pass
 
     # Commands
     @commands.group(
@@ -276,4 +280,11 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
 
 def setup(bot):
     """ Setups up the dictionary cog for the bot. """
+    logger.info("Loading Dictionary Cog")
     bot.add_cog(DictionaryCog(bot))
+
+
+def teardown(bot):
+    """ Tears down the dictionary cog for the bot. """
+    logger.info("Unloading Dictionary Cog")
+    bot.remove_cog("cogs.dictionary_cog")

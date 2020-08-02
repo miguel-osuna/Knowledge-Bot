@@ -134,23 +134,27 @@ class QuoteCog(commands.Cog, name="Quote"):
         This is similar to on_command_error() except only applying to the commands inside this cog.
         """
 
-        ignored = (commands.CommandNotFound,)
+        ignored = None
 
         if isinstance(error, ignored):
             return
 
+        else:
+            return
+
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
-        return super().cog_before_invoke(ctx)
+        return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
         """ A special method that acts as a cog local post-invoek hook. """
-        return super().cog_after_invoke(ctx)
+        return await super().cog_after_invoke(ctx)
 
     # Tasks
     @tasks.loop(seconds=10.0)
     async def printer(self):
-        logger.warning("This is a warning from quote_cog")
+        # logger.warning("This is a warning from quote_cog")
+        pass
 
     # Commands
     @commands.group(name="quote", aliases=["qt"], help="Commands for quote generation.")
@@ -291,4 +295,12 @@ class QuoteCog(commands.Cog, name="Quote"):
 
 
 def setup(bot):
+    """ Sets up the quote cog for the bot. """
+    logger.info("Loading Quote Cog")
     bot.add_cog(QuoteCog(bot))
+
+
+def teardown(bot):
+    """ Tears down the quote cog for the bot. """
+    logger.info("Unloading Quote Cog")
+    bot.remove_cog("cogs.quote_cog")

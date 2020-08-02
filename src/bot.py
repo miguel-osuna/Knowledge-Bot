@@ -1,6 +1,7 @@
 # Standard library imports
 import os
 import random
+import datetime
 
 # Third party imports
 import discord
@@ -14,18 +15,52 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
+def _prefix_callable(bot, message):
+    """ A callable Prefix for Knowledge Bot. """
+
+    # Check if message  doesn't come from a server
+    if not message.guild:
+        # Only allow ~ to be used in DMs
+        return "~"
+
+    # Retrieve server prefix from the database
+    server_prefix = "~"
+
+    # Allow the users to mention the bot or use the server_prefix while being on it.
+    return commands.when_mentioned_or(server_prefix)(bot, message)
+
+
+bot_description = "Looking for answers? Knowledge Bot is here to the rescue!\nCheck quotes, definitions and translations with very simple commands."
+
+
 class KnowledgeBot(commands.Bot):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, cogs_path, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.cogs_path = cogs_path
+
+        # Load extensions when initialising the bot
+        self.load_extensions()
+
+    def load_extensions(self):
+        for filename in os.listdir(self.cogs_path):
+            if filename.endswith("py"):
+                extension = filename[:-3]
+                try:
+                    self.load_extension(f"cogs.{extension}")
+                except Exception as e:
+                    logger.error(f"Failed to load extension {extension} - {e}")
 
     # Bot Event Listeners
     async def on_ready(self):
         """Called when the client is done preparing the data received from Discord. """
 
+        if not hasattr(self, "uptime"):
+            self.uptime = datetime.datetime.utcnow()
+
         # Sets bots status and activity
         status = discord.Status.online
         activity = discord.Activity(
-            name=f"{self.get_prefix}help", type=discord.ActivityType.listening,
+            name=f"{self.command_prefix}help", type=discord.ActivityType.listening,
         )
         await self.change_presence(status=status, activity=activity, afk=False)
 
@@ -61,7 +96,6 @@ class KnowledgeBot(commands.Bot):
         """
         pass
 
-    @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         """ Called when an error is raised inside a command.
 
@@ -80,7 +114,7 @@ class KnowledgeBot(commands.Bot):
         ):
             return
 
-        ignored = (commands.CommandNotFound,)
+        ignored = None
 
         # Allows us to check for original exceptions raised and set to CommandInvokeError.
         # If nothing is found, we keep the exception passed to on_command_error
@@ -98,6 +132,7 @@ class KnowledgeBot(commands.Bot):
 
         elif isinstance(error, commands.ArgumentParsingError):
             logger.debug("Argument Parsing Error")
+            ctx.send(error)
 
         elif isinstance(error, commands.UnexpectedQuoteError):
             logger.debug("Unexpected Quote Error")
@@ -121,7 +156,7 @@ class KnowledgeBot(commands.Bot):
             logger.debug(f"No Private Message - {ctx.cog}")
             try:
                 await ctx.author.send(
-                    f"`{ctx.command}` cannot be used in Direct Message."
+                    f"`{ctx.command}` cannot be used in private messages."
                 )
             except discord.HTTPException:
                 pass
@@ -134,10 +169,14 @@ class KnowledgeBot(commands.Bot):
 
         elif isinstance(error, commands.DisabledCommand):
             logger.debug("Disabled Command")
-            ctx.send(f"Sorry, {ctx.command} has been disabled.")
+            ctx.send(f"Sorry, {ctx.command} has been disabled and cannot be used.")
 
         elif isinstance(error, commands.CommandInvokeError):
             logger.debug("Command Invoke Error")
+            original = error.original
+
+            if not isinstance(original, discord.HTTPException):
+                logger.debug(f"In {ctx.command.qualified_name}: {original}.")
 
         elif isinstance(error, commands.TooManyArguments):
             logger.debug("Too Many Arguments")
@@ -196,7 +235,6 @@ class KnowledgeBot(commands.Bot):
         else:
             logger.debug(f"Ignoring exception {error} in command {ctx.command}")
 
-    @commands.Cog.listener()
     async def on_command(self, ctx):
         """ Called when an command is found and is about to be invoked. 
         
@@ -205,7 +243,6 @@ class KnowledgeBot(commands.Bot):
         """
         pass
 
-    @commands.Cog.listener()
     async def on_command_completion(self, ctx):
         """ Callend when a command has comleted its invocation. 
         
@@ -216,33 +253,13 @@ class KnowledgeBot(commands.Bot):
         pass
 
 
-def get_prefix(bot, message):
-    """ A callable Prefix for Knowledge Bot. """
-
-    # Check if message  doesn't come from a server
-    if not message.guild:
-        # Only allow ~ to be used in DMs
-        return "~"
-
-    # Retrieve server prefix from the database
-    server_prefix = "~"
-
-    # Allow the users to mention the bot or use the server_prefix while being on it.
-    return commands.when_mentioned_or(server_prefix)(bot, message)
-
-
 if __name__ == "__main__":
     # Bot configuration
-    bot_description = "Looking for answers? Knowledge Bot is here to the rescue!\nCheck quotes, definitions and translations with very simple commands."
-    knowledge_bot = KnowledgeBot(command_prefix=get_prefix, description=bot_description)
-
-    for filename in os.listdir(COGS_PATH):
-        if filename.endswith("py"):
-            extension = filename[:-3]
-            try:
-                knowledge_bot.load_extension(f"cogs.{extension}")
-            except Exception as e:
-                logger.error(f"Failed to load extension {extension}")
+    knowledge_bot = KnowledgeBot(
+        cogs_path=COGS_PATH,
+        command_prefix=_prefix_callable,
+        description=bot_description,
+    )
 
     # Client event loop initialisation
     knowledge_bot.run(TOKEN)

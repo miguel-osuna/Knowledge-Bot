@@ -52,6 +52,8 @@ class Language:
 
 
 class TranslateCog(commands.Cog, name="Translate"):
+    """ Bot translation cog. """
+
     def __init__(self, bot):
         """ Initialisation for TranslateCog instance. """
         self.bot = bot
@@ -76,7 +78,6 @@ class TranslateCog(commands.Cog, name="Translate"):
                         language["countryFlag"],
                     )
                     langs.append(new_lang)
-                    print(new_lang)
 
         except (FileNotFoundError, IOError) as e:
             logger.error(e)
@@ -231,26 +232,29 @@ class TranslateCog(commands.Cog, name="Translate"):
         This is similar to on_command_error() except only applying to the commands inside this cog.
         """
 
-        ignored = (commands.CommandNotFound,)
+        ignored = None
 
         if isinstance(error, ignored):
             return
 
+        else:
+            return
+
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
-        return super().cog_before_invoke(ctx)
+        return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
         """ A special method that acts as a cog local post-invoek hook. """
-        return super().cog_after_invoke(ctx)
+        return await super().cog_after_invoke(ctx)
 
     # Tasks
     @tasks.loop(seconds=10.0)
     async def printer(self):
-        logger.warning("This is a warning from translate_cog")
+        # logger.warning("This is a warning from translate_cog")
+        pass
 
     # Commands
-    @commands.guild_only()
     @commands.group(
         name="translate", aliases=["t"], help="Commands for text translation."
     )
@@ -736,4 +740,12 @@ class TranslateCog(commands.Cog, name="Translate"):
 
 
 def setup(bot):
+    """ Sets up the translate cog for the bot. """
+    logger.info("Loading Translate Cog")
     bot.add_cog(TranslateCog(bot))
+
+
+def teardown(bot):
+    """ Tears down the translate cog for the bot. """
+    logger.info("Unloading Translate Cog")
+    bot.remove_cog("cogs.translate_cog")
