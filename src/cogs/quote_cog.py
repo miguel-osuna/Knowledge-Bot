@@ -128,20 +128,6 @@ class QuoteCog(commands.Cog, name="Quote"):
         pass
 
     # Class Methods
-    async def cog_command_error(self, ctx, error):
-        """ A special method that is called whenever an error is dispatched inside this cog. 
-        
-        This is similar to on_command_error() except only applying to the commands inside this cog.
-        """
-
-        ignored = None
-
-        if isinstance(error, ignored):
-            return
-
-        else:
-            return
-
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
         await ctx.trigger_typing()
@@ -204,6 +190,7 @@ class QuoteCog(commands.Cog, name="Quote"):
         else:
             await ctx.send("Couldn't generate quote.")
 
+    @commands.guild_only()
     @quote.command(
         name="qotd",
         brief="Programs a quote of the day for the specified channels.",
@@ -256,43 +243,57 @@ class QuoteCog(commands.Cog, name="Quote"):
             # Notify couldn't detect the quote
             await ctx.send("Couldn't detect the quote.")
 
-    @quote.command(
+    @commands.guild_only()
+    @quote.group(
         name="status",
-        brief="Shows the status of the server or channels specified.",
-        help="Shows the status of the server or channels specified.",
+        brief="Shows quote status of the server.",
+        help="Shows the quote status of the server.",
+        invoke_without_commands=True,
     )
-    async def quote_status(
-        self, ctx, channels: commands.Greedy[discord.TextChannel] = "server"
+    async def quote_status(self, ctx):
+        server = ctx.guild.name
+        await ctx.send(f"Quote status for server `{server}`")
+
+    @commands.guild_only()
+    @quote_status.command(
+        name="channels",
+        brief="Shows the quote status of the channels specified.",
+        help="Shows the quote status of the channels specified.",
+    )
+    async def quote_status_channels(
+        self, ctx, channels: commands.Greedy[discord.TextChannel] = None
     ):
-        if channels != "server":
-            channel_str = ", ".join(["#" + channel.name for channel in channels])
+        if channels is not None:
+            channel_str = ", ".join(["`#" + channel.name + "`" for channel in channels])
             # Query the channels in the database
-            await ctx.send(f"Status for {channel_str}.")
+            await ctx.send(f"Quote status for {channel_str}.")
         else:
-            # Query the server in the database
-            server = channels
-            await ctx.send(f"Status for {server}.")
+            await ctx.send(f"Couldn't get status.")
 
     # Command Error Handling
-    @quote_list.error
-    async def quote_list_error(self, ctx, error):
-        pass
+    # @quote_list.error
+    # async def quote_list_error(self, ctx, error):
+    #     pass
 
-    @quote_generate.error
-    async def quote_generate_error(self, ctx, error):
-        pass
+    # @quote_generate.error
+    # async def quote_generate_error(self, ctx, error):
+    #     pass
 
-    @quote_qotd.error
-    async def quote_qotd_error(self, ctx, error):
-        pass
+    # @quote_qotd.error
+    # async def quote_qotd_error(self, ctx, error):
+    #     pass
 
-    @quote_detect.error
-    async def quote_detect_error(self, ctx, error):
-        pass
+    # @quote_detect.error
+    # async def quote_detect_error(self, ctx, error):
+    #     pass
 
-    @quote_status.error
-    async def quote_status_error(self, ctx, error):
-        pass
+    # @quote_status.error
+    # async def quote_status_error(self, ctx, error):
+    #     pass
+
+    # @quote_status_channels.error
+    # async def quote_status_channels_error(self, ctx, error):
+    #     pass
 
 
 def setup(bot):

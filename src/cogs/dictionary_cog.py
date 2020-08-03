@@ -122,20 +122,6 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         pass
 
     # Class Methods
-    async def cog_command_error(self, ctx, error):
-        """ A special method that is called whenever an error is dispatched inside this cog. 
-        
-        This is similar to on_command_error() except only applying to the commands inside this cog.
-        """
-
-        ignored = None
-
-        if isinstance(error, ignored):
-            return
-
-        else:
-            return
-
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
         await ctx.trigger_typing()
@@ -170,6 +156,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         except discord.HTTPException:
             pass
 
+    @commands.guild_only()
     @dictionary.command(
         name="definition",
         aliases=["def"],
@@ -184,6 +171,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         else:
             await ctx.send("Couldn't find a definition for [word].")
 
+    @commands.guild_only()
     @dictionary.command(
         name="noun",
         aliases=["n"],
@@ -193,6 +181,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
     async def dictionary_noun(self, ctx):
         pass
 
+    @commands.guild_only()
     @dictionary.command(
         name="adjective",
         aliases=["adj"],
@@ -202,6 +191,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
     async def dictionary_adjective(self, ctx):
         pass
 
+    @commands.guild_only()
     @dictionary.command(
         name="similar-spelling",
         aliases=["sim-spell"],
@@ -211,6 +201,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
     async def dictionary_similar_spelling(self, ctx):
         pass
 
+    @commands.guild_only()
     @dictionary.command(
         name="similar-sound",
         aliases=["sim-sound"],
@@ -220,6 +211,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
     async def dictionary_similar_sound(self, ctx):
         pass
 
+    @commands.guild_only()
     @dictionary.command(
         name="rhyme",
         brief="Provides a list of words that rhyme.",
@@ -228,6 +220,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
     async def dictionary_rhyme(self, ctx):
         pass
 
+    @commands.guild_only()
     @dictionary.command(
         name="wotd",
         brief="Programs a quote of the day for the specified channels.",
@@ -236,6 +229,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
     async def dictionary_wotd(self, ctx):
         pass
 
+    @commands.guild_only()
     @dictionary.command(
         name="show-word",
         aliases=["gen-word"],
@@ -246,37 +240,37 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         pass
 
     # Command Error Handling
-    @dictionary_definition.error
-    async def dictionary_definition_error(self, ctx, error):
-        pass
+    # @dictionary_definition.error
+    # async def dictionary_definition_error(self, ctx, error):
+    #     pass
 
-    @dictionary_noun.error
-    async def dicitonary_noun_error(self, ctx, error):
-        pass
+    # @dictionary_noun.error
+    # async def dicitonary_noun_error(self, ctx, error):
+    #     pass
 
-    @dictionary_adjective.error
-    async def dictionary_adjective_error(self, ctx, error):
-        pass
+    # @dictionary_adjective.error
+    # async def dictionary_adjective_error(self, ctx, error):
+    #     pass
 
-    @dictionary_similar_spelling.error
-    async def dictionary_similar_spelling_error(self, ctx, error):
-        pass
+    # @dictionary_similar_spelling.error
+    # async def dictionary_similar_spelling_error(self, ctx, error):
+    #     pass
 
-    @dictionary_similar_sound.error
-    async def dictionary_similar_sound_error(self, ctx, error):
-        pass
+    # @dictionary_similar_sound.error
+    # async def dictionary_similar_sound_error(self, ctx, error):
+    #     pass
 
-    @dictionary_rhyme.error
-    async def dictionary_rhyme_error(self, ctx, error):
-        pass
+    # @dictionary_rhyme.error
+    # async def dictionary_rhyme_error(self, ctx, error):
+    #     pass
 
-    @dictionary_wotd.error
-    async def dictionary_wotd_error(self, ctx, error):
-        pass
+    # @dictionary_wotd.error
+    # async def dictionary_wotd_error(self, ctx, error):
+    #     pass
 
-    @dictionary_generate_word.error
-    async def dictionary_generate_word_error(self, ctx, error):
-        pass
+    # @dictionary_generate_word.error
+    # async def dictionary_generate_word_error(self, ctx, error):
+    #     pass
 
 
 def setup(bot):

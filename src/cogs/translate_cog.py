@@ -226,22 +226,9 @@ class TranslateCog(commands.Cog, name="Translate"):
         pass
 
     # Class Methods
-    async def cog_command_error(self, ctx, error):
-        """ A special method that is called whenever an error is dispatched inside this cog. 
-        
-        This is similar to on_command_error() except only applying to the commands inside this cog.
-        """
-
-        ignored = None
-
-        if isinstance(error, ignored):
-            return
-
-        else:
-            return
-
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
+        # Setup database connections
         await ctx.trigger_typing()
         return await super().cog_before_invoke(ctx)
 
@@ -279,6 +266,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         # DM all the languages supported for translation
         await ctx.send("These are all the languages supported.")
 
+    @commands.guild_only()
     @translate.command(
         name="text",
         aliases=["txt"],
@@ -356,6 +344,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send("Please provide the correct arguments.")
 
+    @commands.guild_only()
     @translate.group(
         name="default",
         aliases=["dflt"],
@@ -390,6 +379,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send(f"Couldn't configure default language for server.")
 
+    @commands.guild_only()
     @translate_default.command(
         name="channels",
         aliases=["chl"],
@@ -425,6 +415,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send(f"Couldn't configure default language for server.")
 
+    @commands.guild_only()
     @translate.group(
         name="auto",
         brief="Enables or Disables automatic translation for the whole server.",
@@ -474,6 +465,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send(f"Couldn't configure auto translation.")
 
+    @commands.guild_only()
     @translate_auto.command(
         name="channels",
         aliases=["chn"],
@@ -527,6 +519,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send("Couldn't configure auto translation for the channels.")
 
+    @commands.guild_only()
     @translate_auto.command(
         name="members",
         aliases=["mbrs"],
@@ -571,6 +564,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send("Couldn't configure auto translation for the members.")
 
+    @commands.guild_only()
     @translate_auto.command(
         name="roles",
         aliases=["rl"],
@@ -613,6 +607,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send("Couldn't configure auto translation for the roles.")
 
+    @commands.guild_only()
     @translate.command(
         name="reaction",
         brief="Enables or Disables translation by country flag reactions.",
@@ -661,17 +656,19 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send(f"Couldn't configure reaction translation.")
 
+    @commands.guild_only()
     @translate.command(name="detect", help="Detects the language of a given message.")
     async def translate_detect(self, ctx, *, text: str = None):
         if text is not None:
             # Call translation function to detect the message
             language = "English"
 
-            await ctx.send(f"`{language}` detected on `{text}`.")
+            await ctx.send(f"`{language}` detected for `{text}`.")
 
         else:
             await ctx.send("Couldn't detect language.")
 
+    @commands.guild_only()
     @translate.group(
         name="status",
         brief="Shows the status of the server.",
@@ -683,6 +680,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         server = ctx.guild.name
         await ctx.send(f"Status for server {server}.")
 
+    @commands.guild_only()
     @translate_status.command(
         name="channels",
         brief="Shows the status of the the channels specified.",
@@ -702,6 +700,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send("Couldn't get status for channels.")
 
+    @commands.guild_only()
     @translate_status.command(
         name="members",
         brief="Shows the status of the members specified.",
@@ -718,6 +717,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         else:
             await ctx.send("Couldn't get status for members.")
 
+    @commands.guild_only()
     @translate_status.command(
         name="roles",
         brief="Shows the status of the roles specified.",
@@ -735,61 +735,61 @@ class TranslateCog(commands.Cog, name="Translate"):
             await ctx.send("Couldn't get status for roles.")
 
     # Command Error Handling
-    @translate_list.error
-    async def translate_list_error(self, ctx, error):
-        pass
+    # @translate_list.error
+    # async def translate_list_error(self, ctx, error):
+    #     pass
 
-    @translate_text.error
-    async def translate_text_error(self, ctx, error):
-        pass
+    # @translate_text.error
+    # async def translate_text_error(self, ctx, error):
+    #     pass
 
-    @translate_default.error
-    async def translate_default_error(self, ctx, error):
-        pass
+    # @translate_default.error
+    # async def translate_default_error(self, ctx, error):
+    #     pass
 
-    @translate_default_channels.error
-    async def translate_default_channels_error(self, ctx, error):
-        pass
+    # @translate_default_channels.error
+    # async def translate_default_channels_error(self, ctx, error):
+    #     pass
 
-    @translate_auto.error
-    async def translate_auto_error(self, ctx, error):
-        pass
+    # @translate_auto.error
+    # async def translate_auto_error(self, ctx, error):
+    #     pass
 
-    @translate_auto_channels.error
-    async def translate_auto_channels_error(self, ctx, error):
-        pass
+    # @translate_auto_channels.error
+    # async def translate_auto_channels_error(self, ctx, error):
+    #     pass
 
-    @translate_auto_members.error
-    async def translate_auto_members_error(self, ctx, error):
-        pass
+    # @translate_auto_members.error
+    # async def translate_auto_members_error(self, ctx, error):
+    #     pass
 
-    @translate_auto_roles.error
-    async def translate_auto_roles(self, ctx, error):
-        pass
+    # @translate_auto_roles.error
+    # async def translate_auto_roles(self, ctx, error):
+    #     pass
 
-    @translate_reaction.error
-    async def translate_reaction_error(self, ctx, error):
-        pass
+    # @translate_reaction.error
+    # async def translate_reaction_error(self, ctx, error):
+    #     pass
 
-    @translate_detect.error
-    async def translate_detect_error(self, ctx, error):
-        pass
+    # @translate_detect.error
+    # async def translate_detect_error(self, ctx, error):
+    #     pass
 
-    @translate_status.error
-    async def translate_status_error(self, ctx, error):
-        pass
+    # @translate_status.error
+    # async def translate_status_error(self, ctx, error):
+    #     pass
 
-    @translate_status_channels.error
-    async def translate_status_channels_error(self, ctx, error):
-        pass
+    # @translate_status_channels.error
+    # async def translate_status_channels_error(self, ctx, error):
+    #     pass
 
-    @translate_status_members.error
-    async def translate_status_members_error(self, ctx, error):
-        pass
+    # @translate_status_members.error
+    # async def translate_status_members_error(self, ctx, error):
+    #     pass
 
-    @translate_status_roles.error
-    async def translate_status_roles_error(self, ctx, error):
-        pass
+    # @translate_status_roles.error
+    # async def translate_status_roles_error(self, ctx, error):
+    #     pass
 
 
 def setup(bot):

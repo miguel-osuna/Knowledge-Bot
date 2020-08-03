@@ -2,6 +2,7 @@
 import os
 import random
 import datetime
+import textwrap
 
 # Third party imports
 import discord
@@ -48,7 +49,7 @@ class KnowledgeBot(commands.Bot):
                 try:
                     self.load_extension(f"cogs.{extension}")
                 except Exception as e:
-                    logger.error(f"Failed to load extension {extension} - {e}")
+                    logger.error(f"Failed to load extension {extension}\n{e}")
 
     # Bot Event Listeners
     async def on_ready(self):
@@ -65,7 +66,7 @@ class KnowledgeBot(commands.Bot):
         await self.change_presence(status=status, activity=activity, afk=False)
 
         print(
-            f"\nLogged in as '{self.user.name}' - (id: {self.user.id})\nVersion: {discord.__version__}\n"
+            f"\nLogged in as '{self.user.name}'\n(id: {self.user.id})\nVersion: {discord.__version__}\n"
         )
 
     async def on_guild_join(self, guild):
@@ -107,53 +108,61 @@ class KnowledgeBot(commands.Bot):
         if hasattr(ctx.command, "on_error"):
             return
 
-        # This prEvent Listeners any cogs with an overwritten cog_command
+        # This prevent any cogs with an overwritten cog_command
         if (
             ctx.cog is not None
             and ctx.cog._get_overridden_method(ctx.cog.cog_command_error) is not None
         ):
             return
 
-        ignored = None
+        ignored = (discord.Forbidden, discord.NotFound)
 
         # Allows us to check for original exceptions raised and set to CommandInvokeError.
         # If nothing is found, we keep the exception passed to on_command_error
         error = getattr(error, "original", error)
+
+        command_name = f"\bName: {ctx.command.qualified_name}\n"
+        author = f"Author: {ctx.author}\n"
+        location = f"Channel: {ctx.channel} (ID: {ctx.channel.id})\n"
+        if ctx.guild:
+            location += f"Guild: {ctx.guild} (ID: {ctx.guild.id})\n"
+        content = f"Content: {ctx.message.content}\n"
+
+        error_context = command_name + author + location + content
 
         # Anything in ignored will return and prevent anything happening.
         if isinstance(error, ignored):
             pass
 
         elif isinstance(error, commands.ConversionError):
-            logger.debug("Conversion Error")
+            logger.error(f"ConversionError\n{error_context}")
 
         elif isinstance(error, commands.MissingRequiredArgument):
-            logger.debug("Missing Required Argument")
+            logger.error(f"MissingRequiredArgument\n{error_context}")
 
         elif isinstance(error, commands.ArgumentParsingError):
-            logger.debug("Argument Parsing Error")
-            ctx.send(error)
+            logger.error(f"ArgumentParsingError\n{error_context}")
 
         elif isinstance(error, commands.UnexpectedQuoteError):
-            logger.debug("Unexpected Quote Error")
+            logger.error(f"UnexpectedQuoteError\n{error_context}")
 
         elif isinstance(error, commands.InvalidEndOfQuotedStringError):
-            logger.debug("Invalid End of Quoted String Error")
+            logger.error(f"InvalidEndOfQuotedStringError\n{error_context}")
 
         elif isinstance(error, commands.ExpectedClosingQuoteError):
-            logger.debug("Expected Closing Quote Error")
+            logger.error(f"ExpectedClosingQuoteError\n{error_context}")
 
         elif isinstance(error, commands.BadArgument):
-            logger.debug("Bad Argument")
+            logger.error(f"BadArgument\n{error_context}")
 
         elif isinstance(error, commands.BadUnionArgument):
-            logger.debug("Bad Union Argument")
+            logger.error(f"BadUnionArgument\n{error_context}")
 
         elif isinstance(error, commands.PrivateMessageOnly):
-            logger.debug("Private Message Only")
+            logger.error(f"PrivateMessageOnly\n{error_context}")
 
         elif isinstance(error, commands.NoPrivateMessage):
-            logger.debug(f"No Private Message - {ctx.cog}")
+            logger.error(f"NoPrivateMessage\n{error_context}")
             try:
                 await ctx.author.send(
                     f"`{ctx.command}` cannot be used in private messages."
@@ -162,78 +171,81 @@ class KnowledgeBot(commands.Bot):
                 pass
 
         elif isinstance(error, commands.CheckFailure):
-            logger.debug("Check Failure")
+            logger.error(f"CheckFailure\n{error_context}")
 
         elif isinstance(error, commands.CheckAnyFailure):
-            logger.debug("Check Any Failure")
+            logger.error(f"CheckAnyFailur\n{error_context}")
 
         elif isinstance(error, commands.DisabledCommand):
-            logger.debug("Disabled Command")
-            ctx.send(f"Sorry, {ctx.command} has been disabled and cannot be used.")
+            logger.error(f"DisabledCommand\n{error_context}")
+            await ctx.author.send(
+                f"Sorry, `{ctx.command}`` has been disabled and cannot be used."
+            )
+            await ctx.author.send(embed=e)
 
         elif isinstance(error, commands.CommandInvokeError):
-            logger.debug("Command Invoke Error")
+            logger.error(f"CommandInvokeError\n{error_context}")
             original = error.original
 
             if not isinstance(original, discord.HTTPException):
-                logger.debug(f"In {ctx.command.qualified_name}: {original}.")
+                logger.error(f"In {ctx.command.qualified_name}: {original}.")
 
         elif isinstance(error, commands.TooManyArguments):
-            logger.debug("Too Many Arguments")
+            logger.error(f"TooManyArguments\n{error_context}")
 
         elif isinstance(error, commands.UserInputError):
-            logger.debug("User Input Error")
+            logger.error(f"UserInputError\n{error_context}")
 
         elif isinstance(error, commands.CommandOnCooldown):
-            logger.debug("Command On Cooldown")
+            logger.error(f"CommandOnCooldown\n{error_context}")
 
         elif isinstance(error, commands.MaxConcurrencyReached):
-            logger.debug("Max Concurrency Reached")
+            logger.error(f"MaxConcurrencyReached\n{error_context}")
 
         elif isinstance(error, commands.NotOwner):
-            logger.debug("Not Owner")
+            logger.error(f"NotOwner\n{error_context}")
 
         elif isinstance(error, commands.MissingPermissions):
-            logger.debug("Missing Permissions")
+            logger.error(f"MissingPermissions\n{error_context}")
 
         elif isinstance(error, commands.BotMissingPermissions):
-            logger.debug("Bot Missing Permissions")
+            logger.error(f"BotMissingPermissions\n{error_context}")
 
         elif isinstance(error, commands.MissingRole):
-            logger.debug("Missing Role")
+            logger.error(f"MissingRole\n{error_context}")
 
         elif isinstance(error, commands.BotMissingRole):
-            logger.debug("Bot Missing Role")
+            logger.error(f"BotMissingRole\n{error_context}")
 
         elif isinstance(error, commands.MissingAnyRole):
-            logger.debug("Missing Any Role")
+            logger.error(f"MissingAnyRole\n{error_context}")
 
         elif isinstance(error, commands.BotMissingAnyRole):
-            logger.debug("Bot Missing Any Role")
+            logger.error(f"BotMissingAnyRole\n{error_context}")
 
         elif isinstance(error, commands.NSFWChannelRequired):
-            logger.debug("NSFW Channel Required")
+            logger.error(f"NSFWChannelRequired\n{error_context}")
 
         elif isinstance(error, commands.ExtensionError):
-            logger.debug("Extension Error")
+            logger.error(f"ExtensionError\n{error_context}")
 
         elif isinstance(error, commands.ExtensionAlreadyLoaded):
-            logger.debug("Extension Already Loaded")
+            logger.error(f"ExtensionAlreadyLoaded\n{error_context}")
 
         elif isinstance(error, commands.ExtensionNotLoaded):
-            logger.debug("Extension Not Loaded")
+            logger.error(f"ExtensionNotLoaded\n{error_context}")
 
         elif isinstance(error, commands.NoEntryPointError):
-            logger.debug("No Entry Point Error")
+            logger.error(f"NoEntryPointError\n{error_context}")
 
         elif isinstance(error, commands.ExtensionFailed):
-            logger.debug("Extension Failed")
+            logger.error(f"ExtensionFailed\n{error_context}")
 
         elif isinstance(error, commands.ExtensionNotFound):
-            logger.debug("Extension Not Found")
+            logger.error(f"ExtensionNotFound\n{error_context}")
 
         else:
-            logger.debug(f"Ignoring exception {error} in command {ctx.command}")
+            logger.error(f"Ignoring exception {error}\n{error_context}")
 
     async def on_command(self, ctx):
         """ Called when an command is found and is about to be invoked. 

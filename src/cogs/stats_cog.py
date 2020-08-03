@@ -28,20 +28,6 @@ class StatsCog(commands.Cog, name="Stats"):
     # Event listeners
 
     # Class Methods
-    async def cog_command_error(self, ctx, error):
-        """ A special method that is called whenever an error is dispatched inside this cog. 
-        
-        This is similar to on_command_error() except only applying to the commands inside this cog.
-        """
-
-        ignored = None
-
-        if isinstance(error, ignored):
-            return
-
-        else:
-            return
-
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
         await ctx.trigger_typing()()

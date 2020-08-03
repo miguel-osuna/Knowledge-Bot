@@ -8,6 +8,16 @@ from util.logger import generate_logger
 logger = generate_logger(__name__)
 
 
+class Prefix(commands.Converter):
+    """ Prefix argument converter for user input. """
+
+    async def convert(self, ctx, argument):
+        user_id = ctx.bot.user.id
+        if argument.startswith((f"<@{user_id}>", f"<@!{user_id}>")):
+            raise commands.BadArgument("That is a reserver prefix already in use.")
+        return argument
+
+
 class SettingsCog(commands.Cog, name="Settings"):
     def __init__(self, bot):
         """ Initialisation for SettingsCog instance. """
@@ -122,20 +132,6 @@ class SettingsCog(commands.Cog, name="Settings"):
         pass
 
     # Class Methods
-    async def cog_command_error(self, ctx, error):
-        """ A special method that is called whenever an error is dispatched inside this cog. 
-        
-        This is similar to on_command_error() except only applying to the commands inside this cog.
-        """
-
-        ignored = None
-
-        if isinstance(error, ignored):
-            return
-
-        else:
-            return
-
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
         await ctx.trigger_typing()
@@ -152,44 +148,6 @@ class SettingsCog(commands.Cog, name="Settings"):
         pass
 
     # Commands
-    @commands.is_owner()
-    @commands.command(name="load", help="Loads a specified extension/cog", hidden=True)
-    async def load_cog(self, ctx, *, cog: str):
-        """ Command which loads a module. """
-        try:
-            self.bot.load_extension(f"cogs.{cog}")
-        except Exception as e:
-            await ctx.send(f"**`ERROR`:** {type(e).__name__} - {e}")
-        else:
-            await ctx.send(f"**`SUCCESS`**")
-
-    @commands.is_owner()
-    @commands.command(
-        name="unload", help="Unloads a specified extension/cog", hidden=True
-    )
-    async def unload_cog(self, ctx, *, cog: str):
-        """ Command which unloads a module. """
-        try:
-            self.bot.unload_extension(f"cogs.{cog}")
-        except Exception as e:
-            await ctx.send(f"**`ERROR`:** {type(e).__name__} - {e}")
-        else:
-            await ctx.send(f"**`SUCCESS`**")
-
-    @commands.is_owner()
-    @commands.command(
-        name="reload", help="Reloads a specific extension/cog", hidden=True
-    )
-    async def reload_cog(self, ctx, *, cog: str):
-        """ Command which reloads a module. """
-        try:
-            self.bot.unload_extension(f"cogs.{cog}")
-            self.bot.load_extension(f"cogs.{cog}")
-        except Exception as e:
-            await ctx.send(f"**`ERROR`:** {type(e).__name__} - {e}")
-        else:
-            await ctx.send(f"**`SUCCESS`**")
-
     @commands.group(
         name="settings", aliases=["stgs"], help="Commands for bot server settings."
     )
@@ -202,28 +160,67 @@ class SettingsCog(commands.Cog, name="Settings"):
         except discord.HTTPException:
             pass
 
-    @settings.command(
+    @commands.group(
         name="prefix",
-        brief="Sets the bot prefix character",
-        help="Sets the bot prefix character. The default bot prefix is `=`.",
+        aliases=["prfx"],
+        help="Manages the servers's custom prefixes.",
+        invoke_without_command=True,
     )
-    async def settings_prefix(self, ctx, prefix: str = None):
-        if prefix != None:
-            # Get server from the database
+    async def prefix(self, ctx):
+        """ Manages the server's custom prefixes. 
+        
+        If called without a subcommand, this will list the currently set
+        prefixes
+        """
+        pass
 
-            # Set prefix for the server on the database
-            await ctx.send(f"Prefix `{prefix}` setup for bot commands.")
-        else:
-            await ctx.send(f"Couldn't setup prefix.")
+    @prefix.command(
+        name="add",
+        help="Appends a prefix to the list of custom prefixes",
+        ignore_extra=False,
+    )
+    async def prefix_add(self, ctx, prefix: Prefix):
+        """ Appends a prefix to the list of custom prefixes. 
 
-    # Command Error Handling
-    @settings_prefix.error
-    async def settings_prefix_error(self, ctx, error):
+        To have a word prefix, you should quote it and end it with a space, e.g.
+        "hello" to set the prefix to "hello'. This is because Discord removes
+        spaces when sending messages so the spaces are not preserved. 
+
+        Multi-word prefixes must be quoted also.
+
+        You must have manage server permission to use this command.
+        """
+        pass
+
+    @prefix.command(
+        name="remove",
+        help="Removes a prefix from the list of custom prefixes.",
+        ignore_extra=False,
+    )
+    async def prefix_remove(self, ctx, prefix: Prefix):
+        """ Removes a prefix from the list of custom prefixes.
+
+        This is the inverse of the 'prefix add' command. You can use
+        this command to remove prefixes from the default set as well.
+
+        You must have manage server permission to use this command.
+        """
+        pass
+
+    @prefix.command(name="clear", help="Removes all custom prefixes from the list")
+    async def prefix_clear(self, ctx):
+        """ Removes all custom previes from the list. 
+        
+        After this, the bot will listen to only metion prefixes.
+
+        You must have manage server permission to use this command.
+        """
         pass
 
 
 def setup(bot):
-    """" Sets up the settings cog for the bot. """
+    """ " Sets up the settings cog for the bot. """
+
     logger.info("Loading Settings Cog")
     bot.add_cog(SettingsCog(bot))
 
