@@ -11,8 +11,16 @@ from discord.ext import commands, tasks
 
 # Local applications
 from util.logger import generate_logger
+from paginator import Pages
 
 logger = generate_logger(__name__)
+
+
+class QuotePaginator(Pages):
+    """ Quote of the Day Status Paginator. """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 class QuoteCog(commands.Cog, name="Quote"):
@@ -82,10 +90,14 @@ class QuoteCog(commands.Cog, name="Quote"):
 
         return embed
 
-    def create_quote_detection_embed(self, is_quote_detected, quote, author):
+    def create_quote_detection_embed(self, quote, author, author_picture):
         """ Creates an embed to tell the user if a quote is found. """
         embed = discord.Embed(colour=discord.Colour.blue())
+        embed.title = f"Quote from *{author}*"
+        embed.description = f"```{quote}```"
+        embed.set_thumbnail(url=author_picture)
         embed.timestamp = datetime.utcnow()
+
         return embed
 
     def create_quote_of_the_day_embed(
@@ -106,12 +118,11 @@ class QuoteCog(commands.Cog, name="Quote"):
 
         return embed
 
-    def create_quote_status_embed(qotd_config_list):
-        """ Creates an embed to notice the user the status of quote of the day. """
-        embed = discord.Embed(colour=discord.Colour.blue())
-
-        for qotd_config in qotd_config_list:
-            embed.add_field(name="Status", value="Test")
+    def create_quote_status_embed(self, qotd_config_list):
+        """ Creates an paginator embed to show the quote of the day status. """
+        embed = discord.Embed(
+            title="Quote of the Day Status", colour=discord.Colour.blue()
+        )
 
         return embed
 
@@ -497,23 +508,13 @@ class QuoteCog(commands.Cog, name="Quote"):
                     channels = ctx.guild.channels
                     programmed_channels = "All channels"
 
-                # Format different variables
-                if status == "enable":
-                    programmed_status = "✅ " + status.lower().capitalize()
-                else:
-                    programmed_status = "❌ " + status.lower().capitalize()
-
+                status = status.lower().capitalize()
                 language = language.lower().capitalize()
                 author = author.lower().title()
                 category = category.lower().capitalize()
 
                 embed = self.create_quote_of_the_day_embed(
-                    programmed_status,
-                    programmed_channels,
-                    time,
-                    language,
-                    author,
-                    category,
+                    status, programmed_channels, time, language, author, category,
                 )
                 await ctx.send(embed=embed)
 
@@ -529,18 +530,19 @@ class QuoteCog(commands.Cog, name="Quote"):
         if quote is not None:
             # Look for the quote in the database and retrieve its author and its category
             quote_found = True
-            author = "Socrates"
-            category = "Philosophy"
 
             if quote_found:
-                # Notify the quote has been found
-                await ctx.send(
-                    f"Quote: `{quote}`.\nAuthor: `{author}`.\nCategory: `{category}`."
-                )
+                # Get the author and the author picture from the database
+                quote = "Never put off till tomorrow what may be done day after tomorrow just as well."
+                author = "Mark Twain"
+                author_picture = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Mark_Twain_by_AF_Bradley.jpg/220px-Mark_Twain_by_AF_Bradley.jpg"
+
+                embed = self.create_quote_detection_embed(quote, author, author_picture)
+
+                await ctx.send(embed=embed)
 
             else:
-                # Notify the quote hasn't been found
-                await ctx.send("Didn't find author or category of the quote.")
+                await ctx.send("Sorry, couldn't find an author for the quote.")
 
         else:
             # Notify couldn't detect the quote
