@@ -30,7 +30,7 @@ def generate_logger(module_name):
 
     # Create formatter and add it to handler
     formatter = logging.Formatter(
-        "[{asctime}] [{levelname}] {name}: {message}",
+        "[Line: {lineno}] [{asctime}] [{levelname}] {name}: {message}",
         datefmt="%Y-%m-%d %H:%M:%S",
         style="{",
     )

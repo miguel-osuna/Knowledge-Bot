@@ -25,19 +25,20 @@ class StatsCog(commands.Cog, name="Stats"):
     def __init__(self, bot):
         self.bot = bot
 
+    def create_embed(self):
+        pass
+
     # Event listeners
 
     # Class Methods
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
-        await ctx.trigger_typing()()
+        await ctx.trigger_typing()
         return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
         """ A special method that acts as a cog local post-invoke hook. """
         return await super().cog_after_invoke(ctx)
-
-    # Tasks
 
     # Commands
     @commands.command(name="uptime", help="Check the bots uptime")
@@ -48,6 +49,18 @@ class StatsCog(commands.Cog, name="Stats"):
     @commands.command(name="about", help="Tells information about the bot itself.")
     async def about(self, ctx):
         """ Tells you information about the bot itself. """
+        pass
+
+    @commands.command(name="version", help="Tells the version of the bot.")
+    async def version(self, ctx):
+        """ Tells the version of the bot. """
+        pass
+
+    @commands.command(
+        name="join", help="Sends a link to add Knowledge Bot to your server."
+    )
+    async def version(self, ctx):
+        """ Sends a link to add Knowledge Bot to your server. """
         pass
 
     @commands.guild_only()

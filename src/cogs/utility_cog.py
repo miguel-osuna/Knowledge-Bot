@@ -14,6 +14,8 @@ logger = generate_logger(__name__)
 
 
 class HelpPaginator(Pages):
+    """ Paginator for Custom Help Command. """
+
     def __init__(self, help_command, ctx, entries, *, per_page=4):
         super().__init__(ctx, entries=entries, per_page=per_page)
         self.reaction_emojis.append(
@@ -36,7 +38,9 @@ class HelpPaginator(Pages):
         self.embed.title = self.title
 
         if self.is_bot:
-            value = "For more help, join the official bot support server: https://discord.gg/DWEaqMy"
+            value = (
+                "For more help, join the official bot support server: https://xyz.com"
+            )
             self.embed.add_field(name="Support", value=value, inline=False)
 
         self.embed.set_footer(
@@ -55,7 +59,7 @@ class HelpPaginator(Pages):
             )
 
     async def show_help(self):
-        """shows this message"""
+        """ Shows this message. """
 
         self.embed.title = "Paginator help"
         self.embed.description = "Hello! Welcome to the help page."
@@ -132,6 +136,7 @@ class PaginatedHelpCommand(commands.HelpCommand):
             await ctx.send(str(error.original))
 
     def get_command_signature(self, command):
+        """ Retrievers the signature portion of a command. """
         parent = command.full_parent_name
         if len(command.aliases) > 0:
             aliases = "|".join(command.aliases)
@@ -144,6 +149,11 @@ class PaginatedHelpCommand(commands.HelpCommand):
         return f"{alias} {command.signature}"
 
     async def send_bot_help(self, mapping):
+        """ Handles the implementation of the bot command page in the help command. 
+
+        This function is called when the help command is called with no arguments. 
+        """
+
         def key(c):
             return c.cog_name or "\u200bNo Category"
 
@@ -160,17 +170,20 @@ class PaginatedHelpCommand(commands.HelpCommand):
 
             total += len(commands)
             actual_cog = bot.get_cog(cog)
-            # get the description if it exists (and the cog is valid) or return Empty embed.
+
+            # Get the description if it exists (and the cog is valid) or return Empty embed.
             description = (actual_cog and actual_cog.description) or discord.Embed.Empty
+
+            # Generate the pages for the cog commands
             nested_pages.extend(
                 (cog, description, commands[i : i + per_page])
                 for i in range(0, len(commands), per_page)
             )
 
-        # a value of 1 forces the pagination session
+        # A value of 1 forces the pagination session
         pages = HelpPaginator(self, self.context, nested_pages, per_page=1)
 
-        # swap the get_page implementation to work with our nested pages.
+        # Swap the get_page implementation to work with our nested pages.
         pages.get_page = pages.get_bot_page
         pages.is_bot = True
         pages.total = total
@@ -178,7 +191,14 @@ class PaginatedHelpCommand(commands.HelpCommand):
         await pages.paginate()
 
     async def send_cog_help(self, cog):
+        """ Handles the implementation of the cog page in the help command. 
+
+        This function is called when the help command is called with a cog as
+        the argument
+        """
         entries = await self.filter_commands(cog.get_commands(), sort=True)
+
+        # Create a Help Paginator by using the cog command entries
         pages = HelpPaginator(self, self.context, entries)
         pages.title = f"{cog.qualified_name} Commands"
         pages.description = cog.description
@@ -187,6 +207,7 @@ class PaginatedHelpCommand(commands.HelpCommand):
         await pages.paginate()
 
     def common_command_formatting(self, page_or_embed, command):
+        """ Creates a command format for a page or embed. """
         page_or_embed.title = self.get_command_signature(command)
         if command.description:
             page_or_embed.description = f"{command.description}\n\n{command.help}"
@@ -195,7 +216,7 @@ class PaginatedHelpCommand(commands.HelpCommand):
 
     async def send_command_help(self, command):
         # No pagination necessary for a single command.
-        embed = discord.Embed(colour=discord.Colour.blurple())
+        embed = discord.Embed(colour=discord.Colour.blue())
         self.common_command_formatting(embed, command)
         await self.context.send(embed=embed)
 

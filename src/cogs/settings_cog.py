@@ -217,6 +217,10 @@ class SettingsCog(commands.Cog, name="Settings"):
         """
         pass
 
+    @commands.command(name="", help="Command for for support server")
+    async def support(self, ctx):
+        """ Send invite to the support server of the bot via DM. """
+
 
 def setup(bot):
     """ " Sets up the settings cog for the bot. """

@@ -181,7 +181,6 @@ class KnowledgeBot(commands.Bot):
             await ctx.author.send(
                 f"Sorry, `{ctx.command}`` has been disabled and cannot be used."
             )
-            await ctx.author.send(embed=e)
 
         elif isinstance(error, commands.CommandInvokeError):
             logger.error(f"CommandInvokeError\n{error_context}")

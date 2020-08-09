@@ -106,6 +106,9 @@ class TranslateCog(commands.Cog, name="Translate"):
 
         return language_instance
 
+    def create_embed(self):
+        pass
+
     # Event Listeners
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -418,8 +421,8 @@ class TranslateCog(commands.Cog, name="Translate"):
     @commands.guild_only()
     @translate.group(
         name="auto",
-        brief="Enables or Disables automatic translation for the whole server.",
-        help="Enables or Disables automatic translation for the whole server.",
+        brief="Enables or disables automatic translation for the whole server.",
+        help="Enables or disables automatic translation for the whole server.",
         invoke_without_command=True,
     )
     async def translate_auto(
@@ -469,8 +472,8 @@ class TranslateCog(commands.Cog, name="Translate"):
     @translate_auto.command(
         name="channels",
         aliases=["chn"],
-        brief="Enables or Disables automatic translation for the channels specified.",
-        help="Enables or Disables automatic translation for the channels specified. Translates the specified languages into the channel's default languages. This overwrites any default language preset on the channels.",
+        brief="Enables or disables automatic translation for the channels specified.",
+        help="Enables or disables automatic translation for the channels specified. Translates the specified languages into the channel's default languages. This overwrites any default language preset on the channels.",
     )
     async def translate_auto_channels(
         self,
@@ -523,8 +526,8 @@ class TranslateCog(commands.Cog, name="Translate"):
     @translate_auto.command(
         name="members",
         aliases=["mbrs"],
-        brief="Enables or Disables automatic translation for specified members.",
-        help="Enables or Disables automatic translation for specified members.",
+        brief="Enables or disables automatic translation for specified members.",
+        help="Enables or disables automatic translation for specified members.",
     )
     async def translate_auto_members(
         self,
@@ -568,8 +571,8 @@ class TranslateCog(commands.Cog, name="Translate"):
     @translate_auto.command(
         name="roles",
         aliases=["rl"],
-        brief="Enables or Disables automatic translation for specified roles.",
-        help="Enables or Disables automatic translation for specified roles.",
+        brief="Enables or disables automatic translation for specified roles.",
+        help="Enables or disables automatic translation for specified roles.",
     )
     async def translate_auto_roles(
         self,
@@ -610,8 +613,8 @@ class TranslateCog(commands.Cog, name="Translate"):
     @commands.guild_only()
     @translate.command(
         name="reaction",
-        brief="Enables or Disables translation by country flag reactions.",
-        help="Enables or Disables translation by country flag reactions.",
+        brief="Enables or disables translation by country flag reactions.",
+        help="Enables or disables translation by country flag reactions.",
     )
     async def translate_reaction(
         self,
@@ -733,63 +736,6 @@ class TranslateCog(commands.Cog, name="Translate"):
 
         else:
             await ctx.send("Couldn't get status for roles.")
-
-    # Command Error Handling
-    # @translate_list.error
-    # async def translate_list_error(self, ctx, error):
-    #     pass
-
-    # @translate_text.error
-    # async def translate_text_error(self, ctx, error):
-    #     pass
-
-    # @translate_default.error
-    # async def translate_default_error(self, ctx, error):
-    #     pass
-
-    # @translate_default_channels.error
-    # async def translate_default_channels_error(self, ctx, error):
-    #     pass
-
-    # @translate_auto.error
-    # async def translate_auto_error(self, ctx, error):
-    #     pass
-
-    # @translate_auto_channels.error
-    # async def translate_auto_channels_error(self, ctx, error):
-    #     pass
-
-    # @translate_auto_members.error
-    # async def translate_auto_members_error(self, ctx, error):
-    #     pass
-
-    # @translate_auto_roles.error
-    # async def translate_auto_roles(self, ctx, error):
-    #     pass
-
-    # @translate_reaction.error
-    # async def translate_reaction_error(self, ctx, error):
-    #     pass
-
-    # @translate_detect.error
-    # async def translate_detect_error(self, ctx, error):
-    #     pass
-
-    # @translate_status.error
-    # async def translate_status_error(self, ctx, error):
-    #     pass
-
-    # @translate_status_channels.error
-    # async def translate_status_channels_error(self, ctx, error):
-    #     pass
-
-    # @translate_status_members.error
-    # async def translate_status_members_error(self, ctx, error):
-    #     pass
-
-    # @translate_status_roles.error
-    # async def translate_status_roles_error(self, ctx, error):
-    #     pass
 
 
 def setup(bot):

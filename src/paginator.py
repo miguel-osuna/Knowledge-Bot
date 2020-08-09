@@ -34,69 +34,57 @@ class Pages:
     """
 
     def __init__(self, ctx, *, entries, per_page=12, show_entry_count=True):
+        """ Initialisation for Page class instances. """
         self.bot = ctx.bot
         self.entries = entries
         self.message = ctx.message
         self.channel = ctx.channel
         self.author = ctx.author
         self.per_page = per_page
+
+        # Check if the number of entries is bigger than the number of entries per page
         pages, left_over = divmod(len(self.entries), self.per_page)
+
+        # If there are leftovers, add an additional page for them
         if left_over:
             pages += 1
+
+        # Check if
         self.maximum_pages = pages
-        self.embed = discord.Embed(colour=discord.Colour.blurple())
+        self.embed = discord.Embed(colour=discord.Colour.blue())
         self.paginating = len(entries) > per_page
         self.show_entry_count = show_entry_count
+
+        # Reaction map for the navigation
         self.reaction_emojis = [
-            (
-                "\N{BLACK LEFT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}",
-                self.first_page,
-            ),
+            ("\N{BLACK LEFT-POINTING DOUBLE TRIANGLE}", self.first_page,),
             ("\N{BLACK LEFT-POINTING TRIANGLE}", self.previous_page),
             ("\N{BLACK RIGHT-POINTING TRIANGLE}", self.next_page),
-            (
-                "\N{BLACK RIGHT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}",
-                self.last_page,
-            ),
+            ("\N{BLACK RIGHT-POINTING DOUBLE TRIANGLE}", self.last_page,),
             ("\N{INPUT SYMBOL FOR NUMBERS}", self.numbered_page),
             ("\N{BLACK SQUARE FOR STOP}", self.stop_pages),
             ("\N{INFORMATION SOURCE}", self.show_help),
         ]
 
-        if ctx.guild is not None:
-            self.permissions = self.channel.permissions_for(ctx.guild.me)
-        else:
-            self.permissions = self.channel.permissions_for(ctx.bot.user)
-
-        if not self.permissions.embed_links:
-            raise CannotPaginate("Bot does not have embed links permission.")
-
-        if not self.permissions.send_messages:
-            raise CannotPaginate("Bot cannot send messages.")
-
-        if self.paginating:
-            # verify we can actually use the pagination session
-            if not self.permissions.add_reactions:
-                raise CannotPaginate("Bot does not have add reactions permission.")
-
-            if not self.permissions.read_message_history:
-                raise CannotPaginate(
-                    "Bot does not have Read Message History permission."
-                )
-
     def get_page(self, page):
+        """ Gets the entries from a specific page. """
         base = (page - 1) * self.per_page
         return self.entries[base : base + self.per_page]
 
     def get_content(self, entries, page, *, first=False):
+        """ Gets the content from a page. """
         return None
 
     def get_embed(self, entries, page, *, first=False):
+        """ Gets embed for a page. """
         self.prepare_embed(entries, page, first=first)
         return self.embed
 
     def prepare_embed(self, entries, page, *, first=False):
+        """ Prepares embed for a page. """
         p = []
+
+        # Adds all the entries
         for index, entry in enumerate(entries, 1 + ((page - 1) * self.per_page)):
             p.append(f"{index}. {entry}")
 
@@ -110,62 +98,71 @@ class Pages:
 
         if self.paginating and first:
             p.append("")
-            p.append("Confused? React with \N{INFORMATION SOURCE} for more info.")
+            p.append("React with \N{INFORMATION SOURCE} for more information.")
 
         self.embed.description = "\n".join(p)
 
     async def show_page(self, page, *, first=False):
+        """ Shows the specified page with its entries. """
         self.current_page = page
         entries = self.get_page(page)
         content = self.get_content(entries, page, first=first)
         embed = self.get_embed(entries, page, first=first)
 
+        # Check if there is pagination
         if not self.paginating:
             return await self.channel.send(content=content, embed=embed)
 
+        # If message is not the first message sent, edit it with the new content and embed
         if not first:
             await self.message.edit(content=content, embed=embed)
             return
 
         self.message = await self.channel.send(content=content, embed=embed)
+
         for (reaction, _) in self.reaction_emojis:
             if self.maximum_pages == 2 and reaction in ("\u23ed", "\u23ee"):
-                # no |<< or >>| buttons if we only have two pages
-                # we can't forbid it if someone ends up using it but remove
-                # it from the default set
+                # Remove |<< and >>| if there are only two pages for the embed
+                # Users can still use it, but in this case, it won't have any effect
                 continue
 
             await self.message.add_reaction(reaction)
 
     async def checked_show_page(self, page):
+        """ Checks that the given page not exceed 
+        the min and max index of the whole entry pages. 
+        """
         if page != 0 and page <= self.maximum_pages:
             await self.show_page(page)
 
     async def first_page(self):
-        """goes to the first page"""
+        """ Goes to the first page. """
         await self.show_page(1)
 
     async def last_page(self):
-        """goes to the last page"""
+        """ Goes to the last page. """
         await self.show_page(self.maximum_pages)
 
     async def next_page(self):
-        """goes to the next page"""
+        """ Goes to the next page. """
         await self.checked_show_page(self.current_page + 1)
 
     async def previous_page(self):
-        """goes to the previous page"""
+        """ Goes to the previous page. """
         await self.checked_show_page(self.current_page - 1)
 
     async def show_current_page(self):
+        """ Shows the current index page. """
         if self.paginating:
             await self.show_page(self.current_page)
 
     async def numbered_page(self):
-        """lets you type a page number to go to"""
+        """ Lets you type a page number to go to. """
         to_delete = []
         to_delete.append(await self.channel.send("What page do you want to go to?"))
 
+        # Check if the content from the message is a digit
+        # or if it comes from author of the help command
         def message_check(m):
             return (
                 m.author == self.author
@@ -174,13 +171,18 @@ class Pages:
             )
 
         try:
+            # Waits from a message for 30 seconds
             msg = await self.bot.wait_for("message", check=message_check, timeout=30.0)
+
         except asyncio.TimeoutError:
-            to_delete.append(await self.channel.send("Took too long."))
+            to_delete.append(await self.channel.send("Sorry, took too long."))
             await asyncio.sleep(5)
+
         else:
             page = int(msg.content)
             to_delete.append(msg)
+
+            # Check the page number is within the range of pages available
             if page != 0 and page <= self.maximum_pages:
                 await self.show_page(page)
             else:
@@ -190,43 +192,51 @@ class Pages:
                     )
                 )
                 await asyncio.sleep(5)
-
         try:
+            # Delete all the messages sent previously
             await self.channel.delete_messages(to_delete)
         except Exception:
             pass
 
     async def show_help(self):
-        """shows this message"""
+        """ Shows this message. """
         messages = ["Welcome to the interactive paginator!\n"]
         messages.append(
             "This interactively allows you to see pages of text by navigating with "
             "reactions. They are as follows:\n"
         )
 
+        # Add reactions followed by their specific action to the message
         for (emoji, func) in self.reaction_emojis:
             messages.append(f"{emoji} {func.__doc__}")
 
+        # Reuse the embed that is available
         embed = self.embed.copy()
         embed.clear_fields()
         embed.description = "\n".join(messages)
         embed.set_footer(
             text=f"We were on page {self.current_page} before this message."
         )
+
+        # Edit the same message with the new embed
         await self.message.edit(content=None, embed=embed)
 
         async def go_back_to_current_page():
             await asyncio.sleep(60.0)
             await self.show_current_page()
 
+        # Go back to the page before this help message
         self.bot.loop.create_task(go_back_to_current_page())
 
     async def stop_pages(self):
-        """stops the interactive pagination session"""
+        """ Stops the interactive pagination session. """
         await self.message.delete()
         self.paginating = False
 
     def react_check(self, payload):
+        """ Check the reaction from the user. """
+
+        # If reaction user is different from the help command
         if payload.user_id != self.author.id:
             return False
 
@@ -234,27 +244,35 @@ class Pages:
             return False
 
         to_check = str(payload.emoji)
+
         for (emoji, func) in self.reaction_emojis:
             if to_check == emoji:
                 self.match = func
                 return True
+
         return False
 
     async def paginate(self):
-        """Actually paginate the entries and run the interactive loop if necessary."""
+        """ Actually paginate the entries and run the interactive loop if necessary. """
         first_page = self.show_page(1, first=True)
+
         if not self.paginating:
             await first_page
         else:
-            # allow us to react to reactions right away if we're paginating
+            # Allow us to react to reactions right away if we're paginating
             self.bot.loop.create_task(first_page)
 
+        # While embed is being paginated
         while self.paginating:
             try:
+                # Wait for a reaction to be added by the original user.
+                # The waiting time limit is 2 minutes
                 payload = await self.bot.wait_for(
                     "raw_reaction_add", check=self.react_check, timeout=120.0
                 )
             except asyncio.TimeoutError:
+                # After the 2 minutes, stop the pagination, and
+                # clear all the reactions from the message
                 self.paginating = False
                 try:
                     await self.message.clear_reactions()
@@ -264,6 +282,8 @@ class Pages:
                     break
 
             try:
+                # After the original user has reacted to the embed, try to remove it
+                # in order to keep the count in 1 for every emoji
                 await self.message.remove_reaction(
                     payload.emoji, discord.Object(id=payload.user_id)
                 )
@@ -274,7 +294,7 @@ class Pages:
 
 
 class FieldPages(Pages):
-    """Similar to Pages except entries should be a list of
+    """ Similar to Pages except entries should be a list of
     tuples having (key, value) to show as embed fields instead.
     """
 
@@ -282,6 +302,7 @@ class FieldPages(Pages):
         self.embed.clear_fields()
         self.embed.description = discord.Embed.Empty
 
+        # Add embed tuple entries as fields one by one
         for key, value in entries:
             self.embed.add_field(name=key, value=value, inline=False)
 
@@ -295,7 +316,7 @@ class FieldPages(Pages):
 
 
 class TextPages(Pages):
-    """Uses a commands.Paginator internally to paginate some text."""
+    """ Uses a commands.Paginator internally to paginate some text. """
 
     def __init__(self, ctx, text, *, prefix="```", suffix="```", max_size=2000):
         paginator = CommandPaginator(
