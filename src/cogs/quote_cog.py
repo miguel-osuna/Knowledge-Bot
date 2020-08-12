@@ -517,7 +517,7 @@ class QuoteCog(commands.Cog, name="Quote"):
                 await ctx.send(embed=embed)
 
         else:
-            await ctx.send("Couldn't quote of the day.")
+            await ctx.send("Couldn't setup quote of the day.")
 
     @quote.command(
         name="detect",
@@ -549,13 +549,13 @@ class QuoteCog(commands.Cog, name="Quote"):
     @commands.guild_only()
     @quote.group(
         name="status",
-        brief="Shows quote status of the server.",
+        brief="Shows the quote status of the server.",
         help="Shows the quote status of the server.",
         invoke_without_commands=True,
     )
     async def quote_status(self, ctx):
         server = ctx.guild.name
-        await ctx.send(f"Quote status for server `{server}`")
+        await ctx.send(f"Quote of the Day status for server `{server}`")
 
     @commands.guild_only()
     @quote_status.command(
@@ -569,7 +569,7 @@ class QuoteCog(commands.Cog, name="Quote"):
         if channels is not None:
             channel_str = ", ".join(["`#" + channel.name + "`" for channel in channels])
             # Query the channels in the database
-            await ctx.send(f"Quote status for {channel_str}.")
+            await ctx.send(f"Quote of the Day status for {channel_str}.")
         else:
             await ctx.send(f"Couldn't get status.")
 

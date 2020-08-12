@@ -103,8 +103,16 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
 
     def create_word_of_the_day_embed(self, status, channels, time, language):
         """ Creates an embed to to notice the user when a word of the day is programmed. """
-        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed = discord.Embed(
+            title="Word of the Day Setup", color=discord.Color.dark_purple()
+        )
+
+        embed.add_field(name="❓ Status", value=f"{status}\u200B\n", inline=False)
+        embed.add_field(name="💬 Channels", value=f"{channels}\u200B\n", inline=False)
+        embed.add_field(name="⌚ Time", value=f"{time}\u200B", inline=False)
+        embed.add_field(name="🌎 Language", value=f"{language}\u200B", inline=False)
         embed.timestamp = datetime.utcnow()
+
         return embed
 
     def create_word_status_embed(self):
@@ -623,19 +631,56 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
                 )
                 await ctx.send(embed=embed)
 
+        else:
+            await ctx.send("Couldn't setup word of the day.")
+
     @commands.guild_only()
     @dictionary.command(
-        name="show-word",
-        aliases=["gen-word"],
+        name="random-word",
+        aliases=["rand-wrd"],
         brief="Shows a random word with its definition",
         help="Shows a random word with its definition. This is done in english by default.",
     )
-    async def dictionary_generate_word(self, ctx):
+    async def dictionary_random_word(self, ctx):
         """ Shows a random word with its definition. 
 
         This is done in english by default. 
         """
-        pass
+        # Get a random word and its definition from the database
+        word = "bot"
+        definition = "An autonomous program on a network (especially the Internet) that can interact with computer systems or users, especially one designed to respond or behave like a player in an adventure game."
+
+        # Create embed from random word and definition
+        embed = self.create_definition_embed(word, definition)
+
+        await ctx.send(embed=embed)
+
+    @commands.guild_only()
+    @dictionary.group(
+        name="status",
+        brief="Shows the word of the day status of the server.",
+        help="Shows the word of the day status of the server.",
+        invoke_without_commands=True,
+    )
+    async def dictionary_status(self, ctx):
+        server = ctx.guild.name
+        await ctx.send(f"Word of the Day status for server `{server}`")
+
+    @commands.guild_only()
+    @dictionary_status.command(
+        name="channels",
+        brief="Shows the word of the day status of the channels specified.",
+        help="Shows the word of the day status of the channels specified.",
+    )
+    async def dictionary_status_channels(
+        self, ctx, channels: commands.Greedy[discord.TextChannel] = None
+    ):
+        if channels is not None:
+            channel_str = ", ".join(["`#" + channel.name + "`" for channel in channels])
+            # Query the channels in the database
+            await ctx.send(f"Word of the Day status for {channel_str}.")
+        else:
+            await ctx.send(f"Couldn't get Word of the Day status.")
 
 
 def setup(bot):
