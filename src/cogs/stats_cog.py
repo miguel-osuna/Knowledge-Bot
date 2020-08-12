@@ -2,8 +2,11 @@
 import typing
 import json
 import os
-from os.path import dirname, abspath, join
 import pdb
+import pytz
+from os.path import dirname, abspath, join
+from datetime import datetime
+from math import floor
 
 # Third party imports
 import discord
@@ -15,6 +18,7 @@ from util.logger import generate_logger
 
 BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
 LANGUAGES_PATH = join(BASE_PROJECT_PATH, "data", "input", "langs.json")
+VERSION = "v1.0"
 
 logger = generate_logger(__name__)
 
@@ -25,10 +29,94 @@ class StatsCog(commands.Cog, name="Stats"):
     def __init__(self, bot):
         self.bot = bot
 
-    def create_embed(self):
-        pass
+    def get_time_difference(self, start_datetime, end_datetime):
+        delta = end_datetime - start_datetime
+        months, remainder = divmod(delta.seconds, 60 * 60 * 24 * 30)
+        days, remainder = divmod(remainder, 60 * 60 * 24)
+        hours, remainder = divmod(remainder, 60 * 60)
+        minutes, remainder = divmod(remainder, 60)
+        seconds = remainder
 
-    # Event listeners
+        time_difference = "**{}** *months*, **{}** *days*, **{}** *hours*, **{}** *minutes*, **{}** *seconds*".format(
+            months, days, hours, minutes, seconds
+        )
+
+        return time_difference
+
+    def create_uptime_embed(self, start_datetime):
+        """ Creates an embed to show the total uptime of the bot. """
+        # Create the uptime string
+        end_datetime = datetime.utcnow()
+        uptime_string = self.get_time_difference(start_datetime, end_datetime)
+
+        # Create uptime embed
+        embed = discord.Embed(
+            title="⏱️ Knowledge Bot Uptime", color=discord.Color.dark_magenta()
+        )
+        embed.description = f"\n\n{uptime_string}"
+        embed.timestamp = end_datetime
+
+        return embed
+
+    def create_about_embed(
+        self,
+        server_invite_url,
+        members,
+        servers,
+        channels,
+        commands,
+        version,
+        start_datetime,
+    ):
+        """ Creates an embed to show information about the bot. """
+        embed = discord.Embed(color=discord.Color.dark_magenta())
+        embed.title = "🤖 Official Knowedge Bot Server Invite"
+        embed.url = server_invite_url
+        embed.description = "Knowledge Bot is a bot that offers you functionalities such as translation, dictionary, quote generation and more."
+
+        end_datetime = datetime.utcnow()
+        uptime_string = self.get_time_difference(start_datetime, end_datetime)
+        uptime_string = uptime_string.replace(", ", "\n")
+
+        # Create about embed
+        embed.add_field(name="👥 Members", value=f"**{members}** in total", inline=True)
+        embed.add_field(name="🖥️ Servers", value=f"**{servers}** in total", inline=True)
+        embed.add_field(
+            name="🌐 Channels", value=f"**{channels}** in total", inline=True
+        )
+        embed.add_field(name="❓ Status", value="Online", inline=True)
+        embed.add_field(name="⏱️ Uptime", value=f"{uptime_string}", inline=True)
+        embed.add_field(
+            name="⚙️ Commands", value=f"**{commands}** in total", inline=True
+        )
+
+        embed.set_footer(text=f"Knowledge Bot {version}")
+        embed.timestamp = end_datetime
+        return embed
+
+    def create_version_embed(self, version):
+        """ Creates an embed to show the bots version. """
+        embed = discord.Embed(color=discord.Color.dark_magenta())
+        embed.title = f"Knowledge Bot `{version}`"
+        embed.timestamp = datetime.utcnow()
+        return embed
+
+    def create_join_embed(self, version, bot_invite_url, server_invite_url):
+        """ Creates an embed that includes a bot invitation to a server. """
+        embed = discord.Embed(color=discord.Color.dark_magenta())
+        embed.title = "🤖 Add Knowledge Bot to your Discord Server!"
+        embed.description = "If you're interested in adding Knowledge Bot to your server, you'll find some links below to help you get started."
+        embed.add_field(
+            name="Knowledge Bot Invite", value=f"{bot_invite_url}", inline=False
+        )
+        embed.add_field(
+            name="Knowledge Bot Support Server",
+            value=f"{server_invite_url}",
+            inline=False,
+        )
+        embed.set_footer(text=f"Knowledge Bot {version}")
+        embed.timestamp = datetime.utcnow()
+        return embed
 
     # Class Methods
     async def cog_before_invoke(self, ctx):
@@ -44,24 +132,63 @@ class StatsCog(commands.Cog, name="Stats"):
     @commands.command(name="uptime", help="Check the bots uptime")
     async def uptime(self, ctx):
         """ Tells how long the bot has been up for. """
-        pass
+        # Get the stating datetime variable from the bots database
+        start_datetime = datetime(2020, 2, 10, 14, 40)
+
+        embed = self.create_uptime_embed(start_datetime)
+        await ctx.send(embed=embed)
 
     @commands.command(name="about", help="Tells information about the bot itself.")
     async def about(self, ctx):
         """ Tells you information about the bot itself. """
-        pass
+        # Embed variables
+        version = VERSION
+        start_datetime = datetime(2020, 2, 10, 14, 40)
+        server_invite_url = "https://discord.gg/kCYHENR"
+        total_members = len(self.bot.users)
+        commands = len(self.bot.commands)
+        guilds = 0
+        text_channels = 0
+
+        # Get every text channel from every guild the bot is in
+        for guild in self.bot.guilds:
+            guilds += 1
+            for channel in guild.channels:
+                if isinstance(channel, discord.TextChannel):
+                    text_channels += 1
+
+        # Create embed
+        embed = self.create_about_embed(
+            server_invite_url,
+            total_members,
+            guilds,
+            text_channels,
+            commands,
+            version,
+            start_datetime,
+        )
+        await ctx.send(embed=embed)
 
     @commands.command(name="version", help="Tells the version of the bot.")
     async def version(self, ctx):
         """ Tells the version of the bot. """
-        pass
+        # Get bot version
+        version = VERSION
+        embed = self.create_version_embed(version)
+        await ctx.send(embed=embed)
 
     @commands.command(
-        name="join", help="Sends a link to add Knowledge Bot to your server."
+        name="join",
+        aliases=["invite"],
+        help="Sends a link to add Knowledge Bot to your server.",
     )
-    async def version(self, ctx):
+    async def join(self, ctx):
         """ Sends a link to add Knowledge Bot to your server. """
-        pass
+        version = VERSION
+        bot_invite_url = "https://discord.com/api/oauth2/authorize?client_id=733908127497322517&permissions=8&scope=bot"
+        server_invite_url = "https://discord.gg/kCYHENR"
+        embed = self.create_join_embed(version, bot_invite_url, server_invite_url)
+        await ctx.send(embed=embed)
 
     @commands.guild_only()
     @commands.group(
@@ -70,7 +197,7 @@ class StatsCog(commands.Cog, name="Stats"):
         help="Shows command usage stats for the server or members.",
         invoke_without=True,
     )
-    async def stats(self, ctx, members: commands.Greedy[discord.Member]):
+    async def stats(self, ctx, members: commands.Greedy[discord.Member] = "server"):
         """ Shows command usage stats for the server or members. """
         pass
 
@@ -78,17 +205,17 @@ class StatsCog(commands.Cog, name="Stats"):
     @stats.command(
         name="global",
         aliases=["glb"],
-        help="Shows global command statistics from all time.",
+        help="Shows global command statistics for all the servers from all time.",
     )
     async def stats_global(self, ctx):
-        """ Shows global command statistics from all time. """
+        """ Shows global command statistics for all the servers from all time."""
         await ctx.send("These are the global stats from all time.")
 
     @commands.is_owner()
     @stats.command(
         name="today",
         aliases=["tdy"],
-        help="Shows global command statistics for the day.",
+        help="Shows global command statistics for all the servers from the day.",
     )
     async def stats_today(self, ctx):
         """ Shows global command statistics for the day. """

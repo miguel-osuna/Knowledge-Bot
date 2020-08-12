@@ -16,6 +16,7 @@ COGS_PATH = join(BASE_PROJECT_PATH, "src", "cogs")
 # Loads environmental variables
 load_dotenv(ENV_PATH)
 TOKEN = os.getenv("DISCORD_TOKEN")
+VERSION = os.getenv("VERSION")
 
 if __name__ == "__main__":
     print("config file")
