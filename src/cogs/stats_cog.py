@@ -130,7 +130,7 @@ class StatsCog(commands.Cog, name="Stats"):
 
         if ctx.invoked_subcommand is None:
             await ctx.send(
-                f"Incorrect usage. Use {ctx.prefix}help command-history for help."
+                f"Incorrect usage. Use `{ctx.prefix}help command-history` for help."
             )
         try:
             await ctx.message.delete()

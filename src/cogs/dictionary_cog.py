@@ -1,11 +1,24 @@
+# Standard library imports
+import typing
+import pytz
+from datetime import datetime
+
 # Third party imports
 import discord
 from discord.ext import commands, tasks
 
 # Local applications
 from util.logger import generate_logger
+from paginator import Pages
 
 logger = generate_logger(__name__)
+
+
+class WordPaginator(Pages):
+    """ Word of the Day Status Paginator. """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 class DictionaryCog(commands.Cog, name="Dictionary"):
@@ -14,8 +27,91 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         self.bot = bot
         self.printer.start()
 
-    def create_embed(self):
-        pass
+    def create_definition_embed(self, word, definition):
+        """ Creates an embed to show a word definition. """
+        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.title = "📖 Definition"
+        embed.description = f"**{word}**\n*noun* [C]\n*```{definition}```*"
+        embed.timestamp = datetime.utcnow()
+        return embed
+
+    def create_noun_embed(self, adjective, nouns_list):
+        """ Creates an embed to show nouns for an adjective. """
+        nouns_string = ", ".join([noun for noun in nouns_list])
+        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.title = f"Nouns for *{adjective}*"
+        embed.description = f"Found **{len(nouns_list)}** nouns:\n```{nouns_string}```"
+        embed.timestamp = datetime.utcnow()
+        return embed
+
+    def create_adjective_embed(self, noun, adjectives_list):
+        """ Creates an embed to show adjectives for a noun. """
+        adjectives_string = ", ".join([adjective for adjective in adjectives_list])
+        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.title = f"Adjectives for *{noun}*"
+        embed.description = (
+            f"Found **{len(adjectives_list)}** adjectives:\n```{adjectives_string}```"
+        )
+        embed.timestamp = datetime.utcnow()
+        return embed
+
+    def create_synonym_embed(self, word, synonyms_list):
+        """ Creates an embed to show synonyms of a word. """
+        synonyms_string = ", ".join([synonym for synonym in synonyms_list])
+        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.title = f"Synonyms for *{word}*"
+        embed.description = (
+            f"Found **{len(synonyms_list)}** synonyms:\n```{synonyms_string}```"
+        )
+        embed.timestamp = datetime.utcnow()
+        return embed
+
+    def create_antonym_embed(self, word, antonyms_list):
+        """ Creates an embed to show antonyms of a word. """
+        antonyms_string = ", ".join([antonym for antonym in antonyms_list])
+        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.title = f"Antonyms for *{word}*"
+        embed.description = (
+            f"Found **{len(antonyms_list)}** antonyms:\n```{antonyms_string}```"
+        )
+        embed.timestamp = datetime.utcnow()
+        return embed
+
+    def create_similar_embed(self, word, similar_list):
+        """ Creates an embed to show words with similar sound or spelling (homonyms/homographs). """
+
+        similar_string = ""
+        for index, value in enumerate((similar_list)):
+            similar_string += "{}. {}\n".format(index + 1, value["definition"])
+
+        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.title = f"Homonyms for *{word}*"
+        embed.description = f"Found **{len(similar_list)}** similar sounds or spelling words:\n```{similar_string}```"
+        embed.timestamp = datetime.utcnow()
+        return embed
+
+    def create_rhyme_embed(self, word, rhyme_list):
+        """ Creates an embed to show words that rhyme with a word. """
+        rhyme_string = ", ".join([rhyme for rhyme in rhyme_list])
+        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.title = f"Rhymes for *{word}*"
+        embed.description = (
+            f"Found **{len(rhyme_list)}** rhymes:\n ```{rhyme_string}```"
+        )
+        embed.timestamp = datetime.utcnow()
+        return embed
+
+    def create_word_of_the_day_embed(self, status, channels, time, language):
+        """ Creates an embed to to notice the user when a word of the day is programmed. """
+        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.timestamp = datetime.utcnow()
+        return embed
+
+    def create_word_status_embed(self):
+        """ Creates a paginator embed to show the word of the day status. """
+        embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.timestamp = datetime.utcnow()
+        return embed
 
     # Event Listeners
     @commands.Cog.listener()
@@ -152,7 +248,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         """Commands for dictionary search. Use `~help dictionary` to view subcommands."""
         if ctx.invoked_subcommand is None:
             await ctx.send(
-                f"Incorrect usage. Use {ctx.prefix}help dictionary for help."
+                f"Incorrect usage. Use `{ctx.prefix}help dictionary` for help."
             )
         try:
             await ctx.message.delete()
@@ -164,15 +260,45 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         name="definition",
         aliases=["def"],
         brief="Embeds a message with a word definition.",
-        help="Embeds a message with a word definition. The word search and the definition provided is done in english by default.",
+        help="Embeds a message with a word definition. The word and the definition provided are done in english by default.",
     )
     async def dictionary_definition(
         self, ctx, word=None, word_language="english", definition_language="english"
     ):
+        """ Embeds a message with a word definition. 
+        
+        The word and the definition provided are done in english by default. 
+        """
         if word != None:
-            await ctx.send("Definition for [word] is [definition].")
+
+            # Use function to check if the language is valid
+            is_word_language_valid = True
+
+            # Use function to check if the language is valid
+            is_definition_language_valid = True
+
+            if not is_word_language_valid or not is_definition_language_valid:
+                await ctx.send("Please provide supported languages.")
+
+            # Languages provided are valid
+            else:
+
+                # Check if the word exists
+                is_word_valid = True
+
+                if is_word_valid:
+                    # Get the word definition for the embed
+
+                    definition = "An autonomous program on a network (especially the Internet) that can interact with computer systems or users, especially one designed to respond or behave like a player in an adventure game."
+
+                    embed = self.create_definition_embed(word, definition)
+                    await ctx.send(embed=embed)
+
+                else:
+                    await ctx.send(f"Sorry, I couldn't find a definition for `{word}`.")
+
         else:
-            await ctx.send("Couldn't find a definition for [word].")
+            await ctx.send("Sorry, couldn't find a definition.")
 
     @commands.guild_only()
     @dictionary.command(
@@ -181,8 +307,47 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         brief="Provides a list of nouns for an adjective.",
         help="Provides a list of nouns for an adjective. This is done in english by default.",
     )
-    async def dictionary_noun(self, ctx):
-        pass
+    async def dictionary_noun(self, ctx, adjective=None):
+        """ Provides a list of nouns for an adjective. 
+
+        This is done in english by default. 
+        """
+        if adjective is not None:
+
+            # Use function to check if the word exists
+            is_adjective_valid = True
+
+            if is_adjective_valid:
+
+                # Get nouns list for the adjective
+                nouns = [
+                    "mother",
+                    "father",
+                    "baby",
+                    "lion",
+                    "tiger",
+                    "dog",
+                    "bird",
+                    "table",
+                    "coat",
+                    "boots",
+                    "city",
+                    "shop",
+                    "zoo",
+                    "pride",
+                    "respect",
+                    "love",
+                ]
+
+                # Create embed
+                embed = self.create_noun_embed(adjective, nouns)
+                await ctx.send(embed=embed)
+
+            else:
+                await ctx.send(f"Sorry, couldn't find adjectives for `{adjective}`")
+
+        else:
+            await ctx.send("Sorry, couldn't find adjectives for the noun")
 
     @commands.guild_only()
     @dictionary.command(
@@ -191,28 +356,172 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         brief="Provides a list of adjectives for a noun.",
         help="Provides a list of adjectives for a noun. This is done in english by default.",
     )
-    async def dictionary_adjective(self, ctx):
-        pass
+    async def dictionary_adjective(self, ctx, noun=None):
+        """ Provides a list of adjectives for a noun. 
+
+        This is done in english by default.
+        """
+        if noun is not None:
+
+            # Use function to check if the word exists
+            is_noun_valid = True
+
+            if is_noun_valid:
+
+                # Get adjectives list for the noun
+                adjectives = [
+                    "small",
+                    "wild",
+                    "ripe",
+                    "green",
+                    "yellow",
+                    "broad",
+                    "thick",
+                    "top",
+                    "huge",
+                    "single",
+                    "next",
+                    "edible",
+                    "whole",
+                ]
+
+                embed = self.create_adjective_embed(noun, adjectives)
+
+                await ctx.send(embed=embed)
+
+            else:
+                await ctx.send(f"Sorry, couldn't find nouns for `{noun}`.")
+
+        else:
+            await ctx.send("Sorry, couldn't find nouns for the adjective.")
 
     @commands.guild_only()
     @dictionary.command(
-        name="similar-spelling",
-        aliases=["sim-spell"],
-        brief="Provides a list of words that have a similar spelling.",
-        help="Provides a list of words that have a similar spelling as the given word. This is done in english by default.",
+        name="synonym",
+        aliases=["syn"],
+        brief="Provides a list of synonyms for the word given.",
+        help="Provides a list of synonyms for the word given. This is done in english by default.",
     )
-    async def dictionary_similar_spelling(self, ctx):
-        pass
+    async def dictionary_synonym(self, ctx, word=None):
+        """ Provides a list of synonyms for the word given. 
+        
+        This is done in english by default. 
+        """
+        if word is not None:
+
+            # CUse function to check if the word exists
+            is_word_valid = True
+
+            if is_word_valid:
+
+                # Get the synonyms
+                synonyms = [
+                    "little",
+                    "small-scale",
+                    "compact",
+                    "bijou",
+                    "portable",
+                    "tiny",
+                    "miniature",
+                    "mini",
+                    "minute",
+                    "micro",
+                ]
+
+                # Create embed
+                embed = self.create_synonym_embed(word, synonyms)
+                await ctx.send(embed=embed)
+
+            else:
+                await ctx.send(f"Sorry, couldn't find any synonyms for `{word}`.")
+
+        else:
+            await ctx.send("Sorry, couldn't find any synonyms.")
 
     @commands.guild_only()
     @dictionary.command(
-        name="similar-sound",
-        aliases=["sim-sound"],
-        brief="Provides a list of words that have a similar sound.",
-        help="Provides a list of words that have a similar sound as the given word. This is done in english by default.",
+        name="antonym",
+        aliases=["ant"],
+        brief="Provides a list of antonyms for the word given.",
+        help="Provides a list of antonyms for the word given. This is done in english by default.",
     )
-    async def dictionary_similar_sound(self, ctx):
-        pass
+    async def dictionary_antonym(self, ctx, word=None):
+        """ Provides a list of antonyms for the word given. 
+        
+        This is done in english by default. 
+        """
+        if word is not None:
+
+            # Use function to check if the word exists
+            is_word_valid = True
+
+            if is_word_valid:
+
+                # Get the antonyms
+                antonyms = [
+                    "big",
+                    "large",
+                    "heavily built",
+                    "tall",
+                    "generous",
+                    "ample",
+                    "major",
+                    "substantial",
+                ]
+
+                # Create embed
+                embed = self.create_antonym_embed(word, antonyms)
+                await ctx.send(embed=embed)
+
+            else:
+                await ctx.send(f"Sorry, couldn't find any antonyms for `{word}`")
+
+        else:
+            await ctx.send("Sorry, couldn't find any antonyms.")
+
+    @commands.guild_only()
+    @dictionary.command(
+        name="similar",
+        aliases=["sim"],
+        brief="Provides a list of words that have similar sound or spelling as the given word. (homonyms/homographs)",
+        help="Provides a list of words that have similar sound or spelling as the given word (homonyms/homographs). This is done in english by default.",
+    )
+    async def dictionary_similar(self, ctx, word=None):
+        """ Provides a list of words that have similar sound or spelling as the given word (homonyms/homographs).
+
+
+        This is done in english by default.
+        """
+        if word is not None:
+
+            # Use function to check if the word exists
+            is_word_valid = True
+
+            # Use function to check if the word has homographs (similar spelling words)
+            word_has_similar = True
+
+            if not is_word_valid or not word_has_similar:
+                await ctx.send(
+                    f"Sorry, couldn't find similar sounds or spelling words for `{word}`."
+                )
+
+            else:
+                # Get the homonyms/homographs (similar sound words/similar spelling words)
+                similar = [
+                    {
+                        "word": "bass",
+                        "definition": "any of numerous edible marine or freshwater bony fishes.",
+                    },
+                    {"word": "bass", "definition": "deep or grave in tone."},
+                    {"word": "bass", "definition": "a coarse tough fiber from palms."},
+                ]
+
+                # Create similar spelling embed
+                embed = self.create_similar_embed(word, similar)
+                await ctx.send(embed=embed)
+
+        else:
+            await ctx.send("Sorry, couldn't find similar spelling words.")
 
     @commands.guild_only()
     @dictionary.command(
@@ -220,8 +529,43 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         brief="Provides a list of words that rhyme.",
         help="Provides a list of words that rhyme with the given word. This is done in english by default.",
     )
-    async def dictionary_rhyme(self, ctx):
-        pass
+    async def dictionary_rhyme(self, ctx, word=None):
+        """ Provides a list of words that rhyme with the given word. 
+
+        This is done in english by default. 
+        """
+        if word is not None:
+
+            # Use function to check if the word exists
+            is_word_valid = True
+
+            # Use function to check if the word has rhymes
+            word_has_rhyme = True
+
+            if not is_word_valid or not word_has_rhyme:
+                await ctx.send(f"Sorry, couldn't find rhymes for `{word}`.")
+
+            else:
+                # Get the rhymes
+                rhymes = [
+                    "santa",
+                    "anna",
+                    "piano",
+                    "Indiana",
+                    "Montana",
+                    "Hannah",
+                    "nana",
+                    "americana",
+                    "bandanna",
+                    "cabana",
+                ]
+
+                # Create similar spelling embed
+                embed = self.create_rhyme_embed(word, rhymes)
+                await ctx.send(embed=embed)
+
+        else:
+            await ctx.send("Sorry, couldn't find similar spelling words.")
 
     @commands.guild_only()
     @dictionary.command(
@@ -229,8 +573,55 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         brief="Programs a quote of the day for the specified channels.",
         help="Programs a quote of the day for the specified channels. This is done in english by default.",
     )
-    async def dictionary_wotd(self, ctx):
-        pass
+    async def dictionary_wotd(
+        self,
+        ctx,
+        status=None,
+        language="english",
+        time=None,
+        channels: commands.Greedy[discord.TextChannel] = "server",
+    ):
+        """ Programs a quote of the day for the specified channels. 
+
+        This is done in english by default.
+        """
+        if status is not None and time is not None:
+            # Use function to check to validate time string passed. This can be implemented as a converter
+            is_time_valid = True
+
+            # Use function to check if the language is valid
+            is_language_valid = True
+
+            if status.lower() != "enable" and status.lower() != "disable":
+                await ctx.send("Sorry, wrong status given.")
+
+            elif not is_language_valid:
+                await ctx.send("Sorry, language is not valid.")
+
+            elif not is_time_valid:
+                await ctx.send("Sorry, wrong time format given.")
+
+            else:
+                # If no channels are specified
+                if channels != "server":
+                    programmed_channels = ", ".join(
+                        ["`#" + channel.name + "`" for channel in channels]
+                    )
+
+                # Setup the word of the day for all channels
+                else:
+                    # Get all the channels from the server
+                    channels = ctx.guild.channels
+                    programmed_channels = "All channels"
+
+                # Format everything
+                status = status.lower().capitalize()
+                language = language.lower().capitalize()
+
+                embed = self.create_word_of_the_day_embed(
+                    status, programmed_channels, time, language
+                )
+                await ctx.send(embed=embed)
 
     @commands.guild_only()
     @dictionary.command(
@@ -240,6 +631,10 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Shows a random word with its definition. This is done in english by default.",
     )
     async def dictionary_generate_word(self, ctx):
+        """ Shows a random word with its definition. 
+
+        This is done in english by default. 
+        """
         pass
 
 

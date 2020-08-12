@@ -154,7 +154,9 @@ class SettingsCog(commands.Cog, name="Settings"):
     async def settings(self, ctx):
         """Commands for bot server settings. Use `~help settings` to view subcommands."""
         if ctx.invoked_subcommand is None:
-            await ctx.send(f"Incorrect usage. Use {ctx.prefix}help settings for help.")
+            await ctx.send(
+                f"Incorrect usage. Use `{ctx.prefix}help settings` for help."
+            )
         try:
             await ctx.message.delete()
         except discord.HTTPException:

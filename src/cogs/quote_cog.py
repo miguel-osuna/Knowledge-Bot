@@ -1,6 +1,5 @@
 # Standard library imports
 import typing
-import pprint
 import pdb
 import pytz
 from datetime import datetime
@@ -119,7 +118,7 @@ class QuoteCog(commands.Cog, name="Quote"):
         return embed
 
     def create_quote_status_embed(self, qotd_config_list):
-        """ Creates an paginator embed to show the quote of the day status. """
+        """ Creates a paginator embed to show the quote of the day status. """
         embed = discord.Embed(
             title="Quote of the Day Status", colour=discord.Colour.blue()
         )
@@ -282,7 +281,7 @@ class QuoteCog(commands.Cog, name="Quote"):
     async def quote(self, ctx):
         """Commands for quote generation. Use `~help quote` to view subcommands."""
         if ctx.invoked_subcommand is None:
-            await ctx.send(f"Incorrect usage. Use {ctx.prefix}help quote for help.")
+            await ctx.send(f"Incorrect usage. Use `{ctx.prefix}help quote` for help.")
         try:
             await ctx.message.delete()
         except discord.HTTPException:
@@ -318,10 +317,9 @@ class QuoteCog(commands.Cog, name="Quote"):
         self, ctx, language="en", *, category_or_author: str = None,
     ):
         if category_or_author is not None:
-            # Mock variables
+            # Check if the quote and authors are in the database
             category_or_author_in_database = True
 
-            # Check if the quote and authors are in the database
             if category_or_author_in_database:
 
                 # Get random quote from the database according to the author or category
@@ -376,10 +374,9 @@ class QuoteCog(commands.Cog, name="Quote"):
         category_or_author: str = None,
     ):
         if category_or_author is not None:
-            # Mock variables
+            # Check if the category or author is in the database
             category_or_author_in_database = True
 
-            # Check if the category or author is in the database
             if category_or_author_in_database:
 
                 # Get `quote_entries` number of quotes from the database
@@ -502,12 +499,13 @@ class QuoteCog(commands.Cog, name="Quote"):
                         ["`#" + channel.name + "`" for channel in channels]
                     )
 
-                # Setup the quote of the day in all channels
+                # Setup the quote of the day for all channels
                 else:
                     # Get all the channels from the server
                     channels = ctx.guild.channels
                     programmed_channels = "All channels"
 
+                # Format everything
                 status = status.lower().capitalize()
                 language = language.lower().capitalize()
                 author = author.lower().title()

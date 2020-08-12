@@ -253,7 +253,9 @@ class TranslateCog(commands.Cog, name="Translate"):
         """ Commands for text translation. Use `~help translate` to view subcommands."""
 
         if ctx.invoked_subcommand is None:
-            await ctx.send(f"Incorrect usage. Use {ctx.prefix}help translate for help.")
+            await ctx.send(
+                f"Incorrect usage. Use `{ctx.prefix}help translate` for help."
+            )
         try:
             await ctx.message.delete()
         except discord.HTTPException:
