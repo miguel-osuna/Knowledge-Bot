@@ -144,7 +144,7 @@ class StatsCog(commands.Cog, name="Stats"):
         # Embed variables
         version = VERSION
         start_datetime = datetime(2020, 2, 10, 14, 40)
-        server_invite_url = "https://discord.gg/kCYHENR"
+        server_invite_url = "https://discord.gg/n6ubSZS"
         total_members = len(self.bot.users)
         commands = len(self.bot.commands)
         guilds = 0
@@ -186,7 +186,7 @@ class StatsCog(commands.Cog, name="Stats"):
         """ Sends a link to add Knowledge Bot to your server. """
         version = VERSION
         bot_invite_url = "https://discord.com/api/oauth2/authorize?client_id=733908127497322517&permissions=8&scope=bot"
-        server_invite_url = "https://discord.gg/kCYHENR"
+        server_invite_url = "https://discord.gg/n6ubSZS"
         embed = self.create_join_embed(version, bot_invite_url, server_invite_url)
         await ctx.send(embed=embed)
 
