@@ -2,8 +2,9 @@
 import typing
 import json
 import os
-from os.path import dirname, abspath, join
 import pdb
+from os.path import dirname, abspath, join
+from datetime import datetime
 
 # Third party imports
 import discord
@@ -11,6 +12,7 @@ from discord.ext import commands, tasks
 
 # Local applications
 from util.logger import generate_logger
+from paginator import Pages
 
 
 BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
@@ -48,7 +50,12 @@ class Language:
         """ Returns the hash value of an instance. """
         return hash(self.__key())
 
-    # Add class converter for discord arguments
+
+class TranslateListPaginator(Pages):
+    """ Translate List Paginator. """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 class TranslateCog(commands.Cog, name="Translate"):
@@ -106,8 +113,38 @@ class TranslateCog(commands.Cog, name="Translate"):
 
         return language_instance
 
-    def create_embed(self):
-        pass
+    def create_translate_list_embed(self, language_list):
+        """ Creates embed to show list of supported languages. """
+
+        # Generate value strings for embed
+        name_string = ""
+        code_string = ""
+        country_flags_string = ""
+
+        for language in language_list:
+            name_string += language.language_name + "\n"
+            code_string += language.language_code + "\n"
+            country_flags_string += language.country_flags[:3] + "\n"
+
+        # Create Discord embed
+        embed = discord.Embed(color=discord.Color.purple())
+        embed.title = "🗺️ Supported Languages"
+        embed.description = f"This is a list of all the supported languages with their respective name, language code and country flags.\n"
+        embed.add_field(name="Name", value=f"{name_string}")
+        embed.add_field(name="Language Code", value=f"{code_string}")
+        embed.add_field(name="Country Flags", value=f"{country_flags_string}")
+        embed.timestamp = datetime.utcnow()
+
+        return embed
+
+    def create_translate_text_embed(
+        self, author_name, author_img, original_text, translated_text
+    ):
+        embed = discord.Embed(color=discord.Color.purple())
+        embed.set_author(name=author_name, url=author_img)
+        embed.timestamp = datetime.utcnow()
+
+        return embed
 
     # Event Listeners
     @commands.Cog.listener()
@@ -264,12 +301,14 @@ class TranslateCog(commands.Cog, name="Translate"):
     @translate.command(
         name="list",
         aliases=["ls"],
-        brief="Sends a list of a ll languages supported.",
-        help="Sends a list of all languages supported.",
+        brief="Sends a list of all supported languages.",
+        help="Sends a list of all supported languages.",
     )
     async def translate_list(self, ctx):
-        # DM all the languages supported for translation
-        await ctx.send("These are all the languages supported.")
+        """ Sends a list of all supported languages. """
+        # Send an embed to the author of the message
+        embed = self.create_translate_list_embed(self.supported_languages)
+        await ctx.author.send(embed=embed)
 
     @commands.guild_only()
     @translate.command(
@@ -279,6 +318,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         help="Translates a sentence from one language to another.",
     )
     async def translate_text(self, ctx, languages=None, *, text: str = None):
+        """ Translate a sentence from one language to another. """
         if languages is not None and text is not None:
             # Check if theres a colon present in the languages specified by the user
             try:
@@ -334,17 +374,26 @@ class TranslateCog(commands.Cog, name="Translate"):
                     await ctx.send("Please provide supported languages.")
 
                 # Send message if from_language is found inside to_languages
-                if languages_repeat:
+                elif languages_repeat:
                     await ctx.send("Please make sure to not repeat any languages.")
 
-                if are_languages_valid and not languages_repeat:
+                else:
                     # Remove any repeated languages to avoid over translations
                     to_languages = list(set(to_languages))
 
                     # Perform translation
+                    author_name = ctx.author.name
+                    author_img = ctx.author.avatar_url
+                    original_text = "test"
+                    translated_text = "prueba"
+
+                    # Create translation embed
+                    embed = self.create_translate_text_embed(
+                        author_name, author_img, original_text, translated_text
+                    )
 
                     # Send message with the translation
-                    await ctx.send(f"{ctx.author}: {text}")
+                    await ctx.send(embed=embed)
 
         else:
             await ctx.send("Please provide the correct arguments.")

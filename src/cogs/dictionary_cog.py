@@ -39,7 +39,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         """ Creates an embed to show nouns for an adjective. """
         nouns_string = ", ".join([noun for noun in nouns_list])
         embed = discord.Embed(color=discord.Color.dark_purple())
-        embed.title = f"Nouns for *{adjective}*"
+        embed.title = f"📖 Nouns for *{adjective}*"
         embed.description = f"Found **{len(nouns_list)}** nouns:\n```{nouns_string}```"
         embed.timestamp = datetime.utcnow()
         return embed
@@ -48,7 +48,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         """ Creates an embed to show adjectives for a noun. """
         adjectives_string = ", ".join([adjective for adjective in adjectives_list])
         embed = discord.Embed(color=discord.Color.dark_purple())
-        embed.title = f"Adjectives for *{noun}*"
+        embed.title = f"📖 Adjectives for *{noun}*"
         embed.description = (
             f"Found **{len(adjectives_list)}** adjectives:\n```{adjectives_string}```"
         )
@@ -59,7 +59,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         """ Creates an embed to show synonyms of a word. """
         synonyms_string = ", ".join([synonym for synonym in synonyms_list])
         embed = discord.Embed(color=discord.Color.dark_purple())
-        embed.title = f"Synonyms for *{word}*"
+        embed.title = f"📖 Synonyms for *{word}*"
         embed.description = (
             f"Found **{len(synonyms_list)}** synonyms:\n```{synonyms_string}```"
         )
@@ -70,7 +70,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         """ Creates an embed to show antonyms of a word. """
         antonyms_string = ", ".join([antonym for antonym in antonyms_list])
         embed = discord.Embed(color=discord.Color.dark_purple())
-        embed.title = f"Antonyms for *{word}*"
+        embed.title = f"📖 Antonyms for *{word}*"
         embed.description = (
             f"Found **{len(antonyms_list)}** antonyms:\n```{antonyms_string}```"
         )
@@ -85,7 +85,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
             similar_string += "{}. {}\n".format(index + 1, value["definition"])
 
         embed = discord.Embed(color=discord.Color.dark_purple())
-        embed.title = f"Homonyms for *{word}*"
+        embed.title = f"📖 Homonyms for *{word}*"
         embed.description = f"Found **{len(similar_list)}** similar sounds or spelling words:\n```{similar_string}```"
         embed.timestamp = datetime.utcnow()
         return embed
@@ -94,7 +94,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         """ Creates an embed to show words that rhyme with a word. """
         rhyme_string = ", ".join([rhyme for rhyme in rhyme_list])
         embed = discord.Embed(color=discord.Color.dark_purple())
-        embed.title = f"Rhymes for *{word}*"
+        embed.title = f"📖 Rhymes for *{word}*"
         embed.description = (
             f"Found **{len(rhyme_list)}** rhymes:\n ```{rhyme_string}```"
         )
@@ -104,7 +104,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
     def create_word_of_the_day_embed(self, status, channels, time, language):
         """ Creates an embed to to notice the user when a word of the day is programmed. """
         embed = discord.Embed(
-            title="Word of the Day Setup", color=discord.Color.dark_purple()
+            title="📖 Word of the Day Setup", color=discord.Color.dark_purple()
         )
 
         embed.add_field(name="❓ Status", value=f"{status}\u200B\n", inline=False)
