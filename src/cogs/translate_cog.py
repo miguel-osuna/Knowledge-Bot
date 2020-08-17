@@ -141,9 +141,26 @@ class TranslateCog(commands.Cog, name="Translate"):
         self, author_name, author_img, original_text, translated_text
     ):
         embed = discord.Embed(color=discord.Color.purple())
-        embed.set_author(name=author_name, url=author_img)
+        embed.set_author(name=author_name, icon_url=author_img)
+        embed.description = f"**{translated_text}**\n*{original_text}*"
         embed.timestamp = datetime.utcnow()
+        return embed
 
+    def create_translate_default(
+        self, default_language, server_name, lang_already_setup
+    ):
+        embed = discord.Embed()
+
+        if lang_already_setup:
+            embed.description = f"❌ Sorry, **{default_language}** is already setup for **{server_name}** server."
+            embed.color = discord.Color.orange()
+        else:
+            embed.description = (
+                f"✅ **{default_language}** setup for **{server_name}** server."
+            )
+            embed.color = discord.Color.green()
+
+        embed.timestamp = datetime.utcnow()
         return embed
 
     # Event Listeners
@@ -382,10 +399,10 @@ class TranslateCog(commands.Cog, name="Translate"):
                     to_languages = list(set(to_languages))
 
                     # Perform translation
+                    original_text = text
+                    translated_text = "Translated text"
                     author_name = ctx.author.name
                     author_img = ctx.author.avatar_url
-                    original_text = "test"
-                    translated_text = "prueba"
 
                     # Create translation embed
                     embed = self.create_translate_text_embed(
@@ -402,17 +419,23 @@ class TranslateCog(commands.Cog, name="Translate"):
     @translate.group(
         name="default",
         aliases=["dflt"],
-        brief="Sets default language for the whole server.",
-        help="Sets default language for the whole server. This overwrites any default language preset on the channels.",
+        brief="Sets a default language of the server.",
+        help="Sets a default language of the server. This doesn't overwrites any default language preset on the channels.",
         invoke_without_command=True,
     )
     async def translate_default(
         self, ctx, default_language=None,
     ):
+        """ Sets a default language of the server. 
+        
+        This doesn't overwrites any default language preset on the channels.
+        By default, every server starts with English as its default language. 
+        """
         if default_language is not None:
             # Generate a Language class instance
             def_lang = self.create_language(default_language)
-            guild_str = ctx.guild.name
+            guild_str = ctx.guild.name.split(" ")[0]
+            print(guild_str)
 
             # Check if the language is supported
             if not self.is_language_supported(def_lang):
@@ -421,15 +444,26 @@ class TranslateCog(commands.Cog, name="Translate"):
             else:
                 # Get the server from the database
 
-                # Get the server channels from the database
+                # Get the server's default language from the database
+                server_def_lang = "english"
 
-                # Set the default language for the server, and also for all its channels.
-                # This overwrites the channels default languages
+                # Check if the server's default language is the same as the
+                # passed default language
+                if def_lang.language_name == server_def_lang:
+                    lang_already_setup = True
 
-                # Notify the that the default language has been setup
-                await ctx.send(
-                    f"`{def_lang}` setup as default language for `{guild_str}` server."
+                else:
+                    lang_already_setup = False
+
+                    # Set the default language for the server.
+                    server_def_lang = def_lang.language_name
+
+                # Send embed to notice user
+                embed = self.create_translate_default(
+                    server_def_lang.capitalize(), guild_str, lang_already_setup
                 )
+
+                await ctx.send(embed=embed)
         else:
             await ctx.send(f"Couldn't configure default language for server.")
 
@@ -437,8 +471,8 @@ class TranslateCog(commands.Cog, name="Translate"):
     @translate_default.command(
         name="channels",
         aliases=["chl"],
-        brief="Sets default language for specified channels.",
-        help="Sets default language for specified channels. ",
+        brief="Sets a default language for specified the channels.",
+        help="Sets a default language for specified the channels. ",
     )
     async def translate_default_channels(
         self,
@@ -446,6 +480,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         channels: commands.Greedy[discord.TextChannel] = None,
         default_language=None,
     ):
+        """ Sets a default for the specified channels. """
         if default_language is not None and channels is not None:
 
             # Generate a Language class instance
