@@ -536,7 +536,6 @@ class QuoteCog(commands.Cog, name="Quote"):
                 author_picture = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Mark_Twain_by_AF_Bradley.jpg/220px-Mark_Twain_by_AF_Bradley.jpg"
 
                 embed = self.create_quote_detection_embed(quote, author, author_picture)
-
                 await ctx.send(embed=embed)
 
             else:

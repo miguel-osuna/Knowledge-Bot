@@ -244,9 +244,10 @@ class TranslateCog(commands.Cog, name="Translate"):
         embed.timestamp = datetime.utcnow()
         return embed
 
-    def create_translate_detect_embed(self):
+    def create_translate_detect_embed(self, message, language_name, language_code):
         embed = discord.Embed(color=discord.Color.green())
-        embed.title = "🌎 Language Detection"
+        embed.title = "🔎 Language Detection"
+        embed.description = f"Language Detected: **{language_name}** (***{language_code}***)\n\n*{message}*"
         embed.timestamp = datetime.utcnow()
         return embed
 
@@ -875,7 +876,7 @@ class TranslateCog(commands.Cog, name="Translate"):
                 # If the country flags are already disabled, don't do anything
 
                 # Notify the languages that were successfuly configured for translation by reaction
-                await ctx.send(
+                await ctx.author.send(
                     f"Reaction translation {status}d on `{channel_str}` for {setup_languages}."
                 )
         else:
@@ -886,9 +887,13 @@ class TranslateCog(commands.Cog, name="Translate"):
     async def translate_detect(self, ctx, *, text: str = None):
         if text is not None:
             # Call translation function to detect the message
-            language = "English"
+            language = self.create_language("english")
 
-            await ctx.send(f"`{language}` detected for `{text}`.")
+            embed = self.create_translate_detect_embed(
+                text, language.language_name.capitalize(), language.language_code
+            )
+
+            await ctx.send(embed=embed)
 
         else:
             await ctx.send("Couldn't detect language.")
