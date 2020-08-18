@@ -1,0 +1,214 @@
+[Line: 236] [2020-08-17 13:29:03] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 13:51:08] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 13:51:09] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 840] [2020-08-17 13:51:09] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 13:51:09] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 13:51:09] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 13:53:23] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 13:53:23] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 846] [2020-08-17 13:53:23] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 13:53:23] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 13:53:23] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 13:53:25] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 13:53:25] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 840] [2020-08-17 13:53:25] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 13:53:25] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 13:53:25] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 14:03:57] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 14:03:57] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 846] [2020-08-17 14:03:57] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 14:03:57] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 14:03:57] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 14:06:34] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 14:06:34] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 844] [2020-08-17 14:06:34] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 14:06:34] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 14:06:34] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:02:09] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:02:09] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 850] [2020-08-17 15:02:09] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:02:09] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:02:09] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:06:13] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:06:13] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 899] [2020-08-17 15:06:13] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:06:13] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:06:13] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:06:17] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:06:17] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 905] [2020-08-17 15:06:17] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:06:17] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:06:17] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:18:06] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:18:06] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 896] [2020-08-17 15:18:06] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:18:06] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:18:06] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 247] [2020-08-17 15:18:25] [ERROR] __main__: Ignoring exception 'Language' object has no attribute 'is_language_supported'
+Name: translate auto
+Author: Mickey#3143
+Channel: real-python (ID: 734026678199910410)
+Guild: test guild (ID: 733910181280219230)
+Content: ~translate auto enable english
+
+[Line: 295] [2020-08-17 15:19:01] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:19:01] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 902] [2020-08-17 15:19:01] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:19:01] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:19:01] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:19:02] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:19:02] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 896] [2020-08-17 15:19:02] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:19:02] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:19:02] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 247] [2020-08-17 15:19:25] [ERROR] __main__: Ignoring exception 'Language' object has no attribute 'is_language_supported'
+Name: translate auto
+Author: Mickey#3143
+Channel: real-python (ID: 734026678199910410)
+Guild: test guild (ID: 733910181280219230)
+Content: ~translate auto enable en,es
+
+[Line: 295] [2020-08-17 15:20:08] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:20:08] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 902] [2020-08-17 15:20:08] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:20:08] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:20:08] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:20:10] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:20:10] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 896] [2020-08-17 15:20:10] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:20:10] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:20:10] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:21:04] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:21:04] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 902] [2020-08-17 15:21:04] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:21:04] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:21:04] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:21:06] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:21:06] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 896] [2020-08-17 15:21:06] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:21:06] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:21:06] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:22:31] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:22:31] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 902] [2020-08-17 15:22:31] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:22:31] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:22:31] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:22:33] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:22:33] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 896] [2020-08-17 15:22:33] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:22:33] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:22:33] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:23:56] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:23:56] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 902] [2020-08-17 15:23:56] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:23:56] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:23:56] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:24:05] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:24:05] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 901] [2020-08-17 15:24:05] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:24:05] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:24:05] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:24:38] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:24:38] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 907] [2020-08-17 15:24:38] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:24:38] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:24:38] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:24:39] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:24:39] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 903] [2020-08-17 15:24:39] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:24:39] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:24:39] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:25:08] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:25:08] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 909] [2020-08-17 15:25:08] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:25:08] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:25:08] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:25:10] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:25:10] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 903] [2020-08-17 15:25:10] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:25:10] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:25:10] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:26:52] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:26:52] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 909] [2020-08-17 15:26:52] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:26:52] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:26:52] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:26:53] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:26:53] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 900] [2020-08-17 15:26:53] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:26:53] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:26:53] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:34:07] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:34:07] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 906] [2020-08-17 15:34:07] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:34:07] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:34:07] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:34:16] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:34:16] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 903] [2020-08-17 15:34:16] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:34:16] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:34:16] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:46:43] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:46:43] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 909] [2020-08-17 15:46:43] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:46:43] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:46:43] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:46:44] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:46:44] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 907] [2020-08-17 15:46:44] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:46:44] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:46:44] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 247] [2020-08-17 15:46:55] [ERROR] __main__: Ignoring exception 400 Bad Request (error code: 50035): Invalid Form Body
+In embed.fields.0.value: This field is required
+In embed.fields.1.value: This field is required
+Name: translate default channels
+Author: Mickey#3143
+Channel: real-python (ID: 734026678199910410)
+Guild: test guild (ID: 733910181280219230)
+Content: ~translate default channels <#734617933258424443> <#734026724852891760> en
+
+[Line: 295] [2020-08-17 15:47:13] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:47:13] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 913] [2020-08-17 15:47:13] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:47:13] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:47:13] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:47:14] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:47:14] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 907] [2020-08-17 15:47:14] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:47:14] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:47:14] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:47:15] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:47:15] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 913] [2020-08-17 15:47:15] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:47:15] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:47:15] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:47:26] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:47:26] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 907] [2020-08-17 15:47:26] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:47:26] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:47:26] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:48:18] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:48:18] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 913] [2020-08-17 15:48:18] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:48:18] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:48:18] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:48:20] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:48:20] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 903] [2020-08-17 15:48:20] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:48:20] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:48:20] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:49:56] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:49:56] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 909] [2020-08-17 15:49:56] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:49:56] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:49:56] [INFO] cogs.settings_cog: Unloading Settings Cog
+[Line: 289] [2020-08-17 15:50:03] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 579] [2020-08-17 15:50:03] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 904] [2020-08-17 15:50:03] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 688] [2020-08-17 15:50:03] [INFO] cogs.dictionary_cog: Loading Dictionary Cog
+[Line: 230] [2020-08-17 15:50:03] [INFO] cogs.settings_cog: Loading Settings Cog
+[Line: 295] [2020-08-17 15:50:18] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 585] [2020-08-17 15:50:18] [INFO] cogs.quote_cog: Unloading Quote Cog
+[Line: 910] [2020-08-17 15:50:18] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 694] [2020-08-17 15:50:18] [INFO] cogs.dictionary_cog: Unloading Dictionary Cog
+[Line: 236] [2020-08-17 15:50:18] [INFO] cogs.settings_cog: Unloading Settings Cog

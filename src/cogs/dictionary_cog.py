@@ -118,6 +118,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
     def create_word_status_embed(self):
         """ Creates a paginator embed to show the word of the day status. """
         embed = discord.Embed(color=discord.Color.dark_purple())
+        embed.title = "📖 Word of the Day Status"
         embed.timestamp = datetime.utcnow()
         return embed
 

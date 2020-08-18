@@ -128,7 +128,7 @@ class TranslateCog(commands.Cog, name="Translate"):
 
         # Create Discord embed
         embed = discord.Embed(color=discord.Color.purple())
-        embed.title = "🗺️ Supported Languages"
+        embed.title = "🌎 Supported Languages"
         embed.description = f"This is a list of all the supported languages with their respective name, language code and country flags.\n"
         embed.add_field(name="Name", value=f"{name_string}")
         embed.add_field(name="Language Code", value=f"{code_string}")
@@ -146,10 +146,11 @@ class TranslateCog(commands.Cog, name="Translate"):
         embed.timestamp = datetime.utcnow()
         return embed
 
-    def create_translate_default(
+    def create_translate_default_embed(
         self, default_language, server_name, lang_already_setup
     ):
         embed = discord.Embed()
+        embed.title = "🌎 Default Language Setup"
 
         if lang_already_setup:
             embed.description = f"❌ Sorry, **{default_language}** is already setup for **{server_name}** server."
@@ -163,64 +164,113 @@ class TranslateCog(commands.Cog, name="Translate"):
         embed.timestamp = datetime.utcnow()
         return embed
 
-    def create_translate_default_channels(self, default_language, channels):
+    def create_translate_default_channels_embed(self, default_language, channels):
         embed = discord.Embed(color=discord.Color.green())
-        embed.description = (
-            f"✅ **{default_language}** setup for channels **{channels}**."
-        )
+        embed.title = "🌎 Channel Default Language Setup"
+
+        embed.add_field(name="Language", value=f"✅ {default_language}")
+        embed.add_field(name="Channels", value=f"{channels}")
+
         embed.timestamp = datetime.utcnow()
         return embed
 
-    def create_translate_auto_embed(self, setup_languages, status, guild_name):
+    def create_translate_auto_embed(self, status, setup_languages, guild_name):
         embed = discord.Embed(color=discord.Color.green())
-        embed.description = (
-            f"**{setup_languages}** auto translation {status}d for `{guild_name}`."
-        )
+        embed.title = "🌎 Server Auto Translation"
+
+        if status == "enable":
+            status = "✅ " + status.capitalize() + "d"
+        elif status == "disable":
+            status = "❌ " + status.capitalize() + "d"
+
+        embed.add_field(name="Status", value=f"{status}")
+        embed.add_field(name="Server", value=f"{guild_name}")
+        embed.add_field(name="Languages", value=f"{setup_languages}")
+
         embed.timestamp = datetime.utcnow()
         return embed
 
-    def create_translate_auto_channels_embed(self):
+    def create_translate_auto_channels_embed(self, status, setup_languages, channels):
         embed = discord.Embed(color=discord.Color.green())
+        embed.title = "🌎 Channel Auto Translation Setup"
+
+        if status == "enable":
+            status = "✅ " + status.capitalize() + "d"
+        elif status == "disable":
+            status = "❌ " + status.capitalize() + "d"
+
+        embed.add_field(name="Status", value=f"{status}")
+        embed.add_field(name="Channels", value=f"{channels}")
+        embed.add_field(name="Languages", value=f"{setup_languages}")
+
         embed.timestamp = datetime.utcnow()
         return embed
 
-    def create_translate_auto_members_embed(self):
+    def create_translate_auto_members_embed(self, status, setup_language, members):
         embed = discord.Embed(color=discord.Color.green())
+        embed.title = "🌎 Member Auto Translation Setup"
+
+        if status == "enable":
+            status = "✅ " + status.capitalize() + "d"
+        elif status == "disable":
+            status = "❌ " + status.capitalize() + "d"
+
+        embed.add_field(name="Status", value=f"{status}")
+        embed.add_field(name="Members", value=f"{members}")
+        embed.add_field(name="Language", value=f"{setup_language}")
+
         embed.timestamp = datetime.utcnow()
         return embed
 
-    def create_translate_auto_roles_embed(self):
+    def create_translate_auto_roles_embed(self, status, setup_language, roles):
         embed = discord.Embed(color=discord.Color.green())
+        embed.title = "🌎 Role Auto Translation Setup"
+
+        if status == "enable":
+            status = "✅ " + status.capitalize() + "d"
+        elif status == "disable":
+            status = "❌ " + status.capitalize() + "d"
+
+        embed.add_field(name="Status", value=f"{status}")
+        embed.add_field(name="Roles", value=f"{roles}")
+        embed.add_field(name="Language", value=f"{setup_language}")
+
         embed.timestamp = datetime.utcnow()
         return embed
 
     def create_translate_reaction_embed(self):
         embed = discord.Embed(color=discord.Color.green())
+        embed.title = "🌎 Reaction Translation Setup"
         embed.timestamp = datetime.utcnow()
         return embed
 
     def create_translate_detect_embed(self):
         embed = discord.Embed(color=discord.Color.green())
+        embed.title = "🌎 Language Detection"
         embed.timestamp = datetime.utcnow()
         return embed
 
     def create_translate_status_embed(self):
         embed = discord.Embed(color=discord.Color.green())
+        embed.title = "🌎 Server Translation Status"
         embed.timestamp = datetime.utcnow()
         return embed
 
     def create_translate_status_channels(self):
         embed = discord.Embed(color=discord.Color.green())
+        embed.title = "🌎 Channel Translation Status"
         embed.timestamp = datetime.utcnow()
         return embed
 
     def create_translate_status_members(self):
         embed = discord.Embed(color=discord.Color.green())
+        embed.title = "🌎 Member Translation Status"
         embed.timestamp = datetime.utcnow()
         return embed
 
     def create_translate_status_roles(self):
         embed = discord.Embed(color=discord.Color.green())
+        embed.title = "🌎 Role Translation Status"
         embed.timestamp = datetime.utcnow()
         return embed
 
@@ -495,8 +545,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         if default_language is not None:
             # Generate a Language class instance
             def_lang = self.create_language(default_language)
-            guild_str = ctx.guild.name.split(" ")[0]
-            print(guild_str)
+            guild_str = ctx.guild.name
 
             # Check if the language is supported
             if not self.is_language_supported(def_lang):
@@ -519,7 +568,7 @@ class TranslateCog(commands.Cog, name="Translate"):
                     # Set the default language for the server on the database
 
                 # Send embed to notice user
-                embed = self.create_translate_default(
+                embed = self.create_translate_default_embed(
                     server_def_lang.capitalize(), guild_str, lang_already_setup
                 )
 
@@ -558,7 +607,7 @@ class TranslateCog(commands.Cog, name="Translate"):
 
                 # Set the default language for the channels on the database
 
-                embed = self.create_translate_default_channels(
+                embed = self.create_translate_default_channels_embed(
                     def_lang.language_name.capitalize(), channel_str
                 )
 
@@ -592,10 +641,10 @@ class TranslateCog(commands.Cog, name="Translate"):
             # Check if the languages provided are valid
             are_languages_valid = True
             for lang in setup_languages:
-                if not lang.is_language_supported(lang):
+                if not self.is_language_supported(lang):
                     are_languages_valid = False
 
-            if status != "enable" or status != "disable":
+            if not (status == "enable" or status == "disable"):
                 await ctx.send(f"Please provide correct status.")
 
             elif not are_languages_valid:
@@ -605,8 +654,7 @@ class TranslateCog(commands.Cog, name="Translate"):
             else:
                 # Get the server from the database
 
-                # Configure the auto translation for the server and also for its channels
-                # This overwrites any auto translation that was setup previously on a channel
+                # Configure the auto translation for the server
 
                 # Set the language auto translation if the status is 'enable'
                 # If the language/s is/are already enabled, don't do anything.
@@ -616,8 +664,12 @@ class TranslateCog(commands.Cog, name="Translate"):
 
                 # Notify the languages that were successfuly configured for auto translation
 
+                languages_str = "\n".join(
+                    [f"*{lang.language_name.capitalize()}*" for lang in setup_languages]
+                )
+
                 embed = self.create_translate_auto_embed(
-                    setup_languages, status, guild_name
+                    status, languages_str, guild_name
                 )
 
                 await ctx.send(embed=embed)
@@ -643,15 +695,22 @@ class TranslateCog(commands.Cog, name="Translate"):
             status = status.lower()
             languages = languages.split(",")
             setup_languages = list(map(self.create_language, languages))
+
             channel_str = ", ".join(["`#" + channel.name + "`" for channel in channels])
+            languages_str = "\n".join(
+                [
+                    f"*{language.language_name.capitalize()}*"
+                    for language in setup_languages
+                ]
+            )
 
             # Check if the languages provided are supported
             are_languages_valid = True
             for lang in setup_languages:
-                if not lang.is_language_supported(lang):
+                if not self.is_language_supported(lang):
                     are_languages_valid = False
 
-            if status != "enable" or status != "disable":
+            if not (status == "enable" or status == "disable"):
                 await ctx.send(f"Please provide correct status.")
 
             elif not are_languages_valid:
@@ -670,10 +729,11 @@ class TranslateCog(commands.Cog, name="Translate"):
                 # If the language/s is/are already disabled, don't do anything.
 
                 # Notify the languages that were successfuly configure for auto translation
-
-                await ctx.send(
-                    f"`{setup_languages}` auto translation {status}d for {channel_str}."
+                embed = self.create_translate_auto_channels_embed(
+                    status, languages_str, channel_str
                 )
+
+                await ctx.send(embed=embed)
 
         else:
             await ctx.send("Couldn't configure auto translation for the channels.")
@@ -695,15 +755,17 @@ class TranslateCog(commands.Cog, name="Translate"):
         if status is not None and to_language is not None and members is not None:
             # Create a Language class intance from the given language
             setup_language = self.create_language(to_language)
+            print(setup_language)
             member_str = ", ".join(
                 ["`@" + member.display_name + "`" for member in members]
             )
+            language_str = f"*{setup_language.language_name.capitalize()}*"
 
-            if status != "enable" or status != "disable":
+            if not (status == "enable" or status == "disable"):
                 await ctx.send(f"Please provide correct status.")
 
             # Check if the language provided is valid
-            elif self.is_language_supported(setup_language):
+            elif not self.is_language_supported(setup_language):
                 await ctx.send(f"Please specify a supported language.")
 
             # Everything is valid
@@ -717,9 +779,11 @@ class TranslateCog(commands.Cog, name="Translate"):
                 # If the language/s is/are already disabled, don't do anything.
 
                 # Notify the languages that were successfuly configured for auto translation.
-                await ctx.send(
-                    f"`{setup_language}` auto translation {status}d for {member_str}."
+                embed = self.create_translate_auto_members_embed(
+                    status, language_str, member_str
                 )
+
+                await ctx.send(embed=embed)
         else:
             await ctx.send("Couldn't configure auto translation for the members.")
 
@@ -740,13 +804,14 @@ class TranslateCog(commands.Cog, name="Translate"):
         if status is not None and to_language is not None and roles is not None:
             # Create a Language class intance from the given language
             setup_language = self.create_language(to_language)
-            role_str = ", ".join(["`@" + role.display_name + "`" for role in roles])
+            role_str = ", ".join(["`" + role.name + "`" for role in roles])
+            language_str = f"*{setup_language.language_name.capitalize()}*"
 
-            if status != "enable" or status != "disable":
+            if not (status == "enable" or status == "disable"):
                 await ctx.send(f"Please provide correct status.")
 
             # Check if the language provided is valid
-            elif self.is_language_supported(setup_language):
+            elif not self.is_language_supported(setup_language):
                 await ctx.send(f"Please specify a supported language.")
 
             # Everything is valid
@@ -760,9 +825,10 @@ class TranslateCog(commands.Cog, name="Translate"):
                 # If the language/s is/are already disabled, don't do anything.
 
                 # Notify the languages that were successfuly configured for auto translation
-                await ctx.send(
-                    f"`{setup_language}` auto translation {status}d for {role_str}."
+                embed = self.create_translate_auto_roles_embed(
+                    status, language_str, role_str
                 )
+                await ctx.send(embed=embed)
         else:
             await ctx.send("Couldn't configure auto translation for the roles.")
 
@@ -792,7 +858,7 @@ class TranslateCog(commands.Cog, name="Translate"):
                 if not lang.is_language_supported(lang):
                     are_languages_valid = False
 
-            if status != "enable" or status != "disable":
+            if not (status == "enable" or status == "disable"):
                 await ctx.send(f"Please provide correct status.")
 
             elif not are_languages_valid:
