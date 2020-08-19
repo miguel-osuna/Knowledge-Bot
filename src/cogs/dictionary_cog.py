@@ -35,26 +35,6 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         embed.timestamp = datetime.utcnow()
         return embed
 
-    def create_noun_embed(self, adjective, nouns_list):
-        """ Creates an embed to show nouns for an adjective. """
-        nouns_string = ", ".join([noun for noun in nouns_list])
-        embed = discord.Embed(color=discord.Color.dark_purple())
-        embed.title = f"📖 Nouns for *{adjective}*"
-        embed.description = f"Found **{len(nouns_list)}** nouns:\n```{nouns_string}```"
-        embed.timestamp = datetime.utcnow()
-        return embed
-
-    def create_adjective_embed(self, noun, adjectives_list):
-        """ Creates an embed to show adjectives for a noun. """
-        adjectives_string = ", ".join([adjective for adjective in adjectives_list])
-        embed = discord.Embed(color=discord.Color.dark_purple())
-        embed.title = f"📖 Adjectives for *{noun}*"
-        embed.description = (
-            f"Found **{len(adjectives_list)}** adjectives:\n```{adjectives_string}```"
-        )
-        embed.timestamp = datetime.utcnow()
-        return embed
-
     def create_synonym_embed(self, word, synonyms_list):
         """ Creates an embed to show synonyms of a word. """
         synonyms_string = ", ".join([synonym for synonym in synonyms_list])
@@ -308,101 +288,6 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
 
         else:
             await ctx.send("Sorry, couldn't find a definition.")
-
-    @commands.guild_only()
-    @dictionary.command(
-        name="noun",
-        aliases=["n"],
-        brief="Provides a list of nouns for an adjective.",
-        help="Provides a list of nouns for an adjective. This is done in english by default.",
-    )
-    async def dictionary_noun(self, ctx, adjective=None):
-        """ Provides a list of nouns for an adjective. 
-
-        This is done in english by default. 
-        """
-        if adjective is not None:
-
-            # Use function to check if the word exists
-            is_adjective_valid = True
-
-            if is_adjective_valid:
-
-                # Get nouns list for the adjective
-                nouns = [
-                    "mother",
-                    "father",
-                    "baby",
-                    "lion",
-                    "tiger",
-                    "dog",
-                    "bird",
-                    "table",
-                    "coat",
-                    "boots",
-                    "city",
-                    "shop",
-                    "zoo",
-                    "pride",
-                    "respect",
-                    "love",
-                ]
-
-                # Create embed
-                embed = self.create_noun_embed(adjective, nouns)
-                await ctx.send(embed=embed)
-
-            else:
-                await ctx.send(f"Sorry, couldn't find adjectives for `{adjective}`")
-
-        else:
-            await ctx.send("Sorry, couldn't find adjectives for the noun")
-
-    @commands.guild_only()
-    @dictionary.command(
-        name="adjective",
-        aliases=["adj"],
-        brief="Provides a list of adjectives for a noun.",
-        help="Provides a list of adjectives for a noun. This is done in english by default.",
-    )
-    async def dictionary_adjective(self, ctx, noun=None):
-        """ Provides a list of adjectives for a noun. 
-
-        This is done in english by default.
-        """
-        if noun is not None:
-
-            # Use function to check if the word exists
-            is_noun_valid = True
-
-            if is_noun_valid:
-
-                # Get adjectives list for the noun
-                adjectives = [
-                    "small",
-                    "wild",
-                    "ripe",
-                    "green",
-                    "yellow",
-                    "broad",
-                    "thick",
-                    "top",
-                    "huge",
-                    "single",
-                    "next",
-                    "edible",
-                    "whole",
-                ]
-
-                embed = self.create_adjective_embed(noun, adjectives)
-
-                await ctx.send(embed=embed)
-
-            else:
-                await ctx.send(f"Sorry, couldn't find nouns for `{noun}`.")
-
-        else:
-            await ctx.send("Sorry, couldn't find nouns for the adjective.")
 
     @commands.guild_only()
     @dictionary.command(
