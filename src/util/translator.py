@@ -64,4 +64,4 @@ def translate_text(target_language, text, model="nmt"):
 
 
 if __name__ == "__main__":
-    translate_text("es", "Omar is a bitch", model="nmt")
+    pass
