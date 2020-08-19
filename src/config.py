@@ -18,5 +18,9 @@ load_dotenv(ENV_PATH)
 TOKEN = os.getenv("DISCORD_TOKEN")
 VERSION = os.getenv("VERSION")
 
+# Wordnik variables
+WORDNIK_API_KEY = os.getenv("WORDNIK_API_KEY")
+WORDNIK_API_URL = os.getenv("WORDNIK_API_URL")
+
 if __name__ == "__main__":
     print("config file")
