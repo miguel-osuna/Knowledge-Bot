@@ -20,6 +20,7 @@ ptvsd = "*"
 beautifulsoup4 = "*"
 "discord.py" = "*"
 python-dotenv = "*"
+google-cloud-translate = "*"
 
 [scripts]
 

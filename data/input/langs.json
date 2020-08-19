@@ -79,19 +79,13 @@
       "countryFlag": "🇵🇭"
     },
     {
-      "name": "Chichewa",
-      "nativeName": "Chicheŵa",
-      "languageCode": "ny",
-      "countryFlag": "🇲🇼, 🇿🇲"
-    },
-    {
-      "name": "Simplified Chinese",
+      "name": "Chinese Simplified",
       "nativeName": "汉语",
       "languageCode": "zh-cn",
       "countryFlag": "🇨🇳, 🇹🇼 ,🇭🇰 ,🇸🇬"
     },
     {
-      "name": "Traditional Chinese",
+      "name": "Chinese Traditional",
       "nativeName": "漢語",
       "languageCode": "zh-tw",
       "countryFlag": "🇨🇳, 🇹🇼 ,🇭🇰 ,🇸🇬"
@@ -143,12 +137,6 @@
       "nativeName": "Estonian",
       "languageCode": "et",
       "countryFlag": "🇪🇪"
-    },
-    {
-      "name": "Tagalog",
-      "nativeName": "Wikang Tagalog",
-      "languageCode": "tl",
-      "countryFlag": "🇵🇭"
     },
     {
       "name": "Finnish",
@@ -229,10 +217,10 @@
       "countryFlag": "🇮🇳"
     },
     {
-      "name": "Mongolian",
-      "nativeName": "Tiếng H'Mông",
+      "name": "Hmong",
+      "nativeName": "",
       "languageCode": "hmn",
-      "countryFlag": "🇲🇳, 🇨🇳"
+      "countryFlag": ""
     },
     {
       "name": "Hungarian",
@@ -279,7 +267,7 @@
     {
       "name": "Javanese",
       "nativeName": "ꦧꦱꦗꦮ",
-      "languageCode": "jw",
+      "languageCode": "jv",
       "countryFlag": "🇮🇩, 🏴󠁩󠁤󠁪󠁷󠁿"
     },
     {
@@ -299,6 +287,12 @@
       "nativeName": "ខ្មែរ, ខេមរភាសា, ភាសាខ្មែរ",
       "languageCode": "km",
       "countryFlag": "🇰🇭"
+    },
+    {
+      "name": "Kinyarwanda",
+      "nativeName": "",
+      "languageName": "rw",
+      "countryFlag": ""
     },
     {
       "name": "Korean",
@@ -397,7 +391,7 @@
       "countryFlag": "🇲🇳, 🇨🇳"
     },
     {
-      "name": "Burmese",
+      "name": "Myanmar",
       "nativeName": "ဗမာစာ",
       "languageCode": "my",
       "countryFlag": "🇲🇲"
@@ -413,6 +407,18 @@
       "nativeName": "Norsk",
       "languageCode": "no",
       "countryFlag": "🇳🇴"
+    },
+    {
+      "name": "Nyanja",
+      "nativeName": "Chicheŵa",
+      "languageCode": "ny",
+      "countryFlag": "🇲🇼, 🇿🇲"
+    },
+    {
+      "name": "Odia",
+      "nativeName": "",
+      "languageCode": "or",
+      "countryFlag": ""
     },
     {
       "name": "Pashto",
@@ -463,7 +469,7 @@
       "countryFlag": "🇼🇸, 🇦🇸"
     },
     {
-      "name": "Gaelic Scottish",
+      "name": "Scots Gaelic",
       "nativeName": "Gàidhlig",
       "languageCode": "gd",
       "countryFlag": "N/A"
@@ -475,7 +481,7 @@
       "countryFlag": "🇷🇸, 🇧🇦, 🇽🇰"
     },
     {
-      "name": "Sotho Southern",
+      "name": "Sesotho",
       "nativeName": "Sesotho",
       "languageCode": "st",
       "countryFlag": "🇱🇸, "
@@ -493,7 +499,7 @@
       "countryFlag": "🇵🇰, 🇮🇳"
     },
     {
-      "name": "Sinhalese",
+      "name": "Sinhala",
       "nativeName": "සිංහල",
       "languageCode": "si",
       "countryFlag": "🇱🇰"
@@ -505,7 +511,7 @@
       "countryFlag": "🇸🇰, 🏴󠁲󠁳󠁶󠁯󠁿"
     },
     {
-      "name": "Slovene",
+      "name": "Slovenian",
       "nativeName": "Slovenščina",
       "languageCode": "sl",
       "countryFlag": "🇸🇮"
@@ -541,6 +547,12 @@
       "countryFlag": "🇸🇪, 🇫🇮, 🇦🇽"
     },
     {
+      "name": "Tagalog",
+      "nativeName": "Wikang Tagalog",
+      "languageCode": "tl",
+      "countryFlag": "🇵🇭"
+    },
+    {
       "name": "Tajik",
       "nativeName": "тоҷикӣ, toçikī, تاجیکی‎",
       "languageCode": "tg",
@@ -551,6 +563,12 @@
       "nativeName": "தமிழ்",
       "languageCode": "ta",
       "countryFlag": "🇱🇰, 🇸🇬, 🇮🇳"
+    },
+    {
+      "name": "Tatar",
+      "nativeName": "",
+      "languageCode": "tt",
+      "countryFlag": ""
     },
     {
       "name": "Telugu",
@@ -571,6 +589,12 @@
       "countryFlag": "🇹🇷, 🇨🇾"
     },
     {
+      "name": "Turkmen",
+      "nativeName": "",
+      "languageCode": "tk",
+      "countryFlag": ""
+    },
+    {
       "name": "Ukrainian",
       "nativeName": "Українська",
       "languageCode": "uk",
@@ -581,6 +605,12 @@
       "nativeName": "اردو",
       "languageCode": "ur",
       "countryFlag": "🇵🇰, 🇮🇳"
+    },
+    {
+      "name": " Uyghur",
+      "nativeName": "",
+      "languageCode": "ug",
+      "countryFlag": ""
     },
     {
       "name": "Uzbek",
