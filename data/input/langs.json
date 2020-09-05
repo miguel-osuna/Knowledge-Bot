@@ -218,9 +218,9 @@
     },
     {
       "name": "Hmong",
-      "nativeName": "",
+      "nativeName": "N/A",
       "languageCode": "hmn",
-      "countryFlag": ""
+      "countryFlag": "N/A"
     },
     {
       "name": "Hungarian",
@@ -290,9 +290,9 @@
     },
     {
       "name": "Kinyarwanda",
-      "nativeName": "",
-      "languageName": "rw",
-      "countryFlag": ""
+      "nativeName": "N/A",
+      "languageCode": "rw",
+      "countryFlag": "N/A"
     },
     {
       "name": "Korean",
@@ -416,9 +416,9 @@
     },
     {
       "name": "Odia",
-      "nativeName": "",
+      "nativeName": "N/A",
       "languageCode": "or",
-      "countryFlag": ""
+      "countryFlag": "N/A"
     },
     {
       "name": "Pashto",
@@ -566,9 +566,9 @@
     },
     {
       "name": "Tatar",
-      "nativeName": "",
+      "nativeName": "N/A",
       "languageCode": "tt",
-      "countryFlag": ""
+      "countryFlag": "N/A"
     },
     {
       "name": "Telugu",
@@ -590,9 +590,9 @@
     },
     {
       "name": "Turkmen",
-      "nativeName": "",
+      "nativeName": "N/A",
       "languageCode": "tk",
-      "countryFlag": ""
+      "countryFlag": "N/A"
     },
     {
       "name": "Ukrainian",
@@ -608,9 +608,9 @@
     },
     {
       "name": " Uyghur",
-      "nativeName": "",
+      "nativeName": "N/A",
       "languageCode": "ug",
-      "countryFlag": ""
+      "countryFlag": "N/A"
     },
     {
       "name": "Uzbek",

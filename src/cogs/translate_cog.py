@@ -79,6 +79,7 @@ class TranslateCog(commands.Cog, name="Translate"):
                 self.langs_data = data
 
                 for language in data["languages"]:
+
                     new_lang = Language(
                         language["name"],
                         language["languageCode"],

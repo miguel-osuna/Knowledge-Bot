@@ -1,0 +1,6 @@
+[Line: 289] [2020-09-05 07:51:54] [INFO] cogs.utility_cog: Loading Help Cog
+[Line: 578] [2020-09-05 07:51:54] [INFO] cogs.quote_cog: Loading Quote Cog
+[Line: 970] [2020-09-05 07:51:54] [INFO] cogs.translate_cog: Loading Translate Cog
+[Line: 976] [2020-09-05 07:51:54] [INFO] cogs.translate_cog: Unloading Translate Cog
+[Line: 295] [2020-09-05 07:51:59] [INFO] cogs.utility_cog: Unloading Help Cog
+[Line: 584] [2020-09-05 07:51:59] [INFO] cogs.quote_cog: Unloading Quote Cog
