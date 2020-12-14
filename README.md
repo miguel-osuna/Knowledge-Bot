@@ -1,54 +1,54 @@
-# Knowledge-Bot
+# Knowledge Bot
 
-## Description
+## :book: Description
 
-Discord bot created with discord.py
+Discord bot targeted for discord servers that have a need for communication utilities, such as translator, dictionary, quote generator and server configuration.
 
-### Features
+### :dart: Features
 
-- Feature 1
-- Feature 2
-- Feature 3
-- Feature 4
+- Translator, dictionary and quote generator
+- Interactive server configuration
+- Easy to add to any server
 
-### Visuals
+### :high_brightness: Visuals
 
 ![Link to image]()
 
-## Getting Started
+## :bulb: Getting Started
 
 Follow the instructions below to work on the project on your local environment.
 
-### Requirements
+### :clipboard: Prerequisites
+You'll need Git, Python 3.8, Pip and a Virtual Environment (in this case, Pipenv is used as a package manager and virtual environment).
 
-These are the dependencies required for the project
+All dependencies are listed on the Pipfile.
 
-- node (v13.0.0)
-- npm (v6.13.0)
-- git (v2.17.1)
-
-### Installation
-
+### :computer: Installation
 ```
 # Clone this repository
-$ git clone https://github.com/xyz
+$ git clone https://github.com/miguel-osuna/Quotes-API.git
 
 # Go into the repository from the terminal
-$ cd xyz
+$ cd Quotes-API
 
+# Remove current origin repository
+$ git remote remove origin
+
+# Install dependencies
+$ pipenv install
+
+# Run the project
+$ python3 src/bot.py
 ```
 
-### Running project with Docker
+## :rocket: Deployment
+Pending.
 
-```
-docker-compose up -d --build
-```
+## :wrench: Built With
+- [discord.py](https://discordpy.readthedocs.io/en/latest/) - Python Library for Discord API
 
-## Project Documentation
+## :performing_arts: Authors
+- **Miguel Osuna** - https://github.com/miguel-osuna
 
-See the [project documentation ](https://github.com/miguel-osuna/Knowledge-Bot/wiki)
-
-## Related Repositories
-
-- [Repository 1](#)
-- [Repository 2](#)
+## :ledger: License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
