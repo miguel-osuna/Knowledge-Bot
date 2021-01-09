@@ -1,26 +1,18 @@
-# Standard library imports
 import os
 from os.path import dirname, abspath, join
 
-# Third party imports
-from dotenv import load_dotenv
-
 # Generate paths
-ENVIRONMENT = "local"
 BASE_PROJECT_PATH = dirname(dirname((abspath(__file__))))
-ENV_PATH = join(BASE_PROJECT_PATH, ".envs", f".{ENVIRONMENT}", ".application")
-LOGS_PATH = join(BASE_PROJECT_PATH, "data", "output", "logs")
 LANGUAGES_PATH = join(BASE_PROJECT_PATH, "data", "input", "langs")
 COGS_PATH = join(BASE_PROJECT_PATH, "src", "cogs")
 
 # Loads environmental variables
-load_dotenv(ENV_PATH)
-TOKEN = os.getenv("DISCORD_TOKEN")
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 VERSION = os.getenv("VERSION")
+SUPPORT_SERVER_INVITE_URL = os.getenv("SUPPORT_SERVER_INVITE_URL")
+BOT_INVITE_URL = os.getenv("BOT_INVITE_URL")
+COMMAND_PREFIX = str(os.getenv("COMMAND_PREFIX"))
 
 # Wordnik variables
 WORDNIK_API_KEY = os.getenv("WORDNIK_API_KEY")
 WORDNIK_API_URL = os.getenv("WORDNIK_API_URL")
-
-if __name__ == "__main__":
-    print("config file")

@@ -1,28 +1,11 @@
-# Standard library imports
 import os
 from os.path import dirname, abspath, join
 from datetime import datetime
 
-# Third party imports
-from dotenv import load_dotenv
+from config import WORDNIK_API_URL, WORDNIK_API_KEY
 from wordnik import swagger, WordApi, WordsApi
 
-# Local application imports
-
-
-BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
-ENVIRONMENT = "local"
-ENV_PATH = join(BASE_PROJECT_PATH, ".envs", f".{ENVIRONMENT}", ".application")
-
-# Environment variable for wordnik
-load_dotenv(ENV_PATH)
-WORDNIK_API_URL = os.getenv("WORDNIK_API_URL")
-WORDNIK_API_KEY = os.getenv("WORDNIK_API_KEY")
-
-api_url = WORDNIK_API_URL
-api_key = WORDNIK_API_KEY
-
-client = swagger.ApiClient(api_key, api_url)
+client = swagger.ApiClient(WORDNIK_API_KEY, WORDNIK_API_URL)
 
 
 def get_word_examples(

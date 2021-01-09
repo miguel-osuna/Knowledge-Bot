@@ -1,9 +1,4 @@
-# Standard library imports
 import six
-
-# Third party imports
-
-# Local application imports
 
 
 def detect_language(text):

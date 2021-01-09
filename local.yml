@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  application:
+    build:
+      context: .
+      dockerfile: ./compose/local/application/Dockerfile
+    image: knowledge_bot_local
+    container_name: knowledge_bot
+    volumes:
+      - .:/app
+    env_file:
+      - ./.envs/.local/.application
+    ports:
+      - "5000:5000"
+    command: /start

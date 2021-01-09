@@ -1,24 +1,11 @@
-# Standard library imports
-import typing
-import json
 import os
-import pdb
-import pytz
-from os.path import dirname, abspath, join
 from datetime import datetime
-from math import floor
 
-# Third party imports
 import discord
 from discord.ext import commands, tasks
 
-# Local applications
-from util.logger import generate_logger
-
-
-BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
-LANGUAGES_PATH = join(BASE_PROJECT_PATH, "data", "input", "langs.json")
-VERSION = "v1.0"
+from util import generate_logger
+from config import BOT_INVITE_URL, SUPPORT_SERVER_INVITE_URL, VERSION
 
 logger = generate_logger(__name__)
 
@@ -28,6 +15,7 @@ class StatsCog(commands.Cog, name="Stats"):
 
     def __init__(self, bot):
         self.bot = bot
+        self.uptime = datetime.now()
 
     def get_time_difference(self, start_datetime, end_datetime):
         delta = end_datetime - start_datetime
@@ -70,9 +58,11 @@ class StatsCog(commands.Cog, name="Stats"):
     ):
         """ Creates an embed to show information about the bot. """
         embed = discord.Embed(color=discord.Color.dark_magenta())
-        embed.title = "🤖 Official Knowedge Bot Server Invite"
+        embed.title = "🤖 Official Knowledge Bot Server Invite"
         embed.url = server_invite_url
-        embed.description = "Knowledge Bot is a bot that offers you functionalities such as translation, dictionary, quote generation and more."
+        embed.description = (
+            "Knowledge Bot is a bot that offers translation and dictionary utilities."
+        )
 
         end_datetime = datetime.utcnow()
         uptime_string = self.get_time_difference(start_datetime, end_datetime)
@@ -107,7 +97,7 @@ class StatsCog(commands.Cog, name="Stats"):
         embed.title = "🤖 Add Knowledge Bot to your Discord Server!"
         embed.description = "If you're interested in adding Knowledge Bot to your server, you'll find some links below to help you get started."
         embed.add_field(
-            name="Knowledge Bot Invite", value=f"{bot_invite_url}", inline=False
+            name="Famous Bot Invite", value=f"{bot_invite_url}", inline=False
         )
         embed.add_field(
             name="Knowledge Bot Support Server",
@@ -132,8 +122,7 @@ class StatsCog(commands.Cog, name="Stats"):
     @commands.command(name="uptime", help="Check the bots uptime")
     async def uptime(self, ctx):
         """ Tells how long the bot has been up for. """
-        # Get the stating datetime variable from the bots database
-        start_datetime = datetime(2020, 2, 10, 14, 40)
+        start_datetime = datetime(2020, 12, 25)
 
         embed = self.create_uptime_embed(start_datetime)
         await ctx.send(embed=embed)
@@ -143,13 +132,13 @@ class StatsCog(commands.Cog, name="Stats"):
         """ Tells you information about the bot itself. """
         # Embed variables
         version = VERSION
-        start_datetime = datetime(2020, 2, 10, 14, 40)
-        server_invite_url = "https://discord.gg/n6ubSZS"
+        start_datetime = datetime(2020, 12, 25)
+        server_invite_url = SUPPORT_SERVER_INVITE_URL
         total_members = len(self.bot.users)
         commands = len(self.bot.commands)
+
         guilds = 0
         text_channels = 0
-
         # Get every text channel from every guild the bot is in
         for guild in self.bot.guilds:
             guilds += 1
@@ -185,124 +174,19 @@ class StatsCog(commands.Cog, name="Stats"):
     async def join(self, ctx):
         """ Sends a link to add Knowledge Bot to your server. """
         version = VERSION
-        bot_invite_url = "https://discord.com/api/oauth2/authorize?client_id=733908127497322517&permissions=8&scope=bot"
-        server_invite_url = "https://discord.gg/n6ubSZS"
+        bot_invite_url = BOT_INVITE_URL
+        server_invite_url = SUPPORT_SERVER_INVITE_URL
         embed = self.create_join_embed(version, bot_invite_url, server_invite_url)
         await ctx.send(embed=embed)
 
-    @commands.guild_only()
-    @commands.group(
-        name="stats",
-        aliases=["sts"],
-        help="Shows command usage stats for the server or members.",
-        invoke_without=True,
-    )
-    async def stats(self, ctx, members: commands.Greedy[discord.Member] = "server"):
-        """ Shows command usage stats for the server or members. """
-        pass
-
-    @commands.is_owner()
-    @stats.command(
-        name="global",
-        aliases=["glb"],
-        help="Shows global command statistics for all the servers from all time.",
-    )
-    async def stats_global(self, ctx):
-        """ Shows global command statistics for all the servers from all time."""
-        await ctx.send("These are the global stats from all time.")
-
-    @commands.is_owner()
-    @stats.command(
-        name="today",
-        aliases=["tdy"],
-        help="Shows global command statistics for all the servers from the day.",
-    )
-    async def stats_today(self, ctx):
-        """ Shows global command statistics for the day. """
-        await ctx.send("These are the stats of today.")
-
-    @commands.is_owner()
-    @commands.command(
-        name="bot-health", help="Bot health monitoring tools.", hidden=True
-    )
-    async def bothealth(self, ctx):
-        """ Bot health monitoring tools. """
-        pass
-
-    @commands.is_owner()
-    @commands.command(
-        name="gateway", help="Provides gateway related statistics.", hidden=True
-    )
-    async def gateway(self, ctx):
-        """ Gateway related statistics. """
-        pass
-
-    @commands.is_owner()
-    @commands.command(
-        name="debug-task", help="Debug a task by a memory location.", hidden=True
-    )
-    async def debug_task(self, ctx):
-        """ Debug a task by a memory location. """
-        pass
-
-    @commands.is_owner()
-    @commands.group(
-        name="command-history",
-        aliases=["cmd-hist"],
-        help="Commands to check command history",
-        hidden=True,
-    )
-    async def command_history(self, ctx):
-        """ Commands to check command history. Use `~help command-history` to view subcommands"""
-
-        if ctx.invoked_subcommand is None:
-            await ctx.send(
-                f"Incorrect usage. Use `{ctx.prefix}help command-history` for help."
-            )
-        try:
-            await ctx.message.delete()
-        except discord.HTTPException:
-            pass
-
-    @command_history.command(name="command", help="Show command history for a command.")
-    async def command_history_command(
-        self, ctx, days: typing.Optional[int] = 7, *, command: str
-    ):
-        """ Show command history for a command. """
-        pass
-
-    @command_history.command(name="guild", help="Show command historyh for a guild.")
-    async def command_history_guild(
-        self, ctx, days: typing.Optional[int] = 7, *, guild_id: int
-    ):
-        """ Show command history for a guild. """
-        pass
-
-    @command_history.command(name="user", help="Show command history for a user.")
-    async def command_history_user(
-        self, ctx, days: typing.Optional[int] = 7, *, user_id: int
-    ):
-        """ Show command history for a user. """
-        pass
-
-    @command_history.command(
-        name="log", help="Show all command history log for N days.",
-    )
-    async def command_history_log(self, ctx, days: typing.Optional[int] = 7):
-        """ Show all command history log for N days. """
-        pass
-
-    @command_history.command(name="cog", help="Show command history for a cog.")
-    async def command_history_cog(self, ctx, days: typing.Optional[int] = 7):
-        """ Show command history for a cog. """
-        pass
-
 
 def setup(bot):
-    """ Sets up the translate cog for the bot. """
+    """ Sets up the stats cog for the bot. """
+    logger.info("Loading Stats Cog")
     bot.add_cog(StatsCog(bot))
 
 
 def teardown(bot):
-    """ Tears down the translate cog for the bot. """
+    """ Tears down the stats cog for the bot. """
+    logger.info("Unloading Stats Cog")
     bot.remove_cog("stats_cog")

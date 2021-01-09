@@ -1,4 +1,3 @@
-# Standard library imports
 import typing
 import json
 import os
@@ -6,17 +5,11 @@ import pdb
 from os.path import dirname, abspath, join
 from datetime import datetime
 
-# Third party imports
 import discord
 from discord.ext import commands, tasks
 
-# Local applications
-from util.logger import generate_logger
-from paginator import Pages
-
-
-BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
-LANGUAGES_PATH = join(BASE_PROJECT_PATH, "data", "input", "langs.json")
+from util import generate_logger, Pages
+from config import LANGUAGES_PATH
 
 logger = generate_logger(__name__)
 
@@ -64,7 +57,6 @@ class TranslateCog(commands.Cog, name="Translate"):
     def __init__(self, bot):
         """ Initialisation for TranslateCog instance. """
         self.bot = bot
-        self.printer.start()
         self.langs_data = None
         self.default_language = Language("English", "en", "🇺🇸")
         self.supported_languages = self.load_languages()
@@ -74,7 +66,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         langs = []
 
         try:
-            with open(LANGUAGES_PATH) as json_file:
+            with open(LANGUAGES_PATH + ".json") as json_file:
                 data = json.load(json_file)
                 self.langs_data = data
 
@@ -276,125 +268,6 @@ class TranslateCog(commands.Cog, name="Translate"):
         embed.timestamp = datetime.utcnow()
         return embed
 
-    # Event Listeners
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        """ Called when a message is sent 
-        
-        If the message sent was from a text channel, user or server configured, make sure
-        to run the translate command with the configuration values as arguments along with the text from the message
-        """
-
-        if message.author != self.bot.user:
-            # await message.channel.send("This is from translate")
-            pass
-
-    @commands.Cog.listener()
-    async def on_message_edit(self, before, after):
-        """ Called when a message is edited 
-        
-        If the message is updated, and it's on a text channel, from a user or server configured, delete the previous translation and 
-        embed a new one with the modified data. 
-
-        Also make sure to reset the reactions, so people can react to it again, without to unreact to it manually. (?)
-        """
-
-        prev_message = before
-        next_message = after
-
-        if (
-            prev_message.author != self.bot.user
-            and next_message.author != self.bot.user
-        ):
-            # await next_message.channel.send("This is from translate")
-            pass
-
-    @commands.Cog.listener()
-    async def on_reaction_add(self, reaction, user):
-        """ Called when a message has a reaction added to it 
-        
-        First of all, check if the translations of the reaction are enabled on the whole server or on the
-        channel the reaction was made. If so, check that the reaction is the appropiate one to translate the message.
-
-        These translations by reaction are sent via DM to not clutter the text channel
-        """
-        # await reaction.channel.send("This is from translate")
-        pass
-
-    @commands.Cog.listener()
-    async def on_private_channel_delete(self, channel):
-        """ Called whenever a private channel is deleted 
-        
-        If a channel that was deleted had a configuration for the translation functionality, 
-        make sure to also delete any values related. 
-        """
-        pass
-
-    @commands.Cog.listener()
-    async def on_private_channel_update(self, before, after):
-        """ Called whenever a private group DM is updated. e.g. changed name or topic
-        
-        If the channel that was updated had a config for the translation functionality, make
-        sure to also update the database with the newest values. 
-        """
-        pass
-
-    @commands.Cog.listener()
-    async def on_member_remove(self, member):
-        """ Called when a Member leaves a Guild 
-        
-        If the member that was removed had any config for the translation functionality, make
-        sure to also remove that from the database
-        """
-        pass
-
-    @commands.Cog.listener()
-    async def on_member_update(self, before, after):
-        """ Called when a Member updates their profile 
-        
-        This is called when one or more of the following things change:
-        - status
-        - activity
-        - nickname
-        - roles
-
-        If the member that was updated had a config for the translation functionality, make 
-        sure to also update the database with the newest values.
-        """
-        pass
-
-    @commands.Cog.listener()
-    async def on_user_update(self, before, after):
-        """ Called when a User updates their profile 
-        
-        This is called when one or more of the following things change:
-        - avatar 
-        - username
-        - discriminator
-
-        If the user that was updated had a config for the translation functionality, make 
-        sure to also update the database with the newest values. 
-        """
-        pass
-
-    @commands.Cog.listener()
-    async def on_guild_remove(self, guild):
-        """ Callend when a Guildis removed from the Client 
-        
-        If the Client is removed from a Guild, if there's any config related to the translation
-        functionality, also remove it.         
-        """
-        pass
-
-    @commands.Cog.listener()
-    async def on_guild_update(self, before, after):
-        """ Called when a Guild updates 
-        
-        If the Guild is updated, and it has a configuration related to the dictionary 
-        functionality, update it with the new guild values.         
-        """
-        pass
-
     # Class Methods
     async def cog_before_invoke(self, ctx):
         """ A special method that acts as a cog local pre-invoke hook. """
@@ -405,12 +278,6 @@ class TranslateCog(commands.Cog, name="Translate"):
     async def cog_after_invoke(self, ctx):
         """ A special method that acts as a cog local post-invoek hook. """
         return await super().cog_after_invoke(ctx)
-
-    # Tasks
-    @tasks.loop(seconds=10.0)
-    async def printer(self):
-        # logger.warning("This is a warning from translate_cog")
-        pass
 
     # Commands
     @commands.group(
@@ -537,12 +404,14 @@ class TranslateCog(commands.Cog, name="Translate"):
         invoke_without_command=True,
     )
     async def translate_default(
-        self, ctx, default_language=None,
+        self,
+        ctx,
+        default_language=None,
     ):
-        """ Sets a default language of the server. 
-        
+        """Sets a default language of the server.
+
         This doesn't overwrites any default language preset on the channels.
-        By default, every server starts with English as its default language. 
+        By default, every server starts with English as its default language.
         """
         if default_language is not None:
             # Generate a Language class instance
@@ -627,10 +496,13 @@ class TranslateCog(commands.Cog, name="Translate"):
         invoke_without_command=True,
     )
     async def translate_auto(
-        self, ctx, status: str = None, languages=None,
+        self,
+        ctx,
+        status: str = None,
+        languages=None,
     ):
-        """ Enables or disables automatic translation for the whole server.
-            
+        """Enables or disables automatic translation for the whole server.
+
         This doesn't overwrites any auto translation configured for channels, users or roles.
         """
         if status is not None and languages is not None:
