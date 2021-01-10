@@ -51,7 +51,7 @@ class Pages:
 
         # Check if
         self.maximum_pages = pages
-        self.embed = discord.Embed(color=discord.Color.blue())
+        self.embed = discord.Embed(color=discord.Color.dark_purple())
         self.paginating = len(entries) > per_page
         self.show_entry_count = show_entry_count
 

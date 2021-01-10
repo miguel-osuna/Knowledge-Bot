@@ -2,53 +2,71 @@
 
 ## :book: Description
 
-Discord bot targeted for discord servers that have a need for communication utilities, such as translator, dictionary, quote generator and server configuration.
+Self hosted discord bot that offers translation and dictionary utilities.
 
 ### :dart: Features
 
-- Translator, dictionary and quote generator
-- Interactive server configuration
-- Easy to add to any server
+- Text translation
+- Language detection
+- Definitions, synonyms, antonyms and rhymes
+- Word of the day and random words
 
 ### :high_brightness: Visuals
 
-![Link to image]()
+![Link to image](img/dictionary_definition_command.png)
 
 ## :bulb: Getting Started
 
 Follow the instructions below to work on the project on your local environment.
 
 ### :clipboard: Prerequisites
-You'll need Git, Python 3.8, Pip and a Virtual Environment (in this case, Pipenv is used as a package manager and virtual environment).
+
+In case you don't use Docker, you'll need Git, Python 3.8 and a Virtual Environment (in this case, Pipenv is used as a package manager and virtual environment).
 
 All dependencies are listed on the Pipfile.
 
 ### :computer: Installation
+
 ```
 # Clone this repository
-$ git clone https://github.com/miguel-osuna/Quotes-API.git
+$ git clone https://github.com/miguel-osuna/Knowledge-Bot.git
 
 # Go into the repository from the terminal
-$ cd Quotes-API
+$ cd Knowledge-Bot
 
 # Remove current origin repository
 $ git remote remove origin
+```
 
-# Install dependencies
-$ pipenv install
+## :whale: Running project with Docker
 
-# Run the project
-$ python3 src/bot.py
+This will run the project on your local environment.
+
+Make sure to create a hidden folder like `envs.example` named `.envs`, with the same kind of environment variables.
+
+```
+docker-compose -f local.yml up -d --build
 ```
 
 ## :rocket: Deployment
-Pending.
+
+This project includes a Procfile for Heroku, but can be deployed to any other host.
+
+- Heroku: read the [following tutorial](https://devcenter.heroku.com/articles/getting-started-with-python) to learn how to deploy to your heroku account..
 
 ## :wrench: Built With
+
 - [discord.py](https://discordpy.readthedocs.io/en/latest/) - Python Library for Discord API
+- [Google Cloud Translation](https://cloud.google.com/translate)
+
+## Project Documentation
+
+To learn about bot commands, check the [project documentation](#)
 
 ## :performing_arts: Authors
+
 - **Miguel Osuna** - https://github.com/miguel-osuna
 
 ## :ledger: License
+
 This project is licensed under the MIT License - see the LICENSE.md file for details.

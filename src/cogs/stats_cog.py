@@ -39,7 +39,7 @@ class StatsCog(commands.Cog, name="Stats"):
 
         # Create uptime embed
         embed = discord.Embed(
-            title="⏱️ Knowledge Bot Uptime", color=discord.Color.dark_magenta()
+            title="⏱️ Knowledge Bot Uptime", color=discord.Color.dark_purple()
         )
         embed.description = f"\n\n{uptime_string}"
         embed.timestamp = end_datetime
@@ -57,7 +57,7 @@ class StatsCog(commands.Cog, name="Stats"):
         start_datetime,
     ):
         """ Creates an embed to show information about the bot. """
-        embed = discord.Embed(color=discord.Color.dark_magenta())
+        embed = discord.Embed(color=discord.Color.dark_purple())
         embed.title = "🤖 Official Knowledge Bot Server Invite"
         embed.url = server_invite_url
         embed.description = (
@@ -86,14 +86,14 @@ class StatsCog(commands.Cog, name="Stats"):
 
     def create_version_embed(self, version):
         """ Creates an embed to show the bots version. """
-        embed = discord.Embed(color=discord.Color.dark_magenta())
+        embed = discord.Embed(color=discord.Color.dark_purple())
         embed.title = f"Knowledge Bot `{version}`"
         embed.timestamp = datetime.utcnow()
         return embed
 
     def create_join_embed(self, version, bot_invite_url, server_invite_url):
         """ Creates an embed that includes a bot invitation to a server. """
-        embed = discord.Embed(color=discord.Color.dark_magenta())
+        embed = discord.Embed(color=discord.Color.dark_purple())
         embed.title = "🤖 Add Knowledge Bot to your Discord Server!"
         embed.description = "If you're interested in adding Knowledge Bot to your server, you'll find some links below to help you get started."
         embed.add_field(

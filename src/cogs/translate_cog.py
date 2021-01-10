@@ -113,7 +113,7 @@ class TranslateCog(commands.Cog, name="Translate"):
             country_flags_string += language.country_flags[:3] + "\n"
 
         # Create Discord embed
-        embed = discord.Embed(color=discord.Color.purple())
+        embed = discord.Embed(color=discord.Color.dark_purple())
         embed.title = "🌎 Supported Languages"
         embed.description = f"This is a list of all the supported languages with their respective name, language code and country flags.\n"
         embed.add_field(name="Name", value=f"{name_string}")
