@@ -18,7 +18,7 @@ COPY Pipfile /app/
 RUN pip install pipenv
 
 # Install dependencies
-RUN pipenv install --skip-lock --system && pipenv install --skip-lock --system --dev
+RUN pipenv install --system && pipenv install --system --dev
 
 # Copy start bash script ahd change permissions
 COPY ./compose/local/application/start /start

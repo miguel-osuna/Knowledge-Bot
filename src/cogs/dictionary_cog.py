@@ -5,7 +5,17 @@ from datetime import datetime
 import discord
 from discord.ext import commands, tasks
 
-from util import generate_logger, Pages
+from util import (
+    generate_logger,
+    Pages,
+    get_definition,
+    get_synonyms,
+    get_antonyms,
+    get_similar_words,
+    get_rhymes,
+    get_word_of_the_day,
+    get_random_word,
+)
 
 logger = generate_logger(__name__)
 
@@ -76,25 +86,10 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         embed.timestamp = datetime.utcnow()
         return embed
 
-    def create_word_of_the_day_embed(self, status, channels, time, language):
-        """ Creates an embed to to notice the user when a word of the day is programmed. """
-        embed = discord.Embed(
-            title="📖 Word of the Day Setup", color=discord.Color.dark_purple()
-        )
-
-        embed.add_field(name="❓ Status", value=f"{status}\u200B\n", inline=False)
-        embed.add_field(name="💬 Channels", value=f"{channels}\u200B\n", inline=False)
-        embed.add_field(name="⌚ Time", value=f"{time}\u200B", inline=False)
-        embed.add_field(name="🌎 Language", value=f"{language}\u200B", inline=False)
-        embed.timestamp = datetime.utcnow()
-
-        return embed
-
-    def create_word_status_embed(self):
-        """ Creates a paginator embed to show the word of the day status. """
-        embed = discord.Embed(color=discord.Color.dark_purple())
-        embed.title = "📖 Word of the Day Status"
-        embed.timestamp = datetime.utcnow()
+    def create_error_embed(self, message):
+        """ Creates an embed to display an error message. """
+        embed = discord.Embed(colour=discord.Colour.red())
+        embed.title = message
         return embed
 
     # Class Methods
@@ -115,9 +110,9 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Commands for dictionary search.",
     )
     async def dictionary(self, ctx):
-        """Commands for dictionary search. Use `~help dictionary` to view subcommands."""
+        """ Commands for dictionary search. Use `~help dictionary` to view subcommands."""
         if ctx.invoked_subcommand is None:
-            await ctx.send(
+            await ctx.channel.send(
                 f"Incorrect usage. Use `{ctx.prefix}help dictionary` for help."
             )
         try:
@@ -130,129 +125,81 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         name="definition",
         aliases=["def"],
         brief="Embeds a message with a word definition.",
-        help="Embeds a message with a word definition. The word and the definition provided are done in english by default.",
+        help="Embeds a message with a word definition.",
     )
-    async def dictionary_definition(
-        self, ctx, word=None, word_language="english", definition_language="english"
-    ):
-        """Embeds a message with a word definition.
+    async def dictionary_definition(self, ctx, word=None):
+        """ Embeds a message with a word definition."""
+        try:
+            if word is not None:
+                definition = get_definition(word)[0]
 
-        The word and the definition provided are done in english by default.
-        """
-        if word != None:
-
-            # Use function to check if the language is valid
-            is_word_language_valid = True
-
-            # Use function to check if the language is valid
-            is_definition_language_valid = True
-
-            if not is_word_language_valid or not is_definition_language_valid:
-                await ctx.send("Please provide supported languages.")
-
-            # Languages provided are valid
-            else:
-
-                # Check if the word exists
-                is_word_valid = True
-
-                if is_word_valid:
-                    # Get the word definition for the embed
-
-                    definition = "An autonomous program on a network (especially the Internet) that can interact with computer systems or users, especially one designed to respond or behave like a player in an adventure game."
-
+                # Check if there is a definition for the word
+                if definition:
                     embed = self.create_definition_embed(word, definition)
-                    await ctx.send(embed=embed)
-
+                    await ctx.channel.send(embed=embed)
                 else:
-                    await ctx.send(f"Sorry, I couldn't find a definition for `{word}`.")
-
-        else:
-            await ctx.send("Sorry, couldn't find a definition.")
+                    raise Exception
+            else:
+                raise Exception
+        except:
+            message = f"Sorry, I could not find a definition for `{word}`."
+            logger.error(message)
+            embed = self.create_error_embed(message)
+            await ctx.channel.send(embed=embed)
 
     @commands.guild_only()
     @dictionary.command(
         name="synonym",
         aliases=["syn"],
         brief="Provides a list of synonyms for the word given.",
-        help="Provides a list of synonyms for the word given. This is done in english by default.",
+        help="Provides a list of synonyms for the word given.",
     )
     async def dictionary_synonym(self, ctx, word=None):
-        """Provides a list of synonyms for the word given.
+        """ Provides a list of synonyms for the word given. """
+        try:
+            if word is not None:
+                synonyms = get_synonyms(word)
 
-        This is done in english by default.
-        """
-        if word is not None:
-
-            # CUse function to check if the word exists
-            is_word_valid = True
-
-            if is_word_valid:
-
-                # Get the synonyms
-                synonyms = [
-                    "little",
-                    "small-scale",
-                    "compact",
-                    "bijou",
-                    "portable",
-                    "tiny",
-                    "miniature",
-                    "mini",
-                    "minute",
-                    "micro",
-                ]
-
-                # Create embed
-                embed = self.create_synonym_embed(word, synonyms)
-                await ctx.send(embed=embed)
-
+                # Check if there are synonyms for the word
+                if synonyms:
+                    embed = self.create_synonym_embed(word, synonyms)
+                    await ctx.channel.send(embed=embed)
+                else:
+                    raise Exception
             else:
-                await ctx.send(f"Sorry, couldn't find any synonyms for `{word}`.")
-
-        else:
-            await ctx.send("Sorry, couldn't find any synonyms.")
+                raise Exception
+        except:
+            message = f"Sorry, I could not find any synonyms for `{word}`."
+            logger.error(message)
+            embed = self.create_error_embed(message)
+            await ctx.channel.send(embed=embed)
 
     @commands.guild_only()
     @dictionary.command(
         name="antonym",
         aliases=["ant"],
         brief="Provides a list of antonyms for the word given.",
-        help="Provides a list of antonyms for the word given. This is done in english by default.",
+        help="Provides a list of antonyms for the word given.",
     )
     async def dictionary_antonym(self, ctx, word=None):
-        """Provides a list of antonyms for the word given.
+        """ Provides a list of antonyms for the word given. """
+        try:
+            if word is not None:
+                synonyms = get_synonyms(word)
 
-        This is done in english by default.
-        """
-        if word is not None:
-
-            # Use function to check if the word exists
-            is_word_valid = True
-
-            if is_word_valid:
-
-                # Get the antonyms
-                antonyms = [
-                    "big",
-                    "large",
-                    "heavily built",
-                    "tall",
-                    "generous",
-                    "ample",
-                    "major",
-                    "substantial",
-                ]
-
-                # Create embed
-                embed = self.create_antonym_embed(word, antonyms)
-                await ctx.send(embed=embed)
-
+                # Check if there are synonyms for the word
+                if synonyms:
+                    embed = self.create_antonym_embed(word, synonyms)
+                    await ctx.channel.send(embed=embed)
+                else:
+                    raise Exception
             else:
-                await ctx.send(f"Sorry, couldn't find any antonyms for `{word}`")
-
-        else:
-            await ctx.send("Sorry, couldn't find any antonyms.")
+                raise Exception
+        except:
+            message = f"Sorry, I could not find any antonyms for `{word}`."
+            logger.error(message)
+            embed = self.create_error_embed(message)
+            await ctx.channel.send(embed=embed)
 
     @commands.guild_only()
     @dictionary.command(
@@ -262,41 +209,24 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Provides a list of words that have similar sound or spelling as the given word (homonyms/homographs). This is done in english by default.",
     )
     async def dictionary_similar(self, ctx, word=None):
-        """Provides a list of words that have similar sound or spelling as the given word (homonyms/homographs).
+        """ Provides a list of words that have similar sound or spelling as the given word (homonyms/homographs). """
+        try:
+            if word is not None:
+                similar_words = get_similar_words(word)
 
-
-        This is done in english by default.
-        """
-        if word is not None:
-
-            # Use function to check if the word exists
-            is_word_valid = True
-
-            # Use function to check if the word has homographs (similar spelling words)
-            word_has_similar = True
-
-            if not is_word_valid or not word_has_similar:
-                await ctx.send(
-                    f"Sorry, couldn't find similar sounds or spelling words for `{word}`."
-                )
-
+                # Check if there are similar words for the given word
+                if similar_words:
+                    embed = self.create_similar_embed(word, similar_words)
+                    await ctx.channel.send(embed=embed)
+                else:
+                    raise Exception
             else:
-                # Get the homonyms/homographs (similar sound words/similar spelling words)
-                similar = [
-                    {
-                        "word": "bass",
-                        "definition": "any of numerous edible marine or freshwater bony fishes.",
-                    },
-                    {"word": "bass", "definition": "deep or grave in tone."},
-                    {"word": "bass", "definition": "a coarse tough fiber from palms."},
-                ]
-
-                # Create similar spelling embed
-                embed = self.create_similar_embed(word, similar)
-                await ctx.send(embed=embed)
-
-        else:
-            await ctx.send("Sorry, couldn't find similar spelling words.")
+                raise Exception
+        except:
+            message = f"Sorry, I could not find similar sounds or spelling words for `{word}`."
+            logger.error(message)
+            embed = self.create_error_embed(message)
+            await ctx.channel.send(embed=embed)
 
     @commands.guild_only()
     @dictionary.command(
@@ -305,149 +235,61 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Provides a list of words that rhyme with the given word. This is done in english by default.",
     )
     async def dictionary_rhyme(self, ctx, word=None):
-        """Provides a list of words that rhyme with the given word.
-
-        This is done in english by default.
-        """
-        if word is not None:
-
-            # Use function to check if the word exists
-            is_word_valid = True
-
-            # Use function to check if the word has rhymes
-            word_has_rhyme = True
-
-            if not is_word_valid or not word_has_rhyme:
-                await ctx.send(f"Sorry, couldn't find rhymes for `{word}`.")
-
+        """ Provides a list of words that rhyme with the given word. """
+        try:
+            if word is not None:
+                rhymes = get_rhymes(word)
+                if rhymes:
+                    embed = self.create_rhyme_embed(word, rhymes)
+                    await ctx.channel.send(embed=embed)
+                else:
+                    raise Exception
             else:
-                # Get the rhymes
-                rhymes = [
-                    "santa",
-                    "anna",
-                    "piano",
-                    "Indiana",
-                    "Montana",
-                    "Hannah",
-                    "nana",
-                    "americana",
-                    "bandanna",
-                    "cabana",
-                ]
-
-                # Create similar spelling embed
-                embed = self.create_rhyme_embed(word, rhymes)
-                await ctx.send(embed=embed)
-
-        else:
-            await ctx.send("Sorry, couldn't find similar spelling words.")
+                raise Exception
+        except:
+            message = f"Sorry, I could not find any rhymes for `{word}`."
+            logger.error(message)
+            embed = self.create_error_embed(message)
+            await ctx.channel.send(embed=embed)
 
     @commands.guild_only()
     @dictionary.command(
         name="wotd",
-        brief="Programs a quote of the day for the specified channels.",
-        help="Programs a quote of the day for the specified channels. This is done in english by default.",
+        brief="Shows the word of the day.",
+        help="Shows the word of the day.",
     )
-    async def dictionary_wotd(
-        self,
-        ctx,
-        status=None,
-        language="english",
-        time=None,
-        channels: commands.Greedy[discord.TextChannel] = "server",
-    ):
-        """Programs a quote of the day for the specified channels.
-
-        This is done in english by default.
-        """
-        if status is not None and time is not None:
-            # Use function to check to validate time string passed. This can be implemented as a converter
-            is_time_valid = True
-
-            # Use function to check if the language is valid
-            is_language_valid = True
-
-            if status.lower() != "enable" and status.lower() != "disable":
-                await ctx.send("Sorry, wrong status given.")
-
-            elif not is_language_valid:
-                await ctx.send("Sorry, language is not valid.")
-
-            elif not is_time_valid:
-                await ctx.send("Sorry, wrong time format given.")
-
-            else:
-                # If no channels are specified
-                if channels != "server":
-                    programmed_channels = ", ".join(
-                        ["`#" + channel.name + "`" for channel in channels]
-                    )
-
-                # Setup the word of the day for all channels
-                else:
-                    # Get all the channels from the server
-                    channels = ctx.guild.channels
-                    programmed_channels = "All channels"
-
-                # Format everything
-                status = status.lower().capitalize()
-                language = language.lower().capitalize()
-
-                embed = self.create_word_of_the_day_embed(
-                    status, programmed_channels, time, language
-                )
-                await ctx.send(embed=embed)
-
-        else:
-            await ctx.send("Couldn't setup word of the day.")
+    async def dictionary_word_of_the_day(self, ctx):
+        """ Shows the word of the day. """
+        try:
+            word, definitions = get_word_of_the_day()
+            embed = self.create_definition_embed(word, definitions[0])
+            await ctx.channel.send(embed=embed)
+        except:
+            message = "Sorry, could not get word of the day."
+            logger.error(message)
+            embed = self.create_error_embed(message)
+            await ctx.channel.send(embed=embed)
 
     @commands.guild_only()
     @dictionary.command(
-        name="random-word",
-        aliases=["rand-wrd"],
+        name="random",
+        aliases=["rnd"],
         brief="Shows a random word with its definition",
-        help="Shows a random word with its definition. This is done in english by default.",
+        help="Shows a random word with its definition.",
     )
     async def dictionary_random_word(self, ctx):
-        """Shows a random word with its definition.
-
-        This is done in english by default.
-        """
+        """ Shows a random word with its definition. """
         # Get a random word and its definition from the database
-        word = "bot"
-        definition = "An autonomous program on a network (especially the Internet) that can interact with computer systems or users, especially one designed to respond or behave like a player in an adventure game."
-
-        # Create embed from random word and definition
-        embed = self.create_definition_embed(word, definition)
-
-        await ctx.send(embed=embed)
-
-    @commands.guild_only()
-    @dictionary.group(
-        name="status",
-        brief="Shows the word of the day status of the server.",
-        help="Shows the word of the day status of the server.",
-        invoke_without_commands=True,
-    )
-    async def dictionary_status(self, ctx):
-        server = ctx.guild.name
-        await ctx.send(f"Word of the Day status for server `{server}`")
-
-    @commands.guild_only()
-    @dictionary_status.command(
-        name="channels",
-        brief="Shows the word of the day status of the channels specified.",
-        help="Shows the word of the day status of the channels specified.",
-    )
-    async def dictionary_status_channels(
-        self, ctx, channels: commands.Greedy[discord.TextChannel] = None
-    ):
-        if channels is not None:
-            channel_str = ", ".join(["`#" + channel.name + "`" for channel in channels])
-            # Query the channels in the database
-            await ctx.send(f"Word of the Day status for {channel_str}.")
-        else:
-            await ctx.send(f"Couldn't get Word of the Day status.")
+        try:
+            word = get_random_word()
+            definition = get_definition(word)[0]
+            embed = self.create_definition_embed(word, definition)
+            await ctx.channel.send(embed=embed)
+        except:
+            message = f"Sorry, could not get random word."
+            logger.error(message)
+            embed = self.create_error_embed(message)
+            await ctx.channel.send(embed=embed)
 
 
 def setup(bot):

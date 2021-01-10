@@ -1,4 +1,9 @@
+import os
+from os.path import dirname, abspath, join
 import six
+
+BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
+TRANSLATION_KEY_FILE = join(BASE_PROJECT_PATH, ".envs", ".local")
 
 
 def detect_language(text):
@@ -6,7 +11,7 @@ def detect_language(text):
     from google.cloud import translate_v2 as translate
 
     translate_client = translate.Client.from_service_account_json(
-        "/home/miguelosuna/Dev/Python/Knowledge-Bot/.envs/.local/knowledge-bot-development-b8ed9d8c16cb.json"
+        TRANSLATION_KEY_FILE + "/knowledge-bot-development-b8ed9d8c16cb.json"
     )
 
     # Text can also be a sequence of strings, in which case this method
@@ -24,7 +29,7 @@ def list_languages(target_language="english"):
     from google.cloud import translate_v2 as translate
 
     translate_client = translate.Client.from_service_account_json(
-        "/home/miguelosuna/Dev/Python/Knowledge-Bot/.envs/.local/knowledge-bot-development-b8ed9d8c16cb.json"
+        TRANSLATION_KEY_FILE + "/knowledge-bot-development-b8ed9d8c16cb.json"
     ).from_service_account_json()
 
     languages = translate_client.get_languages(target_language=target_language)
@@ -34,14 +39,14 @@ def list_languages(target_language="english"):
 
 
 def translate_text(target_language, text, model="nmt"):
-    """ Translates text into the target language. 
-    
+    """Translates text into the target language.
+
     Target must be an ISO 639-1 lanfuage code.
     """
     from google.cloud import translate_v2 as translate
 
     translate_client = translate.Client.from_service_account_json(
-        "/home/miguelosuna/Dev/Python/Knowledge-Bot/.envs/.local/knowledge-bot-development-b8ed9d8c16cb.json"
+        TRANSLATION_KEY_FILE + "/knowledge-bot-development-b8ed9d8c16cb.json"
     )
 
     if isinstance(text, six.binary_type):
@@ -59,4 +64,4 @@ def translate_text(target_language, text, model="nmt"):
 
 
 if __name__ == "__main__":
-    pass
+    translate_text("ja", "This is a test")

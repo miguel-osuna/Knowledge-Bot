@@ -2,8 +2,10 @@ import os
 from os.path import dirname, abspath, join
 from datetime import datetime
 
-from config import WORDNIK_API_URL, WORDNIK_API_KEY
 from wordnik import swagger, WordApi, WordsApi
+
+WORDNIK_API_KEY = os.getenv("WORDNIK_API_KEY")
+WORDNIK_API_URL = os.getenv("WORDNIK_API_URL")
 
 client = swagger.ApiClient(WORDNIK_API_KEY, WORDNIK_API_URL)
 
@@ -153,10 +155,9 @@ def get_word_of_the_day():
 def get_random_word():
     """ Gets a random word (without definition). """
     words_client = WordsApi.WordsApi(client)
-
     random_word = words_client.getRandomWord()
     return random_word.word
 
 
 if __name__ == "__main__":
-    pass
+    print(get_definition("ball"))
