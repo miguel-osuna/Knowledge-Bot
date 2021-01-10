@@ -28,7 +28,7 @@ class Pages:
     embed: discord.Embed
         The embed object that is being used to send pagination info.
         Feel free to modify this externally. Only the description,
-        footer fields, and colour are internally modified.
+        footer fields, and color are internally modified.
     permissions: discord.Permissions
         Our permissions for the channel.
     """
@@ -51,16 +51,22 @@ class Pages:
 
         # Check if
         self.maximum_pages = pages
-        self.embed = discord.Embed(colour=discord.Colour.blue())
+        self.embed = discord.Embed(color=discord.Color.blue())
         self.paginating = len(entries) > per_page
         self.show_entry_count = show_entry_count
 
         # Reaction map for the navigation
         self.reaction_emojis = [
-            ("\N{BLACK LEFT-POINTING DOUBLE TRIANGLE}", self.first_page,),
+            (
+                "\N{BLACK LEFT-POINTING DOUBLE TRIANGLE}",
+                self.first_page,
+            ),
             ("\N{BLACK LEFT-POINTING TRIANGLE}", self.previous_page),
             ("\N{BLACK RIGHT-POINTING TRIANGLE}", self.next_page),
-            ("\N{BLACK RIGHT-POINTING DOUBLE TRIANGLE}", self.last_page,),
+            (
+                "\N{BLACK RIGHT-POINTING DOUBLE TRIANGLE}",
+                self.last_page,
+            ),
             ("\N{INPUT SYMBOL FOR NUMBERS}", self.numbered_page),
             ("\N{BLACK SQUARE FOR STOP}", self.stop_pages),
             ("\N{INFORMATION SOURCE}", self.show_help),
@@ -129,8 +135,8 @@ class Pages:
             await self.message.add_reaction(reaction)
 
     async def checked_show_page(self, page):
-        """ Checks that the given page not exceed 
-        the min and max index of the whole entry pages. 
+        """Checks that the given page not exceed
+        the min and max index of the whole entry pages.
         """
         if page != 0 and page <= self.maximum_pages:
             await self.show_page(page)
@@ -294,7 +300,7 @@ class Pages:
 
 
 class FieldPages(Pages):
-    """ Similar to Pages except entries should be a list of
+    """Similar to Pages except entries should be a list of
     tuples having (key, value) to show as embed fields instead.
     """
 

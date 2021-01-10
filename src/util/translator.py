@@ -3,7 +3,7 @@ from os.path import dirname, abspath, join
 import six
 
 BASE_PROJECT_PATH = dirname(dirname(dirname((abspath(__file__)))))
-TRANSLATION_KEY_FILE = join(BASE_PROJECT_PATH, ".envs", ".local")
+TRANSLATION_KEY_PATH = join(BASE_PROJECT_PATH, ".envs", ".local")
 
 
 def detect_language(text):
@@ -11,17 +11,11 @@ def detect_language(text):
     from google.cloud import translate_v2 as translate
 
     translate_client = translate.Client.from_service_account_json(
-        TRANSLATION_KEY_FILE + "/knowledge-bot-development-b8ed9d8c16cb.json"
+        TRANSLATION_KEY_PATH + "/knowledge-bot-development-b8ed9d8c16cb.json"
     )
 
-    # Text can also be a sequence of strings, in which case this method
-    # will return a sequence of results for each text.
-
     result = translate_client.detect_language(text)
-
-    print("Text : {}".format(text))
-    print("Confidence: {}".format(result["confidence"]))
-    print("Language: {}".format(result["language"]))
+    return str(result["language"])
 
 
 def list_languages(target_language="english"):
@@ -29,7 +23,7 @@ def list_languages(target_language="english"):
     from google.cloud import translate_v2 as translate
 
     translate_client = translate.Client.from_service_account_json(
-        TRANSLATION_KEY_FILE + "/knowledge-bot-development-b8ed9d8c16cb.json"
+        TRANSLATION_KEY_PATH + "/knowledge-bot-development-b8ed9d8c16cb.json"
     ).from_service_account_json()
 
     languages = translate_client.get_languages(target_language=target_language)
@@ -46,7 +40,7 @@ def translate_text(target_language, text, model="nmt"):
     from google.cloud import translate_v2 as translate
 
     translate_client = translate.Client.from_service_account_json(
-        TRANSLATION_KEY_FILE + "/knowledge-bot-development-b8ed9d8c16cb.json"
+        TRANSLATION_KEY_PATH + "/knowledge-bot-development-b8ed9d8c16cb.json"
     )
 
     if isinstance(text, six.binary_type):
@@ -58,10 +52,9 @@ def translate_text(target_language, text, model="nmt"):
         values=text, target_language=target_language, model=model
     )
 
-    print(u"Text: {}".format(result["input"]))
-    print(u"Translation: {}".format(result["translatedText"]))
-    print(u"Detected Source Language: {}".format(result["detectedSourceLanguage"]))
+    return result["translatedText"]
 
 
 if __name__ == "__main__":
-    translate_text("ja", "This is a test")
+    print(translate_text("en", "This is a test"))
+    detect_language("Hola, esta es una prueba")

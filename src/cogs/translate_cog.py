@@ -44,13 +44,6 @@ class Language:
         return hash(self.__key())
 
 
-class TranslateListPaginator(Pages):
-    """ Translate List Paginator. """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
 class TranslateCog(commands.Cog, name="Translate"):
     """ Bot translation cog. """
 
@@ -133,14 +126,14 @@ class TranslateCog(commands.Cog, name="Translate"):
     def create_translate_text_embed(
         self, author_name, author_img, original_text, translated_text
     ):
-        embed = discord.Embed(color=discord.Color.purple())
+        embed = discord.Embed(color=discord.Color.dark_purple())
         embed.set_author(name=author_name, icon_url=author_img)
         embed.description = f"**{translated_text}**\n*{original_text}*"
         embed.timestamp = datetime.utcnow()
         return embed
 
     def create_translate_detect_embed(self, message, language_name, language_code):
-        embed = discord.Embed(color=discord.Color.green())
+        embed = discord.Embed(color=discord.Color.dark_purple())
         embed.title = "🔎 Language Detection"
         embed.description = f"Language Detected: **{language_name}** (***{language_code}***)\n\n*{message}*"
         embed.timestamp = datetime.utcnow()
@@ -148,7 +141,7 @@ class TranslateCog(commands.Cog, name="Translate"):
 
     def create_error_embed(self, message):
         """ Creates an embed to display an error message. """
-        embed = discord.Embed(colour=discord.Colour.red())
+        embed = discord.Embed(color=discord.Color.red())
         embed.title = message
         return embed
 
@@ -165,21 +158,21 @@ class TranslateCog(commands.Cog, name="Translate"):
 
     # Commands
     @commands.group(
-        name="translate", aliases=["t"], help="Commands for text translation."
+        name="translator", aliases=["t"], help="Commands for text translation."
     )
-    async def translate(self, ctx):
-        """ Commands for text translation. Use `~help translate` to view subcommands."""
+    async def translator(self, ctx):
+        """ Commands for text translation. Use `~help translator` to view subcommands."""
 
         if ctx.invoked_subcommand is None:
             await ctx.channel.send(
-                f"Incorrect usage. Use `{ctx.prefix}help translate` for help."
+                f"Incorrect usage. Use `{ctx.prefix}help translator` for help."
             )
         try:
             await ctx.message.delete()
         except discord.HTTPException:
             pass
 
-    @translate.command(
+    @translator.command(
         name="list",
         aliases=["ls"],
         brief="Sends a list of all supported languages.",
@@ -192,118 +185,53 @@ class TranslateCog(commands.Cog, name="Translate"):
         await ctx.author.send(embed=embed)
 
     @commands.guild_only()
-    @translate.command(
+    @translator.command(
         name="text",
         aliases=["txt"],
         brief="Translates a sentence from one language to another.",
         help="Translates a sentence from one language to another.",
     )
-    async def translate_text(self, ctx, languages=None, *, text: str = None):
+    async def translate_text(self, ctx, language=None, *, text: str = None):
         """ Translate a sentence from one language to another. """
-        if languages is not None and text is not None:
-            # Check if theres a colon present in the languages specified by the user
-            try:
-                from_language, to_languages = languages.split(":")
+        try:
+            if language is not None and text is not None:
+                translation = translate_text(language, text)
+                author_name = ctx.author.name
+                author_img = ctx.author.avatar_url
 
-            # If not from_language was specified, use the channels default
-            except ValueError as err:
-                logger.debug(err)
-                from_language = [self.default_language.language_name]
-                to_languages = languages
-
-            # Separate the translation languages into their own list of strings
-            try:
-                from_language = from_language.split(",")
-                to_languages = to_languages.split(",")
-
-            except AttributeError as err:
-                logger.debug(err)
-                embed = self.create_error_embed("Please provide the correct arguments.")
-                await ctx.channel.send(embed=embed)
-
-            # Check if there is just one language to translate
-            if len(from_language) > 1:
-                embed = self.create_error_embed(
-                    "Please specify a single language to translate."
+                embed = self.create_translate_text_embed(
+                    author_name, author_img, text, translation
                 )
                 await ctx.channel.send(embed=embed)
 
             else:
-                # Create Language instances to ease their comparisson
-                from_language = list(map(self.create_language, from_language))
-                to_languages = list(map(self.create_language, to_languages))
-
-                are_languages_valid = True
-                languages_repeat = False
-
-                # Check that the languages passed are valid and available
-                for lang in from_language:
-                    if lang is None:
-                        are_languages_valid = False
-                        break
-
-                for lang in to_languages:
-                    if lang is None:
-                        are_languages_valid = False
-                        break
-
-                # Check that from_language is not included in to_languages
-                for from_lang in from_language:
-                    for to_lang in to_languages:
-                        if to_lang == from_lang:
-                            languages_repeat = True
-                            break
-
-                # Send message if any of the languages is not valid
-                if not are_languages_valid:
-                    embed = self.create_error_embed(
-                        "Please provide supported languages."
-                    )
-                    await ctx.channel.send(embed=embed)
-
-                # Send message if from_language is found inside to_languages
-                elif languages_repeat:
-                    embed = self.create_error_embed(
-                        "Please make sure to not repeat any languages."
-                    )
-                    await ctx.channel.send(embed=embed)
-
-                else:
-                    # Remove any repeated languages to avoid over translations
-                    to_languages = list(set(to_languages))
-
-                    # Perform translation
-                    original_text = text
-                    translated_text = translate_text(from_lang, text)
-                    author_name = ctx.author.name
-                    author_img = ctx.author.avatar_url
-
-                    # Create translation embed
-                    embed = self.create_translate_text_embed(
-                        author_name, author_img, original_text, translated_text
-                    )
-
-                    # Send message with the translation
-                    await ctx.channel.send(embed=embed)
-
-        else:
-            await ctx.channel.send("Please provide the correct arguments.")
-
-    @commands.guild_only()
-    @translate.command(name="detect", help="Detects the language of a given message.")
-    async def translate_detect(self, ctx, *, text: str = None):
-        if text is not None:
-            # Call translation function to detect the message
-            language = self.create_language("english")
-
-            embed = self.create_translate_detect_embed(
-                text, language.language_name.capitalize(), language.language_code
-            )
-
+                raise Exception
+        except:
+            message = f"Sorry, I could not translate your text. Please make sure to provide a supported language."
+            logger.error(message)
+            embed = self.create_error_embed(message)
             await ctx.channel.send(embed=embed)
 
-        else:
-            await ctx.channel.send("Couldn't detect language.")
+    @commands.guild_only()
+    @translator.command(name="detect", help="Detects the language of a given message.")
+    async def translate_detect(self, ctx, *, text: str = None):
+        try:
+            if text is not None:
+                detected_language = detect_language(text)
+                language = self.create_language(detected_language)
+                embed = self.create_translate_detect_embed(
+                    text, language.language_name, language.language_code
+                )
+                await ctx.channel.send(embed=embed)
+
+            else:
+                raise Exception
+
+        except:
+            message = "Sorry, I could not find any language for your text."
+            logger.error(message)
+            embed = self.create_error_embed(message)
+            await ctx.channel.send(embed=embed)
 
 
 def setup(bot):

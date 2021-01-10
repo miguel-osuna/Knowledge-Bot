@@ -88,7 +88,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
 
     def create_error_embed(self, message):
         """ Creates an embed to display an error message. """
-        embed = discord.Embed(colour=discord.Colour.red())
+        embed = discord.Embed(color=discord.Color.red())
         embed.title = message
         return embed
 

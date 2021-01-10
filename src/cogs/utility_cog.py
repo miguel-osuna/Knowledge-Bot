@@ -221,7 +221,7 @@ class PaginatedHelpCommand(commands.HelpCommand):
 
     async def send_command_help(self, command):
         # No pagination necessary for a single command.
-        embed = discord.Embed(colour=discord.Colour.blue())
+        embed = discord.Embed(color=discord.Color.blue())
         self.common_command_formatting(embed, command)
         await self.context.send(embed=embed)
 
