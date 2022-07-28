@@ -1,9 +1,7 @@
-import typing
-import pytz
 from datetime import datetime
 
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 
 from util import (
     generate_logger,
@@ -21,7 +19,7 @@ logger = generate_logger(__name__)
 
 
 class WordPaginator(Pages):
-    """ Word of the Day Status Paginator. """
+    """Word of the Day Status Paginator."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -29,11 +27,11 @@ class WordPaginator(Pages):
 
 class DictionaryCog(commands.Cog, name="Dictionary"):
     def __init__(self, bot):
-        """ Initialisation for DictionaryCog instance. """
+        """Initialisation for DictionaryCog instance."""
         self.bot = bot
 
     def create_definition_embed(self, word, definition):
-        """ Creates an embed to show a word definition. """
+        """Creates an embed to show a word definition."""
         embed = discord.Embed(color=discord.Color.dark_purple())
         embed.title = "📖 Definition"
         embed.description = f"**{word}**\n*noun* [C]\n*```{definition}```*"
@@ -41,7 +39,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         return embed
 
     def create_synonym_embed(self, word, synonyms_list):
-        """ Creates an embed to show synonyms of a word. """
+        """Creates an embed to show synonyms of a word."""
         synonyms_string = ", ".join([synonym for synonym in synonyms_list])
         embed = discord.Embed(color=discord.Color.dark_purple())
         embed.title = f"📖 Synonyms for *{word}*"
@@ -52,7 +50,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         return embed
 
     def create_antonym_embed(self, word, antonyms_list):
-        """ Creates an embed to show antonyms of a word. """
+        """Creates an embed to show antonyms of a word."""
         antonyms_string = ", ".join([antonym for antonym in antonyms_list])
         embed = discord.Embed(color=discord.Color.dark_purple())
         embed.title = f"📖 Antonyms for *{word}*"
@@ -63,7 +61,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         return embed
 
     def create_similar_embed(self, word, similar_list):
-        """ Creates an embed to show words with similar sound or spelling (homonyms/homographs). """
+        """Creates an embed to show words with similar sound or spelling (homonyms/homographs)."""
 
         similar_string = ""
         for index, value in enumerate((similar_list)):
@@ -76,7 +74,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         return embed
 
     def create_rhyme_embed(self, word, rhyme_list):
-        """ Creates an embed to show words that rhyme with a word. """
+        """Creates an embed to show words that rhyme with a word."""
         rhyme_string = ", ".join([rhyme for rhyme in rhyme_list])
         embed = discord.Embed(color=discord.Color.dark_purple())
         embed.title = f"📖 Rhymes for *{word}*"
@@ -87,19 +85,19 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         return embed
 
     def create_error_embed(self, message):
-        """ Creates an embed to display an error message. """
+        """Creates an embed to display an error message."""
         embed = discord.Embed(color=discord.Color.red())
         embed.title = message
         return embed
 
     # Class Methods
     async def cog_before_invoke(self, ctx):
-        """ A special method that acts as a cog local pre-invoke hook. """
+        """A special method that acts as a cog local pre-invoke hook."""
         await ctx.trigger_typing()
         return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
-        """ A special method that acts as a cog local post-invoek hook. """
+        """A special method that acts as a cog local post-invoek hook."""
         return await super().cog_after_invoke(ctx)
 
     # Commands
@@ -110,7 +108,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Commands for dictionary search.",
     )
     async def dictionary(self, ctx):
-        """ Commands for dictionary search. Use `~help dictionary` to view subcommands."""
+        """Commands for dictionary search. Use `~help dictionary` to view subcommands."""
         if ctx.invoked_subcommand is None:
             await ctx.channel.send(
                 f"Incorrect usage. Use `{ctx.prefix}help dictionary` for help."
@@ -128,7 +126,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Embeds a message with a word definition.",
     )
     async def dictionary_definition(self, ctx, word=None):
-        """ Embeds a message with a word definition."""
+        """Embeds a message with a word definition."""
         try:
             if word is not None:
                 definition = get_definition(word)[0]
@@ -155,7 +153,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Provides a list of synonyms for the word given.",
     )
     async def dictionary_synonym(self, ctx, word=None):
-        """ Provides a list of synonyms for the word given. """
+        """Provides a list of synonyms for the word given."""
         try:
             if word is not None:
                 synonyms = get_synonyms(word)
@@ -182,10 +180,10 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Provides a list of antonyms for the word given.",
     )
     async def dictionary_antonym(self, ctx, word=None):
-        """ Provides a list of antonyms for the word given. """
+        """Provides a list of antonyms for the word given."""
         try:
             if word is not None:
-                synonyms = get_synonyms(word)
+                synonyms = get_antonyms(word)
 
                 # Check if there are synonyms for the word
                 if synonyms:
@@ -209,7 +207,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Provides a list of words that have similar sound or spelling as the given word (homonyms/homographs). This is done in english by default.",
     )
     async def dictionary_similar(self, ctx, word=None):
-        """ Provides a list of words that have similar sound or spelling as the given word (homonyms/homographs). """
+        """Provides a list of words that have similar sound or spelling as the given word (homonyms/homographs)."""
         try:
             if word is not None:
                 similar_words = get_similar_words(word)
@@ -235,7 +233,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Provides a list of words that rhyme with the given word. This is done in english by default.",
     )
     async def dictionary_rhyme(self, ctx, word=None):
-        """ Provides a list of words that rhyme with the given word. """
+        """Provides a list of words that rhyme with the given word."""
         try:
             if word is not None:
                 rhymes = get_rhymes(word)
@@ -259,7 +257,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Shows the word of the day.",
     )
     async def dictionary_word_of_the_day(self, ctx):
-        """ Shows the word of the day. """
+        """Shows the word of the day."""
         try:
             word, definitions = get_word_of_the_day()
             embed = self.create_definition_embed(word, definitions[0])
@@ -278,7 +276,7 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
         help="Shows a random word with its definition.",
     )
     async def dictionary_random_word(self, ctx):
-        """ Shows a random word with its definition. """
+        """Shows a random word with its definition."""
         # Get a random word and its definition from the database
         try:
             word = get_random_word()
@@ -293,12 +291,12 @@ class DictionaryCog(commands.Cog, name="Dictionary"):
 
 
 def setup(bot):
-    """ Setups up the dictionary cog for the bot. """
+    """Setups up the dictionary cog for the bot."""
     logger.info("Loading Dictionary Cog")
     bot.add_cog(DictionaryCog(bot))
 
 
 def teardown(bot):
-    """ Tears down the dictionary cog for the bot. """
+    """Tears down the dictionary cog for the bot."""
     logger.info("Unloading Dictionary Cog")
     bot.remove_cog("cogs.dictionary_cog")

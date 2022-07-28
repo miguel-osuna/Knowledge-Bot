@@ -1,12 +1,8 @@
-import typing
 import json
-import os
-import pdb
-from os.path import dirname, abspath, join
 from datetime import datetime
 
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 
 from util import generate_logger, Pages, detect_language, list_languages, translate_text
 from config import LANGUAGES_PATH
@@ -15,47 +11,47 @@ logger = generate_logger(__name__)
 
 
 class Language:
-    """ Language class that represents a language used for translation. """
+    """Language class that represents a language used for translation."""
 
     def __init__(self, language_name, language_code, country_flag):
-        """ Initialisation for Language instance. """
+        """Initialisation for Language instance."""
         self.language_name = language_name.lower()
         self.language_code = language_code.lower()
         self.country_flags = country_flag.lower()
 
     def __str__(self):
-        """ String representation of the object. """
+        """String representation of the object."""
         return f"Language: {self.language_name}, Code: {self.language_code}, Flags: {self.country_flags}"
 
     def __repr__(self):
-        """ Object representation. """
+        """Object representation."""
         return f"Language: {self.language_name}, Code: {self.language_code}, Flags: {self.country_flags}"
 
     def __key(self):
-        """ Base key for equality and hash methods. """
+        """Base key for equality and hash methods."""
         return (self.language_name, self.language_code, self.country_flags)
 
     def __eq__(self, other):
-        """ Check if a two languages are the same. """
+        """Check if a two languages are the same."""
         return self.__key() == other.__key()
 
     def __hash__(self):
-        """ Returns the hash value of an instance. """
+        """Returns the hash value of an instance."""
         return hash(self.__key())
 
 
 class TranslateCog(commands.Cog, name="Translate"):
-    """ Bot translation cog. """
+    """Bot translation cog."""
 
     def __init__(self, bot):
-        """ Initialisation for TranslateCog instance. """
+        """Initialisation for TranslateCog instance."""
         self.bot = bot
         self.langs_data = None
         self.default_language = Language("English", "en", "🇺🇸")
         self.supported_languages = self.load_languages()
 
     def load_languages(self):
-        """ Load the available languages for translation. """
+        """Load the available languages for translation."""
         langs = []
 
         try:
@@ -83,7 +79,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         return False
 
     def create_language(self, language_text):
-        """ Creates a Language class instance by using the langs data file. """
+        """Creates a Language class instance by using the langs data file."""
         data = self.langs_data
         language_instance = None
 
@@ -100,7 +96,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         return language_instance
 
     def create_translate_list_embed(self, language_list):
-        """ Creates embed to show list of supported languages. """
+        """Creates embed to show list of supported languages."""
 
         # Generate value strings for embed
         name_string = ""
@@ -140,20 +136,20 @@ class TranslateCog(commands.Cog, name="Translate"):
         return embed
 
     def create_error_embed(self, message):
-        """ Creates an embed to display an error message. """
+        """Creates an embed to display an error message."""
         embed = discord.Embed(color=discord.Color.red())
         embed.title = message
         return embed
 
     # Class Methods
     async def cog_before_invoke(self, ctx):
-        """ A special method that acts as a cog local pre-invoke hook. """
+        """A special method that acts as a cog local pre-invoke hook."""
         # Setup database connections
         await ctx.trigger_typing()
         return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
-        """ A special method that acts as a cog local post-invoek hook. """
+        """A special method that acts as a cog local post-invoek hook."""
         return await super().cog_after_invoke(ctx)
 
     # Commands
@@ -161,7 +157,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         name="translator", aliases=["t"], help="Commands for text translation."
     )
     async def translator(self, ctx):
-        """ Commands for text translation. Use `~help translator` to view subcommands."""
+        """Commands for text translation. Use `~help translator` to view subcommands."""
 
         if ctx.invoked_subcommand is None:
             await ctx.channel.send(
@@ -179,7 +175,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         help="Sends a list of all supported languages.",
     )
     async def translate_list(self, ctx):
-        """ Sends a list of all supported languages. """
+        """Sends a list of all supported languages."""
         # Send an embed to the author of the message
         embed = self.create_translate_list_embed(self.supported_languages)
         await ctx.author.send(embed=embed)
@@ -192,7 +188,7 @@ class TranslateCog(commands.Cog, name="Translate"):
         help="Translates a sentence from one language to another.",
     )
     async def translate_text(self, ctx, language=None, *, text: str = None):
-        """ Translate a sentence from one language to another. """
+        """Translate a sentence from one language to another."""
         try:
             if language is not None and text is not None:
                 translation = translate_text(language, text)
@@ -235,12 +231,12 @@ class TranslateCog(commands.Cog, name="Translate"):
 
 
 def setup(bot):
-    """ Sets up the translate cog for the bot. """
+    """Sets up the translate cog for the bot."""
     logger.info("Loading Translate Cog")
     bot.add_cog(TranslateCog(bot))
 
 
 def teardown(bot):
-    """ Tears down the translate cog for the bot. """
+    """Tears down the translate cog for the bot."""
     logger.info("Unloading Translate Cog")
     bot.remove_cog("cogs.translate_cog")

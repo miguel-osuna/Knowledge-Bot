@@ -1,9 +1,8 @@
-import os
 import asyncio
 import itertools
 
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 
 from util import generate_logger, Pages
 from config import SUPPORT_SERVER_INVITE_URL
@@ -13,7 +12,7 @@ logger = generate_logger(__name__)
 
 
 class HelpPaginator(Pages):
-    """ Paginator for Custom Help Command. """
+    """Paginator for Custom Help Command."""
 
     def __init__(self, help_command, ctx, entries, *, per_page=4):
         super().__init__(ctx, entries=entries, per_page=per_page)
@@ -62,7 +61,7 @@ class HelpPaginator(Pages):
             )
 
     async def show_help(self):
-        """ Shows this message. """
+        """Shows this message."""
 
         self.embed.title = "Paginator help"
         self.embed.description = "Hi! Welcome to the bot help page."
@@ -88,7 +87,7 @@ class HelpPaginator(Pages):
         self.bot.loop.create_task(go_back_to_current_page())
 
     async def show_bot_help(self):
-        """ Shows how to use the bot. """
+        """Shows how to use the bot."""
 
         self.embed.title = "Using the bot"
         self.embed.description = "Hi! Welcome to the bot help page."
@@ -141,7 +140,7 @@ class PaginatedHelpCommand(commands.HelpCommand):
             await ctx.send(str(error.original))
 
     def get_command_signature(self, command):
-        """ Retrievers the signature portion of a command. """
+        """Retrievers the signature portion of a command."""
         parent = command.full_parent_name
         if len(command.aliases) > 0:
             aliases = "|".join(command.aliases)
@@ -212,7 +211,7 @@ class PaginatedHelpCommand(commands.HelpCommand):
         await pages.paginate()
 
     def common_command_formatting(self, page_or_embed, command):
-        """ Creates a command format for a page or embed. """
+        """Creates a command format for a page or embed."""
         page_or_embed.title = self.get_command_signature(command)
         if command.description:
             page_or_embed.description = f"{command.description}\n\n{command.help}"
@@ -239,7 +238,7 @@ class PaginatedHelpCommand(commands.HelpCommand):
 
 
 class Utility(commands.Cog):
-    """ General utility commands. """
+    """General utility commands."""
 
     def __init__(self, bot):
         # Switch the bot help command to the PaginatedHelpCommand
@@ -253,12 +252,12 @@ class Utility(commands.Cog):
 
     # Class Methods
     async def cog_before_invoke(self, ctx):
-        """ A special method that acts as a cog local pre-invoke hook. """
+        """A special method that acts as a cog local pre-invoke hook."""
         await ctx.trigger_typing()
         return await super().cog_before_invoke(ctx)
 
     async def cog_after_invoke(self, ctx):
-        """ A special method that acts as a cog local post-invoke hook. """
+        """A special method that acts as a cog local post-invoke hook."""
         return await super().cog_after_invoke(ctx)
 
     # Commands
@@ -270,7 +269,7 @@ class Utility(commands.Cog):
         hidden=True,
     )
     async def load_cog(self, ctx, *, cog: str):
-        """ Command which loads a module. """
+        """Command which loads a module."""
         try:
             self.bot.load_extension(f"cogs.{cog}")
         except Exception as e:
@@ -286,7 +285,7 @@ class Utility(commands.Cog):
         hidden=True,
     )
     async def unload_cog(self, ctx, *, cog: str):
-        """ Command which unloads a module. """
+        """Command which unloads a module."""
         try:
             self.bot.unload_extension(f"cogs.{cog}")
         except Exception as e:
@@ -302,7 +301,7 @@ class Utility(commands.Cog):
         hidden=True,
     )
     async def reload_cog(self, ctx, *, cog: str):
-        """ Command which reloads a module. """
+        """Command which reloads a module."""
         try:
             self.bot.reload_extension(f"cogs.{cog}")
         except Exception as e:
@@ -312,12 +311,12 @@ class Utility(commands.Cog):
 
 
 def setup(bot):
-    """ Sets up the help cog for the bot. """
+    """Sets up the help cog for the bot."""
     logger.info("Loading Help Cog")
     bot.add_cog(Utility(bot))
 
 
 def teardown(bot):
-    """ Tears down the help cog for the bot. """
+    """Tears down the help cog for the bot."""
     logger.info("Unloading Help Cog")
     bot.remove_cog("cogs.help_cog")
