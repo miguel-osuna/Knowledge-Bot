@@ -1,5 +1,4 @@
 import os
-from os.path import dirname, abspath, join
 from datetime import datetime
 
 import discord
@@ -12,7 +11,6 @@ from config import (
     DISCORD_TOKEN,
     COMMAND_PREFIX,
     COGS_PATH,
-    BASE_PROJECT_PATH,
 )
 
 # Logger configuration
@@ -28,7 +26,7 @@ class KnowledgeBot(commands.Bot):
         self.load_extensions()
 
     def load_extensions(self):
-        """ Loads the bot cogs. """
+        """Loads the bot cogs."""
 
         for filename in os.listdir(self.cogs_path):
             if filename.endswith("py"):
@@ -40,7 +38,7 @@ class KnowledgeBot(commands.Bot):
 
     # Bot Event Listeners
     async def on_ready(self):
-        """ Called when the client is done preparing the data received from Discord. """
+        """Called when the client is done preparing the data received from Discord."""
 
         if not hasattr(self, "uptime"):
             self.uptime = datetime.utcnow()
@@ -81,7 +79,7 @@ class KnowledgeBot(commands.Bot):
         # Embed message into general channel
 
     async def on_guild_remove(self, guild):
-        """Called when leaving or kicked from a discord server. """
+        """Called when leaving or kicked from a discord server."""
 
         # Find the first text channel available
 

@@ -25,5 +25,5 @@ __all__ = [
     "get_random_word",
     "detect_language",
     "list_languages",
-    "translate_text"
+    "translate_text",
 ]

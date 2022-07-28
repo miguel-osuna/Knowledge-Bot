@@ -1,4 +1,3 @@
-import os
 from os.path import dirname, abspath, join
 import six
 
@@ -7,7 +6,7 @@ TRANSLATION_KEY_PATH = join(BASE_PROJECT_PATH, ".envs", ".local")
 
 
 def detect_language(text):
-    """ Detects the text's language. """
+    """Detects the text's language."""
     from google.cloud import translate_v2 as translate
 
     translate_client = translate.Client.from_service_account_json(
@@ -19,7 +18,7 @@ def detect_language(text):
 
 
 def list_languages(target_language="english"):
-    """ List alll languages available. """
+    """List alll languages available."""
     from google.cloud import translate_v2 as translate
 
     translate_client = translate.Client.from_service_account_json(
@@ -29,7 +28,7 @@ def list_languages(target_language="english"):
     languages = translate_client.get_languages(target_language=target_language)
 
     for language in languages:
-        print(u"{name} ({language})".format(**language))
+        print("{name} ({language})".format(**language))
 
 
 def translate_text(target_language, text, model="nmt"):

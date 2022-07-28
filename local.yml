@@ -4,7 +4,7 @@ services:
   application:
     build:
       context: .
-      dockerfile: ./compose/local/application/Dockerfile
+      dockerfile: ./docker/local/application/Dockerfile
     image: knowledge_bot_local
     container_name: knowledge_bot
     volumes:

@@ -4,28 +4,21 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-mypy = "*"
-pytest = "*"
-pytest-sugar = "*"
-pytest-cov = "*"
-pylint = "*"
-black = "*"
-pre-commit = "*"
-sphinx = "*"
-bpython = "*"
-ipdb = "*"
-ptvsd = "*"
+mypy = "==0.971"
+pylint = "==2.14.5"
+black = "==22.6.0"
+bpython = "==0.22.1"
+ipdb = "==0.13.9"
+ptvsd = "==4.3.2"
 
 [packages]
-beautifulsoup4 = "*"
-"discord.py" = "*"
-google-cloud-translate = "*"
-wordnik-py3 = "*"
+"discord.py" = "==1.7.3"
+google-cloud-translate = "==3.8.0"
+wordnik-py3 = "==2.1.2"
 
 [scripts]
+format = "black ."
+lint = "pylint src"
 
 [requires]
-python_version = "3.8"
-
-[pipenv]
-allow_prereleases = true
+python_version = "3.9"

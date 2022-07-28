@@ -1,5 +1,4 @@
 import os
-from os.path import dirname, abspath, join
 from datetime import datetime
 
 from wordnik import swagger, WordApi, WordsApi
@@ -13,7 +12,7 @@ client = swagger.ApiClient(WORDNIK_API_KEY, WORDNIK_API_URL)
 def get_word_examples(
     word, include_duplicates=False, use_canonical=False, limit=5, skip=None
 ):
-    """ Returns sentences examples for a word. """
+    """Returns sentences examples for a word."""
     word_client = WordApi.WordApi(client)
 
     # Create dictionary for keyword arguments
@@ -43,7 +42,7 @@ def get_definition(
     part_of_speech=None,
 ):
 
-    """ Returns word definitions. """
+    """Returns word definitions."""
     word_client = WordApi.WordApi(client)
 
     # Create dictionary for keyword arguments
@@ -68,7 +67,7 @@ def get_definition(
 
 
 def get_synonyms(word, use_canonical=False, limit_per_relationship_type=10):
-    """ Returns word synonyms. """
+    """Returns word synonyms."""
     word_client = WordApi.WordApi(client)
 
     data = {
@@ -85,7 +84,7 @@ def get_synonyms(word, use_canonical=False, limit_per_relationship_type=10):
 
 
 def get_antonyms(word, use_canonical=False, limit_per_relationship_type=10):
-    """ Returns word antonyms. """
+    """Returns word antonyms."""
     word_client = WordApi.WordApi(client)
 
     data = {
@@ -102,7 +101,7 @@ def get_antonyms(word, use_canonical=False, limit_per_relationship_type=10):
 
 
 def get_similar_words(word, use_canonical=False, limit_per_relationship_type=10):
-    """ Returns simlar words for a given word. """
+    """Returns simlar words for a given word."""
     word_client = WordApi.WordApi(client)
 
     data = {
@@ -119,7 +118,7 @@ def get_similar_words(word, use_canonical=False, limit_per_relationship_type=10)
 
 
 def get_rhymes(word, use_canonical=False, limit_per_relationship_type=10):
-    """ Returns rhymes for a given word. """
+    """Returns rhymes for a given word."""
     word_client = WordApi.WordApi(client)
 
     data = {
@@ -136,7 +135,7 @@ def get_rhymes(word, use_canonical=False, limit_per_relationship_type=10):
 
 
 def get_word_of_the_day():
-    """ Get the word of the day with its definition. """
+    """Get the word of the day with its definition."""
     words_client = WordsApi.WordsApi(client)
 
     today = datetime.today().strftime("%Y-%m-%d")
@@ -153,7 +152,7 @@ def get_word_of_the_day():
 
 
 def get_random_word():
-    """ Gets a random word (without definition). """
+    """Gets a random word (without definition)."""
     words_client = WordsApi.WordsApi(client)
     random_word = words_client.getRandomWord()
     return random_word.word
