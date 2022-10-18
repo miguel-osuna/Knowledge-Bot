@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "bb20ab010aeb56adf4dd349c81c47e3c39563a9c525c8d4b8f2a0373879ede55"
+            "sha256": "35743914aeecbd150d632739984a2446e5b8de99deff5707d9c02953cd53c718"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -128,11 +128,11 @@
         },
         "google-auth": {
             "hashes": [
-                "sha256:98f601773978c969e1769f97265e732a81a8e598da3263895023958d456ee625",
-                "sha256:f12d86502ce0f2c0174e2e70ecc8d36c69593817e67e1d9c5e34489120422e4b"
+                "sha256:9352dd6394093169157e6971526bab9a2799244d68a94a4a609f0dd751ef6f5e",
+                "sha256:99510e664155f1a3c0396a076b5deb6367c52ea04d280152c85ac7f51f50eb42"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
-            "version": "==2.12.0"
+            "version": "==2.13.0"
         },
         "google-cloud-core": {
             "hashes": [
@@ -144,11 +144,11 @@
         },
         "google-cloud-translate": {
             "hashes": [
-                "sha256:51a72a05c6805412fdacb791cc1da1e4cb0bc5d427a0ac81b3fd7baa14aeb956",
-                "sha256:bdacf65009b791196265da20fcec440d8bed62707cb4aec91fee0fed98134a97"
+                "sha256:729b52172001c99459ec3afddec9153de0af528874fcf3000a9ddd98e1107ee7",
+                "sha256:e1099ef7b288d7e8e4ea9c47be50129459890fdaa590c754ef848de74b7cd9ec"
             ],
             "index": "pypi",
-            "version": "==3.8.3"
+            "version": "==3.8.4"
         },
         "googleapis-common-protos": {
             "hashes": [
@@ -986,7 +986,7 @@
                 "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc",
                 "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"
             ],
-            "markers": "python_version < '3.11'",
+            "markers": "python_full_version < '3.11.0a7'",
             "version": "==2.0.1"
         },
         "tomlkit": {
