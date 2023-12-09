@@ -13,7 +13,7 @@ ptvsd = "==4.3.2"
 
 [packages]
 "discord.py" = "==1.7.3"
-google-cloud-translate = "==3.12.1"
+google-cloud-translate = "==3.13.0"
 wordnik-py3 = "==2.1.2"
 
 [scripts]
