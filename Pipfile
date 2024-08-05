@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 mypy = "==1.11.1"
 pylint = "==3.2.6"
-black = "==24.4.2"
+black = "==24.8.0"
 bpython = "==0.24"
 ipdb = "==0.13.13"
 ptvsd = "==4.3.2"
