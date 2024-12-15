@@ -5,7 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 mypy = "==1.13.0"
-pylint = "==3.3.1"
+pylint = "==3.3.2"
 black = "==24.10.0"
 bpython = "==0.24"
 ipdb = "==0.13.13"
